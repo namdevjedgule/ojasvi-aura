@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blog & Journal - Ojasvi Luxury Home Linen</title>
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* HERO */
+        .blog-hero {
+            height: 60vh;
+            background: url('/images/blog/blog-hero.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .blog-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.4),
+                    rgba(0, 0, 0, 0.5),
+                    rgba(0, 0, 0, 0.6));
+        }
+
+        .blog-hero-content {
+            position: relative;
+            padding-top: 40px;
+            color: #fff;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .blog-hero h1 {
+            font-size: 48px;
+        }
+
+        .blog-hero p {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .blog-trust {
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 16px 6%;
+        }
+
+        .blog-trust span {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .blog-trust span:nth-child(1) {
+            color: #E6C79C;
+        }
+
+        .blog-trust span:nth-child(2) {
+            color: #A8C1A0;
+        }
+
+        .blog-trust span:nth-child(3) {
+            color: #9FBFD4;
+        }
+
+        .blog-trust span:nth-child(4) {
+            color: #F0D3A5;
+        }
+
+        .blog-body {
+            display: flex;
+            gap: 40px;
+            padding: 60px 6%;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .blog-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .blog-sidebar {
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .blog-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+
+        .blog-filters button {
+            border: 1px solid #ccc;
+            background: transparent;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            color: #2B2B2B;
+            transition: 0.25s;
+        }
+
+        .blog-filters button.active,
+        .blog-filters button:hover {
+            background: #C5A47E;
+            border-color: #C5A47E;
+            color: #fff;
+        }
+
+        .featured-post {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 36px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .featured-post:hover {
+            transform: translateY(-5px);
+        }
+
+        .featured-post img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-post:hover img {
+            transform: scale(1.03);
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: #C5A47E;
+            color: #fff;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .featured-post .post-body {
+            padding: 28px 30px 26px;
+        }
+
+        .featured-post h2 {
+            font-family: 'Roboto Serif', serif;
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .featured-post>.post-body>p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 18px;
+            font-size: 12px;
+            color: #999;
+            flex-wrap: wrap;
+        }
+
+        .post-meta .dot {
+            width: 3px;
+            height: 3px;
+            background: #ccc;
+            border-radius: 50%;
+        }
+
+        .read-more {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #C5A47E;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #C5A47E;
+            padding-bottom: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .read-more:hover {
+            color: #a8845f;
+            border-color: #a8845f;
+        }
+
+        /* POST GRID */
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .post-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-card .post-img {
+            overflow: hidden;
+            height: 185px;
+        }
+
+        .post-card img {
+            width: 100%;
+            height: 185px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .post-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .post-card-body {
+            padding: 18px 20px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-tag {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #C5A47E;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .post-card h3 {
+            font-family: 'Roboto Serif', serif;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .post-card>.post-card-body>p {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.65;
+            flex: 1;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: #C5A47E;
+            margin: 20px 0 28px;
+        }
+
+        .section-title {
+            font-family: 'Roboto Serif', serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .list-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .list-post-card {
+            background: #fff;
+            border-radius: 12px;
+            display: flex;
+            gap: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .list-post-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .list-post-card .list-img {
+            width: 120px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .list-post-card img {
+            width: 120px;
+            height: 100%;
+            min-height: 95px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .list-post-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .list-post-info {
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .list-post-info h4 {
+            font-family: 'Roboto Serif', serif;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .list-post-info .meta-small {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 40px 0 10px;
+        }
+
+        .pagination button {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #ddd;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pagination button.active {
+            background: #C5A47E;
+            color: #fff;
+            border-color: #C5A47E;
+        }
+
+        .pagination button:hover:not(.active) {
+            border-color: #C5A47E;
+            color: #C5A47E;
+        }
+
+        .sidebar-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-card h3 {
+            font-family: 'Roboto Serif', serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #C5A47E;
+        }
+
+        /* SEARCH */
+        .sidebar-search {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .sidebar-search:focus-within {
+            border-color: #C5A47E;
+        }
+
+        .sidebar-search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            background: transparent;
+        }
+
+        .sidebar-search button {
+            background: #C5A47E;
+            border: none;
+            color: #fff;
+            padding: 0 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .sidebar-search button:hover {
+            background: #a8845f;
+        }
+
+        /* CATEGORY LIST */
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .category-list li:last-child {
+            border-bottom: none;
+        }
+
+        .category-list li:hover {
+            color: #C5A47E;
+        }
+
+        .category-list li i {
+            font-size: 12px;
+            margin-right: 8px;
+            color: #C5A47E;
+        }
+
+        .category-list li span {
+            background: #F5F1EB;
+            border-radius: 10px;
+            padding: 2px 10px;
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* POPULAR POSTS */
+        .popular-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .popular-post {
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .popular-post:hover h4 {
+            color: #C5A47E;
+        }
+
+        .popular-post img {
+            width: 68px;
+            height: 58px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .popular-post-info h4 {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.35;
+            margin-bottom: 5px;
+            transition: 0.2s;
+        }
+
+        .popular-post-info p {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* TAG CLOUD */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-pill {
+            background: #F5F1EB;
+            border: 1px solid #e0d9d0;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tag-pill:hover {
+            background: #C5A47E;
+            color: #fff;
+            border-color: #C5A47E;
+        }
+
+        /* SIDEBAR NEWSLETTER */
+        .newsletter-sidebar {
+            text-align: center;
+        }
+
+        .newsletter-sidebar p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+            line-height: 1.65;
+        }
+
+        .newsletter-sidebar input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 10px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .newsletter-sidebar input:focus {
+            border-color: #C5A47E;
+        }
+
+        .newsletter-sidebar button {
+            width: 100%;
+            padding: 11px;
+            background: #5C3013;
+            color: #C5A47E;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .newsletter-sidebar button:hover {
+            background: #C5A47E;
+            color: #fff;
+        }
+
+        /* CRAFT STRIP */
+        .blog-craft {
+            background: linear-gradient(135deg, #fafafa, #f3eee7);
+            width: 85%;
+            margin: 0 auto 60px;
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .blog-craft:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .blog-craft .craft-tag {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #C5A47E;
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .blog-craft h2 {
+            font-size: clamp(22px, 4vw, 30px);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 14px;
+            color: #2B2B2B;
+        }
+
+        .blog-craft .divider {
+            width: 60px;
+            height: 2px;
+            background: #C5A47E;
+            margin: 14px auto 22px;
+        }
+
+        .blog-craft p {
+            font-size: 15px;
+            line-height: 1.85;
+            color: #555;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* ARTICLE HIDE/SHOW (filter) */
+        .post-card.hide {
+            display: none;
+        }
+
+        .list-post-card.hide {
+            display: none;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+        @media (max-width: 1100px) {
+            .blog-sidebar {
+                width: 260px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .blog-body {
+                flex-direction: column;
+                padding: 40px 5%;
+            }
+
+            .blog-sidebar {
+                width: 100%;
+            }
+
+            .post-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .blog-craft {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .blog-hero {
+                height: 50vh;
+            }
+
+            .blog-hero-content {
+                padding: 0 15px;
+                padding-top: 40px;
+            }
+
+            .blog-body {
+                padding: 30px 4%;
+            }
+
+            .post-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-post img {
+                height: 220px;
+            }
+
+            .featured-post .post-body {
+                padding: 20px 18px;
+            }
+
+            .blog-craft {
+                padding: 35px 20px;
+            }
+
+            .pagination button {
+                width: 34px;
+                height: 34px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .blog-filters button {
+                padding: 7px 13px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="transparent-nav">
+
+    <div id="navbar"></div>
+
+    <section class="blog-hero">
+        <div class="blog-hero-content">
+            <h1>Journal &amp; Insights</h1>
+            <p>Care guides, styling ideas, artisan stories &amp; the world of linen</p>
+        </div>
+    </section>
+
+    <div class="blog-body section">
+
+        <div class="blog-main">
+
+            <div class="blog-filters">
+                <button class="active" data-filter="all">All</button>
+                <button data-filter="care">Care &amp; Fabric</button>
+                <button data-filter="styling">Styling Ideas</button>
+                <button data-filter="artisan">Artisan Stories</button>
+                <button data-filter="decor">Home Décor</button>
+                <button data-filter="arrivals">New Arrivals</button>
+            </div>
+
+            <!-- FEATURED POST -->
+            <div class="featured-post" data-category="artisan">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85"
+                    alt="The Art of Linen feature article">
+                <div class="post-body">
+                    <span class="featured-badge">Featured</span>
+                    <h2>The Art of Linen: Why Every Thread Tells a Story</h2>
+                    <p>Linen is one of the oldest fibres in the world — its cool texture, natural lustre and breathable
+                        weave make it a perennial favourite for luxurious home living. We trace its remarkable journey
+                        from flax field to your sanctuary, uncovering the artisans, the methods, and the heritage that
+                        make every Ojasvi piece one of a kind.</p>
+                    <div class="post-meta">
+                        <span><i class="fa-regular fa-user" style="margin-right:5px;"></i>Ojasvi Editorial</span>
+                        <div class="dot"></div>
+                        <span><i class="fa-regular fa-calendar" style="margin-right:5px;"></i>May 28, 2026</span>
+                        <div class="dot"></div>
+                        <span><i class="fa-regular fa-clock" style="margin-right:5px;"></i>6 min read</span>
+                    </div>
+                    <a href="#" class="read-more">Read the story &rarr;</a>
+                </div>
+            </div>
+
+            <!-- POST GRID (4 cards) -->
+            <div class="post-grid">
+
+                <div class="post-card" data-category="care">
+                    <div class="post-img">
+                        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=700&q=80"
+                            alt="Linen care guide">
+                    </div>
+                    <div class="post-card-body">
+                        <span class="post-tag">Care &amp; Fabric</span>
+                        <h3>How to Wash &amp; Store Linen the Right Way</h3>
+                        <p>Gentle cycles, cool water and a little patience — the secrets to keeping your linen soft for
+                            decades.</p>
+                        <div class="post-meta">
+                            <span>Apr 14, 2026</span>
+                            <div class="dot"></div>
+                            <span>4 min read</span>
+                        </div>
+                        <a href="#" class="read-more" style="font-size:12px;">Read more &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="post-card" data-category="styling">
+                    <div class="post-img">
+                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=700&q=80"
+                            alt="Bedroom styling with linen">
+                    </div>
+                    <div class="post-card-body">
+                        <span class="post-tag">Styling Ideas</span>
+                        <h3>Bedroom Refresh: Layering Throws &amp; Cushions Like a Pro</h3>
+                        <p>Texture, contrast and a warm palette — our guide to an instantly inviting bedroom.</p>
+                        <div class="post-meta">
+                            <span>Mar 30, 2026</span>
+                            <div class="dot"></div>
+                            <span>5 min read</span>
+                        </div>
+                        <a href="#" class="read-more" style="font-size:12px;">Read more &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="post-card" data-category="artisan">
+                    <div class="post-img">
+                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=700&q=80"
+                            alt="Artisan weavers Jaipur">
+                    </div>
+                    <div class="post-card-body">
+                        <span class="post-tag">Artisan Stories</span>
+                        <h3>Meet the Weavers Behind Ojasvi's Handcrafted Runners</h3>
+                        <p>Three generations, one loom and a tradition that refuses to fade — we visit our artisans in
+                            Jaipur.</p>
+                        <div class="post-meta">
+                            <span>Mar 10, 2026</span>
+                            <div class="dot"></div>
+                            <span>7 min read</span>
+                        </div>
+                        <a href="#" class="read-more" style="font-size:12px;">Read more &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="post-card" data-category="decor">
+                    <div class="post-img">
+                        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=700&q=80"
+                            alt="Festive table setting">
+                    </div>
+                    <div class="post-card-body">
+                        <span class="post-tag">Home Décor</span>
+                        <h3>Table Setting Ideas for Festive Season Gatherings</h3>
+                        <p>From Diwali to Christmas — how silk runners and hand-embroidered napkins elevate your dining
+                            table.</p>
+                        <div class="post-meta">
+                            <span>Feb 22, 2026</span>
+                            <div class="dot"></div>
+                            <span>4 min read</span>
+                        </div>
+                        <a href="#" class="read-more" style="font-size:12px;">Read more &rarr;</a>
+                    </div>
+                </div>
+
+            </div><!-- /post-grid -->
+
+            <!-- MORE FROM THE JOURNAL -->
+            <div class="section-divider"></div>
+            <p class="section-title">More from the Journal</p>
+
+            <div class="list-posts">
+
+                <div class="list-post-card" data-category="styling">
+                    <div class="list-img">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&q=80"
+                            alt="Linen sofa throws">
+                    </div>
+                    <div class="list-post-info">
+                        <span class="post-tag" style="font-size:10px;">Styling Ideas</span>
+                        <h4>Linen in the Living Room — Throws That Work All Year Round</h4>
+                        <p class="meta-small"><i class="fa-regular fa-calendar" style="margin-right:4px;"></i>Feb 8,
+                            2026 &nbsp;·&nbsp; 3 min read</p>
+                    </div>
+                </div>
+
+                <div class="list-post-card" data-category="care">
+                    <div class="list-img">
+                        <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=300&q=80"
+                            alt="Cotton linen bath towels">
+                    </div>
+                    <div class="list-post-info">
+                        <span class="post-tag" style="font-size:10px;">Care &amp; Fabric</span>
+                        <h4>Why Cotton-Linen Bath Towels Outlast Regular Cotton</h4>
+                        <p class="meta-small"><i class="fa-regular fa-calendar" style="margin-right:4px;"></i>Jan 25,
+                            2026 &nbsp;·&nbsp; 4 min read</p>
+                    </div>
+                </div>
+
+                <div class="list-post-card" data-category="artisan">
+                    <div class="list-img">
+                        <img src="https://images.unsplash.com/photo-1501183638710-841dd1904471?w=300&q=80"
+                            alt="Sustainable linen sourcing">
+                    </div>
+                    <div class="list-post-info">
+                        <span class="post-tag" style="font-size:10px;">Artisan Stories</span>
+                        <h4>Sustainability at Ojasvi: From Field to Fabric, Consciously</h4>
+                        <p class="meta-small"><i class="fa-regular fa-calendar" style="margin-right:4px;"></i>Jan 10,
+                            2026 &nbsp;·&nbsp; 6 min read</p>
+                    </div>
+                </div>
+
+                <div class="list-post-card" data-category="arrivals">
+                    <div class="list-img">
+                        <img src="https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=300&q=80"
+                            alt="New arrivals linen collection">
+                    </div>
+                    <div class="list-post-info">
+                        <span class="post-tag" style="font-size:10px;">New Arrivals</span>
+                        <h4>Introducing the Luminous Collection — Spring 2026</h4>
+                        <p class="meta-small"><i class="fa-regular fa-calendar" style="margin-right:4px;"></i>Dec 20,
+                            2025 &nbsp;·&nbsp; 3 min read</p>
+                    </div>
+                </div>
+
+                <div class="list-post-card" data-category="decor">
+                    <div class="list-img">
+                        <img src="https://images.unsplash.com/photo-1522444195799-478538b28823?w=300&q=80"
+                            alt="Home décor linen">
+                    </div>
+                    <div class="list-post-info">
+                        <span class="post-tag" style="font-size:10px;">Home Décor</span>
+                        <h4>5 Ways to Style Your Bed Cover for a Hotel-Like Look</h4>
+                        <p class="meta-small"><i class="fa-regular fa-calendar" style="margin-right:4px;"></i>Dec 5,
+                            2025 &nbsp;·&nbsp; 4 min read</p>
+                    </div>
+                </div>
+
+            </div><!-- /list-posts -->
+
+            <!-- PAGINATION -->
+            <div class="pagination">
+                <button aria-label="Previous page">&lsaquo;</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button aria-label="Next page">&rsaquo;</button>
+            </div>
+
+        </div><!-- /blog-main -->
+
+        <!-- RIGHT: SIDEBAR -->
+        <aside class="blog-sidebar">
+
+            <!-- SEARCH -->
+            <div class="sidebar-card">
+                <h3>Search</h3>
+                <div class="sidebar-search">
+                    <input type="text" placeholder="Search articles..." id="blog-search-input">
+                    <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+
+            <!-- CATEGORIES -->
+            <div class="sidebar-card">
+                <h3>Categories</h3>
+                <ul class="category-list">
+                    <li data-filter="all"><i class="fa-solid fa-border-all"></i> All Articles <span>40</span></li>
+                    <li data-filter="care"><i class="fa-solid fa-droplet"></i> Care &amp; Fabric <span>8</span></li>
+                    <li data-filter="styling"><i class="fa-solid fa-wand-magic-sparkles"></i> Styling Ideas
+                        <span>12</span>
+                    </li>
+                    <li data-filter="artisan"><i class="fa-solid fa-hands"></i> Artisan Stories <span>6</span></li>
+                    <li data-filter="decor"><i class="fa-solid fa-couch"></i> Home Décor <span>10</span></li>
+                    <li data-filter="arrivals"><i class="fa-solid fa-star"></i> New Arrivals <span>4</span></li>
+                </ul>
+            </div>
+
+            <!-- POPULAR POSTS -->
+            <div class="sidebar-card">
+                <h3>Popular Posts</h3>
+                <div class="popular-posts">
+                    <div class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=75"
+                            alt="Featured post thumbnail">
+                        <div class="popular-post-info">
+                            <h4>The Art of Linen: Why Every Thread Tells a Story</h4>
+                            <p>May 28, 2026</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=200&q=75"
+                            alt="Linen care thumbnail">
+                        <div class="popular-post-info">
+                            <h4>How to Wash &amp; Store Linen the Right Way</h4>
+                            <p>Apr 14, 2026</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=200&q=75"
+                            alt="Artisan story thumbnail">
+                        <div class="popular-post-info">
+                            <h4>Meet the Weavers Behind Our Handcrafted Runners</h4>
+                            <p>Mar 10, 2026</p>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=200&q=75"
+                            alt="Bedroom styling thumbnail">
+                        <div class="popular-post-info">
+                            <h4>Bedroom Refresh: Layering Throws &amp; Cushions</h4>
+                            <p>Mar 30, 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAG CLOUD -->
+            <div class="sidebar-card">
+                <h3>Browse by Tag</h3>
+                <div class="tag-cloud">
+                    <span class="tag-pill">Linen</span>
+                    <span class="tag-pill">Home Décor</span>
+                    <span class="tag-pill">Throws</span>
+                    <span class="tag-pill">Cushions</span>
+                    <span class="tag-pill">Bedsheets</span>
+                    <span class="tag-pill">Runners</span>
+                    <span class="tag-pill">Bath</span>
+                    <span class="tag-pill">Weaving</span>
+                    <span class="tag-pill">Artisan</span>
+                    <span class="tag-pill">Luxury</span>
+                    <span class="tag-pill">Sustainable</span>
+                    <span class="tag-pill">Silk</span>
+                    <span class="tag-pill">Cotton</span>
+                    <span class="tag-pill">Festive</span>
+                </div>
+            </div>
+
+            <!-- NEWSLETTER -->
+            <div class="sidebar-card newsletter-sidebar">
+                <h3>Stay Inspired</h3>
+                <p>Linen care tips, styling ideas &amp; exclusive offers — delivered to your inbox.</p>
+                <input type="email" placeholder="Your email address" id="sidebar-email">
+                <button onclick="subscribeSidebar()">Subscribe</button>
+            </div>
+
+        </aside><!-- /blog-sidebar -->
+
+    </div><!-- /blog-body -->
+
+    <!-- ========== CRAFT STRIP ========== -->
+    <section class="blog-craft">
+        <span class="craft-tag">Our Philosophy</span>
+        <h2>Every Article is Woven with Purpose</h2>
+        <div class="divider"></div>
+        <p>From artisan workshop visits to in-depth fabric care guides, our journal is a space to slow down, learn and
+            fall deeper in love with the craft of fine linen. Written by those who truly care about the fabric of your
+            home.</p>
+    </section>
+
+    <div id="footer"></div>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        /* =============================================
+           BLOG FILTER LOGIC
+        ============================================= */
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const filterBtns = document.querySelectorAll(".blog-filters button");
+            const categoryLinks = document.querySelectorAll(".category-list li");
+            const postCards = document.querySelectorAll(".post-card, .list-post-card, .featured-post");
+
+            function applyFilter(filter) {
+                postCards.forEach(card => {
+                    const cat = card.dataset.category;
+                    if (filter === "all" || cat === filter) {
+                        card.style.display = "";
+                        card.classList.remove("hide");
+                    } else {
+                        card.style.display = "none";
+                        card.classList.add("hide");
+                    }
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    filterBtns.forEach(b => b.classList.remove("active"));
+                    this.classList.add("active");
+                    applyFilter(this.dataset.filter);
+                });
+            });
+
+            categoryLinks.forEach(li => {
+                li.addEventListener("click", function () {
+                    const filter = this.dataset.filter;
+                    applyFilter(filter);
+                    // Also sync the filter buttons
+                    filterBtns.forEach(b => {
+                        b.classList.toggle("active", b.dataset.filter === filter);
+                    });
+                    // Scroll to main
+                    document.querySelector(".blog-main").scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+
+            /* PAGINATION */
+            const pageBtns = document.querySelectorAll(".pagination button");
+            pageBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    if (this.textContent === "‹" || this.textContent === "›") return;
+                    pageBtns.forEach(b => b.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+
+            /* TAG PILLS */
+            const tagPills = document.querySelectorAll(".tag-pill");
+            tagPills.forEach(pill => {
+                pill.addEventListener("click", function () {
+                    // Just a visual click — scroll to top of main
+                    document.querySelector(".blog-main").scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+        });
+
+        /* SIDEBAR NEWSLETTER */
+        function subscribeSidebar() {
+            const input = document.getElementById("sidebar-email");
+            if (input && input.value && input.value.includes("@")) {
+                input.value = "";
+                input.placeholder = "Thank you for subscribing! ✓";
+                setTimeout(() => { input.placeholder = "Your email address"; }, 3000);
+            } else {
+                if (input) {
+                    input.style.borderColor = "#e74c3c";
+                    setTimeout(() => { input.style.borderColor = "#ddd"; }, 1500);
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
