@@ -2,26 +2,17 @@
     --primary: #C5A47E;
     --primary-dark: #AE7F4D;
     --primary-light: #E6C9A8;
-
     --brown: #5C3013;
-
     --bg-main: #F5F1EB;
     --bg-light: #FAFAFA;
     --bg-card: #F9F7F4;
     --white: #FFFFFF;
-
     --black: #000000;
     --dark: #0F0F0F;
     --dark-light: #1A1A1A;
-
     --success: #0F9D8A;
     --danger: #FF4D4D;
 
-    /* --trust-gold: #E6C79C;
-    --trust-green: #A8C1A0;
-    --trust-blue: #9FBFD4;
-    --trust-cream: #F0D3A5;
-    --trust-steel: #AAB8C6; */
 }
 
 * {
@@ -226,6 +217,101 @@ h3 {
 
 .nav-icons i:hover {
     color: var(--primary);
+}
+
+/* ===== NAVBAR USER ===== */
+.navbar-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Avatar circle */
+.nav-avatar,
+.nav-avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(197, 164, 126, 0.15);
+    border: 1.5px solid rgba(197, 164, 126, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.nav-avatar-img {
+    object-fit: cover;
+}
+
+/* hover effect */
+.navbar-user:hover .nav-avatar,
+.navbar-user:hover .nav-avatar-img {
+    transform: scale(1.05);
+    border-color: #c5a47e;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 180px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+}
+
+/* show dropdown on hover */
+.navbar-user:hover .dropdown-menu {
+    display: flex;
+}
+
+/* user info */
+.user-info {
+    padding: 5px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #888;
+}
+
+/* dropdown links */
+.dropdown-menu a,
+.logout-btn {
+    padding: 8px 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 13px;
+    border-radius: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-menu a:hover,
+.logout-btn:hover {
+    background: #f5f1eb;
 }
 
 .cart-icon {
@@ -1095,7 +1181,7 @@ section h2 {
 
 .collections-hero {
     height: 60vh;
-    background: url('../images/collections/collectionss.jpg') center/cover no-repeat;
+    background: url('../images/collections/collectionss.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;

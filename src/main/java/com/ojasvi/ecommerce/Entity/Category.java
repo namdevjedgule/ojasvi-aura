@@ -1,5 +1,7 @@
 package com.ojasvi.ecommerce.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +26,9 @@ public class Category extends BaseEntity {
 
     @Column(length = 1000)
     private String description;
+    
+    @OneToMany(mappedBy = "category",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<SubCategory> subCategories;
 }

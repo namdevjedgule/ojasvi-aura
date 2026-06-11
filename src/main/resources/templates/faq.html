@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>FAQs - Ojasvi</title>
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <section class="faq">
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq-item">
+            <div class="faq-question">What materials are used?</div>
+            <div class="faq-answer">We use premium cotton, silk, and luxury fabrics.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Are products handcrafted?</div>
+            <div class="faq-answer">Yes, all products are made using traditional block printing techniques.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How long does delivery take?</div>
+            <div class="faq-answer">Delivery timelines vary based on location and courier services.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can I return my product?</div>
+            <div class="faq-answer">Returns are accepted only for damaged, defective, or incorrect items.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Do you offer refunds?</div>
+            <div class="faq-answer">Refunds are processed after product inspection and approval.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Are products exactly as shown?</div>
+            <div class="faq-answer">Slight variations may occur due to lighting and handcrafted nature.</div>
+        </div>
+
+    </section>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <script th:src="@{/js/script.js}"></script>
+
+    <script>
+        document.querySelectorAll(".faq-question").forEach(item => {
+            item.addEventListener("click", () => {
+                item.nextElementSibling.classList.toggle("active");
+            });
+        });
+    </script>
+
+</body>
+
+</html>

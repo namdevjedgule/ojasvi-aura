@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>About Us - Ojasvi</title>
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="transparent-nav">
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>The Story of Ojasvi</h1>
+            <p>Vitality in Every Weave</p>
+        </div>
+    </section>
+
+    <section class="about-essence section about-sections">
+        <div class="about-grid">
+
+            <div class="about-text">
+                <h2>The Essence</h2>
+
+                <p>
+                    In the ancient scriptures, <strong>Ojas</strong> is the subtle
+                    energy of life, the vital force that gives us strength, radiance, and a sense of "home" within
+                    ourselves.
+                </p>
+
+                <p>
+                    At Ojasvi, we believe your living space should do the same. We don’t just create upholstery; we
+                    restore the vitality of your sanctuary.
+                </p>
+            </div>
+
+            <div class="about-image">
+                <img src="images/about/about.jpg" alt="Essence of Ojasvi">
+            </div>
+
+        </div>
+    </section>
+
+    <section class="about-craft section about-sections">
+        <div class="about-grid">
+
+            <div class="about-image">
+                <img src="images/about/craftmanship.jpg" alt="Craftsmanship">
+            </div>
+
+            <div class="about-text">
+                <h2>The Craft</h2>
+
+                <p>
+                    Ojasvi was born to marry traditional artistry with modern leadership.
+                </p>
+
+                <p>
+                    I believe the objects you touch every day should reflect radiant luxury into the functional heart
+                    of your home. Our designs are not just decor: they are crafted by hand, traced to the source,
+                    bringing vitality to your sanctuary.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="about-roots section about-sections">
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Traceable Roots</h2>
+
+                <p>
+                    True luxury is transparent. Every Ojasvi fabric tells a story of origin. From the hands of master
+                    weavers to the final stitch in our studio, our materials are Artisanal and Traceable.
+                </p>
+
+                <p>
+                    We know exactly where our threads began, ensuring that the beauty in your home is matched by the
+                    integrity of its creation.
+                </p>
+            </div>
+
+            <div class="about-image">
+                <img src="images/about/roots.jpg" alt="Roots of Ojasvi">
+            </div>
+        </div>
+    </section>
+
+    <section class="about-promise section about-sections">
+        <div class="about-grid">
+
+            <div class="about-image">
+                <img src="images/about/promise.jpg" alt="Promises of Ojasvi">
+            </div>
+
+            <div class="about-text">
+                <h2>Our Promise</h2>
+
+                <p>
+                    To provide the distinguished homeowner with more than just decor.
+                </p>
+
+                <p>
+                    We provide Ojasvi a radiant, soulful environment where every thread is woven with
+                    purpose, and every space feels alive.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="about-values section">
+        <h2>Our Philosophy</h2>
+
+        <div class="values-grid">
+
+            <div class="value-card">
+                <h3>Heritage Craft</h3>
+                <p>Preserving timeless techniques like embroidering, hand block printing and weaving traditions.</p>
+            </div>
+
+            <div class="value-card">
+                <h3>Mindful Luxury</h3>
+                <p>Elegant, comfortable, and consciously designed for modern living.</p>
+            </div>
+
+            <div class="value-card">
+                <h3>Authentic Origins</h3>
+                <p>Traceable materials crafted by artisans with integrity and purpose.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="about-cta section">
+        <h2>Bring Home the Essence of Ojasvi</h2>
+        <p>
+            Experience a space where every thread carries meaning,
+            and every design reflects timeless luxury.
+        </p>
+        <a th:href="@{/collections}" class="btn">Explore Collection</a>
+    </section>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>

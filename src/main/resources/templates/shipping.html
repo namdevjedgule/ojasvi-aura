@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Shipping policy - Ojasvi</title>
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <section class="shipping">
+        <h1>Shipping & Delivery</h1>
+
+        <div class="shipping-box">
+            <h3>Logistics</h3>
+            <p>We partner with trusted logistics providers to ensure safe delivery</p>
+        </div>
+
+        <div class="shipping-box">
+            <h3>Delivery Timeline</h3>
+            <p>Delivery timelines are indicative and may vary due to external factors</p>
+        </div>
+
+        <div class="shipping-box">
+            <h3>Delays</h3>
+            <p>Ojasvi is not liable for delays caused by courier partners or unforeseen circumstances</p>
+        </div>
+
+        <div class="shipping-box">
+            <h3>Shipping Information</h3>
+            <p>Shipping details saved during checkout are used solely for order fulfillment.</p>
+        </div>
+    </section>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>

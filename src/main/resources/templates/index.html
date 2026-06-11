@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ojasvi - Luxury Home Linen</title>
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="transparent-nav">
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nobility in every thread, from raw silk to refined linen</h1>
+            <!-- <p class="hero-para">Breathe life into your sanctuary.</p> -->
+            <a th:href="@{/collections}" class="btn">Explore Collection</a>
+        </div>
+    </section>
+
+    <section class="trust section">
+        <div class="trust-item">
+            <i class="fa-solid fa-feather-pointed"></i>
+            <span>Noble Textures</span>
+        </div>
+
+        <div class="trust-item">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>Traced Origins</span>
+        </div>
+
+        <div class="trust-item">
+            <i class="fa-solid fa-hand-sparkles"></i>
+            <span>Artisanal Finishes</span>
+        </div>
+
+        <div class="trust-item">
+            <i class="fa-solid fa-magnifying-glass-plus"></i>
+            <span>Infinite Detail</span>
+        </div>
+
+        <div class="trust-item">
+            <i class="fa-solid fa-truck-fast"></i>
+            <span>Shipping Across India</span>
+        </div>
+    </section>
+
+    <section class="categories section">
+        <h2>Shop by Category</h2>
+        <p>Curated collections crafted for refined living.</p>
+
+        <div class="category-grid">
+
+            <div class="category-card">
+                <div class="category-img">
+                    <img th:src="@{/images/categories/runner.png}" alt="runner">
+                </div>
+                <p>Runner</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-img">
+                    <img th:src="@{/images/categories/throws.png}" alt="throws">
+                </div>
+                <p>Throw</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-img">
+                    <img th:src="@{/images/categories/cushions.png}" alt="cushions">
+                </div>
+                <p>Cushion</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-img">
+                    <img th:src="@{/images/categories/bedsheets.png}" alt="bedsheets">
+                </div>
+                <p>Bedsheet</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-img">
+                    <img th:src="@{/images/categories/bedcover.png}" alt="bedcover">
+                </div>
+                <p>Bed Cover</p>
+            </div>
+
+            <div class="category-card">
+                <div class="category-img">
+                    <img th:src="@{/images/categories/bath-linen.png}" alt="bath-linen">
+                </div>
+                <p>Bath Linen</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="products section">
+        <h2>Best Sellers</h2>
+        <p>Timeless pieces, chosen by many.</p>
+
+        <div class="product-grid">
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/royal-bedsheet.jpg}" alt="Royal Bedsheet">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Runner</p>
+                    <h3>Royal Collections</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,999</span>
+                        <span class="old">₹4,999</span>
+                        <span class="discount">40% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/luxury-throw.jpg}" alt="Luxury Soft Throw Blanket">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Throw</p>
+                    <h3>Luxury Soft Throw Blanket</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,199</span>
+                        <span class="old">₹3,499</span>
+                        <span class="discount">37% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/designer-cushion.jpg}" alt="Designer Luxury Cushion Cover">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Cushion</p>
+                    <h3>Designer Luxury Cushion Cover</h3>
+
+                    <div class="price">
+                        <span class="current">₹899</span>
+                        <span class="old">₹1,499</span>
+                        <span class="discount">40% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/premium-bedcover.jpg}" alt="Premium Designer Bed Cover">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Bed Cover</p>
+                    <h3>Premium Designer Bed Cover</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,199</span>
+                        <span class="old">₹3,799</span>
+                        <span class="discount">42% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <!-- <div class="product-card">
+                <div class="product-img">
+                    <img src="images/product/royal-bedsheet.jpg">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Bedsheet</p>
+                    <h3>Classic Cotton Bedsheet Set</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,999</span>
+                        <span class="old">₹4,499</span>
+                        <span class="discount">33% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div> -->
+
+        </div>
+    </section>
+
+    <section class="craft section">
+        <div class="craft-content">
+            <span class="craft-tag">Our Philosophy</span>
+            <h2>Crafted with Tradition & Precision</h2>
+            <div class="divider"></div>
+            <p>
+                Each piece is handcrafted using traditional weaving, printing, embroidery and stitching preserving
+                heritage while delivering modern luxury.
+            </p>
+        </div>
+    </section>
+
+    <section class="products section">
+        <h2>Discover our Luminous Collection</h2>
+        <p>Illuminate your space with timeless elegance.</p>
+
+        <div class="product-grid">
+
+            <!-- Product 1 -->
+            <!-- <div class="product-card">
+                <div class="product-img">
+                    <img src="images/product/elegant-throw.jpg">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Throw</p>
+                    <h3>Elegant Luxury Throw Blanket</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,499</span>
+                        <span class="old">₹3,999</span>
+                        <span class="discount">38% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div> -->
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/runner.jpg}" alt="Silk Table Runner">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Runner</p>
+                    <h3>Silk Table Runner Premium</h3>
+
+                    <div class="price">
+                        <span class="current">₹1,299</span>
+                        <span class="old">₹2,199</span>
+                        <span class="discount">41% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/elegant-throw.jpg}" alt="Elegant Luxury Throw Blanket">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Throw</p>
+                    <h3>Cozy Designer Throw Blanket</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,499</span>
+                        <span class="old">₹3,799</span>
+                        <span class="discount">34% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/bedcover.jpg}" alt="Premium Silk Bed Cover">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Bed Cover</p>
+                    <h3>Premium Silk Bed Cover Set</h3>
+
+                    <div class="price">
+                        <span class="current">₹1,299</span>
+                        <span class="old">₹2,299</span>
+                        <span class="discount">43% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="offer section">
+        <h2>Flat 10% Off on First Order</h2>
+    </section>
+
+    <section class="products section">
+        <h2>New Arrivals</h2>
+        <p>New designs, timeless appeal.</p>
+
+        <div class="product-grid">
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/bath-linen.jpg}" alt="Luxury Bath Linen Set">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Bath Linen</p>
+                    <h3>Luxury Bath Linen Set</h3>
+
+                    <div class="price">
+                        <span class="current">₹3,299</span>
+                        <span class="old">₹4,999</span>
+                        <span class="discount">34% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/towel.jpg}" alt="Premium Cotton Bath Towel">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Bath Towel</p>
+                    <h3>Premium Cotton Bath Towel</h3>
+
+                    <div class="price">
+                        <span class="current">₹999</span>
+                        <span class="old">₹1,499</span>
+                        <span class="discount">33% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/robe.jpg}" alt="Luxury Soft Bath Robe">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Bath Robe</p>
+                    <h3>Luxury Soft Bath Robe</h3>
+
+                    <div class="price">
+                        <span class="current">₹2,899</span>
+                        <span class="old">₹4,299</span>
+                        <span class="discount">32% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img th:src="@{/images/product/tote.jpg}" alt="Cotton & Silk Routes Tote Bag">
+                    <span class="wishlist">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category">Tote Bag</p>
+                    <h3>Cotton & Silk Routes Tote Bag</h3>
+
+                    <div class="price">
+                        <span class="current">₹999</span>
+                        <span class="old">₹1,799</span>
+                        <span class="discount">44% OFF</span>
+                    </div>
+                </div>
+
+                <button class="add-cart">Add To Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="testimonials section">
+        <h2>Customer Love</h2>
+        <p>⭐⭐⭐⭐⭐ 4.9/5 from 1200+ customers</p>
+
+        <div class="testimonial-container">
+            <div class="testimonial-card">
+                <p>"Absolutely premium quality!"</p>
+                <h4>- Priya</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"Feels luxurious and elegant."</p>
+                <h4>- Rahul</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"Absolutely premium quality!"</p>
+                <h4>- Priya</h4>
+            </div>
+            <div class="testimonial-card">
+                <p>"Feels luxurious and elegant."</p>
+                <h4>- Rahul</h4>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter section">
+        <h2>Join Our Community</h2>
+        <input type="email" placeholder="Enter email">
+        <button>Subscribe</button>
+    </section>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script th:inline="javascript">
+    const loggedInUser = [[${user}]];
+
+    console.log("Logged in user:", loggedInUser);
+</script>
+
+</body>
+
+</html>

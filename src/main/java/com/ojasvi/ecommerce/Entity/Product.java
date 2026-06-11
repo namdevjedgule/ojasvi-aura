@@ -17,7 +17,7 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String productName;
 
     @Column(unique = true)
     private String slug;
@@ -38,10 +38,26 @@ public class Product extends BaseEntity {
     private BigDecimal mrp;
 
     private BigDecimal sellingPrice;
+    
+    private String metaTitle;
+
+    private String metaDescription;
+
+    private Double weight;
+
+    private String color;
+
+    private String size;
+
+    private Integer soldCount = 0;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    
+    @ManyToOne
+    @JoinColumn(name = "sub_category_id")
+    private SubCategory subCategory;
 
     @OneToMany(mappedBy = "product",
             cascade = CascadeType.ALL,

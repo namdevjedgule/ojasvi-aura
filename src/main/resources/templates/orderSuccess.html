@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ojasvi | Order Confirmed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Inter&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .ojasvi-success-page {
+            background: #F5F1EB;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+        }
+
+        .ojasvi-success-card {
+            background: #fff;
+            padding: 50px 40px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .ojasvi-success-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #E8F5E9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #2E7D32;
+        }
+
+        .ojasvi-success-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .ojasvi-success-text {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .ojasvi-order-box {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .ojasvi-order-box p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        .ojasvi-order-id {
+            font-weight: bold;
+        }
+
+        .ojasvi-success-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ojasvi-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .ojasvi-btn-primary {
+            background: #000;
+            color: #fff;
+        }
+
+        .ojasvi-btn-primary:hover {
+            background: #333;
+        }
+
+        .ojasvi-btn-secondary {
+            background: transparent;
+            border: 1px solid #000;
+        }
+
+        .ojasvi-btn-secondary:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media(max-width: 480px) {
+            .ojasvi-success-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ojasvi-success-page">
+
+        <div class="ojasvi-success-card">
+
+            <div class="ojasvi-success-icon">
+                ✔
+            </div>
+
+            <h1 class="ojasvi-success-title">Order Confirmed</h1>
+
+            <p class="ojasvi-success-text">
+                Thank you for choosing Ojasvi. Your order has been placed successfully.
+            </p>
+
+            <div class="ojasvi-order-box">
+                <p>Order ID: <span class="ojasvi-order-id">#OJ12345</span></p>
+                <p>Estimated Delivery: 3–5 Business Days</p>
+                <p>Payment Method: Cash on Delivery</p>
+            </div>
+
+            <div class="ojasvi-success-actions">
+                <button class="ojasvi-btn ojasvi-btn-primary" onclick="goHome()">
+                    Continue Shopping
+                </button>
+
+                <button class="ojasvi-btn ojasvi-btn-secondary" onclick="viewOrders()">
+                    View Orders
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function goHome() {
+            window.location.href = "index.html";
+        }
+
+        function viewOrders() {
+            window.location.href = "account.html";
+        }
+    </script>
+
+</body>
+
+</html>

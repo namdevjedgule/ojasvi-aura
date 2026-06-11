@@ -14,9 +14,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
+    private String fullName;
 
     @Column(unique = true)
     private String email;
@@ -27,6 +25,8 @@ public class User extends BaseEntity {
     private String password;
 
     private String profileImage;
+    
+    private String googleId;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

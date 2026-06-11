@@ -1,0 +1,66 @@
+<header class="navbar" th:fragment="navbar">
+
+    <div class="logo">
+        <a th:href="@{/}">
+            <img id="navbarLogo" th:src="@{/images/logo/ojasvi-final-logo.png}" alt="Ojasvi Logo">
+        </a>
+    </div>
+
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/shop}">Shop</a>
+        <a th:href="@{/collections}">Collections</a>
+        <a th:href="@{/blog}">Blog</a>
+        <a th:href="@{/about}">About Us</a>
+        <a th:href="@{/contact}">Contact</a>
+    </nav>
+
+    <div class="search-box">
+        <input type="text" placeholder="Search products...">
+        <i class="fa fa-search"></i>
+    </div>
+
+    <div class="right-section">
+        <div class="nav-icons">
+
+            <a th:href="@{/wishlist}"><i class="fa-regular fa-heart"></i></a>
+
+            <a th:href="@{/cart}" class="cart-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-count">0</span>
+            </a>
+
+            <a th:if="${user == null}" th:href="@{/login}"><i class="fa-regular fa-user"></i></a>
+            <div th:if="${user != null}" class="navbar-user">
+                <div class="nav-avatar" th:if="${user.profileImage == null or user.profileImage.isEmpty()}"
+                    th:text="${#strings.toUpperCase(#strings.substring(user.fullName,0,1))}">
+                </div>
+                <img th:if="${user.profileImage != null and !user.profileImage.isEmpty()}" th:src="${user.profileImage}"
+                    class="nav-avatar-img">
+
+                <div class="dropdown-menu">
+                    <div class="user-info">
+                        <span class="user-name" th:text="${user.fullName}"></span>
+                        <small class="user-role" th:text="${user.role.roleName}"></small>
+                    </div>
+                    <a th:href="@{/customer-dashboard}">
+                        <i class="fa-regular fa-user"></i> Dashboard
+                    </a>
+                    <a th:href="@{/customer/orders}">
+                        <i class="fa-solid fa-box"></i> My Orders
+                    </a>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="logout-btn">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </div>
+
+</header>

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Table(name = "product_images")
 @Getter
 @Setter
-public class ProductImage {
+public class ProductImage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,8 @@ public class ProductImage {
     private String imageUrl;
 
     private Boolean primaryImage = false;
+    
+    private Integer displayOrder = 0; 
 
     @ManyToOne
     @JoinColumn(name = "product_id")

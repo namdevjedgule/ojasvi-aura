@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Cart - Ojasvi</title>
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <section class="cart">
+
+        <h2>Your Cart</h2>
+
+        <div id="cart-items"></div>
+
+        <div id="empty-cart" class="empty-cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <h3>Your Cart is Empty</h3>
+            <p>Looks like you haven't added anything yet</p>
+            <a href="shop.html" class="btn">Continue Shopping</a>
+        </div>
+
+        <div id="cart-total" class="cart-total"></div>
+
+        <div class="page-buttons">
+            <a href="checkout.html" class="btn">Proceed to Checkout</a>
+            <a href="orderSuccess.html" class="btn">Order Confirmation</a>
+            <a href="customer-dashboard.html" class="btn">customer Account</a>
+            <a href="admin-dashboard.html" class="btn">admin Account</a>
+            <a href="productDetails.html" class="btn">Product details</a>
+            <a href="errorPage.html" class="btn">Page not found</a>
+            <a href="errorServer.html" class="btn">Server error</a>
+        </div>
+
+    </section>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>

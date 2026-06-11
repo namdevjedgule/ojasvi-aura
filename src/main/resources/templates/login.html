@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ojasvi - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Inter&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        :root {
+            --primary: #C5A47E;
+            --primary-dark: #AE7F4D;
+            --primary-light: #E6C9A8;
+            --brown: #5C3013;
+            --brown-deep: #3a1d0b;
+            --bg-main: #F5F1EB;
+            --bg-light: #FAFAF8;
+            --white: #FFFFFF;
+            --black: #000000;
+            --dark: #0F0F0F;
+            --dark-light: #1A1A1A;
+            --muted: #888;
+            --border: #ddd;
+            --success: #0F9D8A;
+            --danger: #e53e3e;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            overflow-x: hidden;
+        }
+
+        /* ========== CONTAINER ========== */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== LEFT PANEL ========== */
+        .left {
+            flex: 1;
+            background: url('images/login/pexels-perqued-13722871.jpg') center/cover no-repeat;
+            position: relative;
+        }
+
+        .left::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(92, 48, 19, 0.75) 0%, rgba(0, 0, 0, 0.82) 100%);
+        }
+
+        .left::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            width: 100px;
+            height: 100px;
+            border-top: 1px solid rgba(197, 164, 126, 0.3);
+            border-left: 1px solid rgba(197, 164, 126, 0.3);
+        }
+
+        .left-corner-br {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+            border-bottom: 1px solid rgba(197, 164, 126, 0.3);
+            border-right: 1px solid rgba(197, 164, 126, 0.3);
+            z-index: 2;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 100px;
+            left: 60px;
+            color: var(--bg-main);
+            z-index: 2;
+        }
+
+        .overlay h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 56px);
+            letter-spacing: 8px;
+            font-weight: 500;
+            color: var(--bg-main);
+        }
+
+        .overlay p {
+            margin-top: 12px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: var(--primary);
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+        }
+
+        .overlay-divider {
+            width: 50px;
+            height: 1.5px;
+            background: var(--primary);
+            margin-top: 14px;
+        }
+
+        .left-features {
+            position: absolute;
+            bottom: 220px;
+            left: 60px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .left-feat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-light);
+            font-size: 13px;
+        }
+
+        .left-feat i {
+            font-size: 12px;
+            color: var(--primary);
+            width: 20px;
+        }
+
+        /* ========== RIGHT PANEL ========== */
+        .right {
+            flex: 1;
+            background: var(--bg-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 40px 24px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: var(--dark-light);
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.25s;
+            letter-spacing: 0.3px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-dark);
+        }
+
+        /* ========== FORM BOX ========== */
+        .form-box {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        /* ========== MODE TOGGLE ========== */
+        .mode-toggle {
+            display: flex;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 30px;
+            gap: 4px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 9px 12px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            background: transparent;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .toggle-btn.active {
+            background: var(--brown);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(92, 48, 19, 0.22);
+        }
+
+        .toggle-btn:not(.active):hover {
+            background: rgba(92, 48, 19, 0.07);
+            color: var(--brown);
+        }
+
+        .toggle-btn i {
+            font-size: 12px;
+        }
+
+        /* ========== FORM TITLE ========== */
+        #form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .form-subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 26px;
+            line-height: 1.6;
+        }
+
+        /* ========== ADMIN BADGE & NOTICE ========== */
+        .admin-badge {
+            display: none;
+            align-items: center;
+            gap: 7px;
+            background: #FFF3E0;
+            border: 1px solid #E6C79C;
+            color: #7a4f10;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+
+        .admin-badge.show {
+            display: inline-flex;
+        }
+
+        .admin-badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .admin-notice {
+            display: none;
+            background: #FFF8F0;
+            border-left: 3px solid var(--primary);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 12px;
+            color: #7a5a30;
+            margin-bottom: 22px;
+            line-height: 1.7;
+        }
+
+        .admin-notice.show {
+            display: block;
+        }
+
+        .admin-notice i {
+            color: var(--primary);
+            margin-right: 5px;
+        }
+
+        /* ========== INPUTS ========== */
+        .input-group {
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 13px 0 11px;
+            border: none;
+            border-bottom: 1.5px solid var(--border);
+            background: transparent;
+            outline: none;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            transition: border-color 0.25s;
+            margin-bottom: 18px;
+        }
+
+        input::placeholder {
+            color: #bbb;
+            font-size: 13px;
+        }
+
+        input:focus {
+            border-bottom-color: var(--primary-dark);
+        }
+
+        /* password toggle icon */
+        .pwd-wrap {
+            position: relative;
+        }
+
+        .pwd-wrap input {
+            padding-right: 32px;
+        }
+
+        .pwd-toggle {
+            position: absolute;
+            right: 2px;
+            top: 50%;
+            transform: translateY(-60%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #bbb;
+            font-size: 14px;
+            padding: 0;
+            width: auto;
+            transition: color 0.2s;
+        }
+
+        .pwd-toggle:hover {
+            background: none;
+            color: var(--primary-dark);
+        }
+
+        /* OTP field */
+        .otp-field {
+            letter-spacing: 8px !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            font-family: 'Playfair Display', serif !important;
+            text-align: center;
+        }
+
+        /* ========== ERROR MESSAGES ========== */
+        .err-msg {
+            display: none;
+            font-size: 11.5px;
+            color: var(--danger);
+            margin-top: -14px;
+            margin-bottom: 12px;
+        }
+
+        .err-msg.show {
+            display: block;
+        }
+
+        /* ========== FORGOT / CHECKBOX ROW ========== */
+        .forgot-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .check-label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .check-label input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--primary-dark);
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .forgot-link {
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.25s;
+            position: relative;
+        }
+
+        .forgot-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 1px;
+            background: var(--primary);
+            transition: 0.3s;
+        }
+
+        .forgot-link:hover {
+            color: var(--primary-dark);
+        }
+
+        .forgot-link:hover::after {
+            width: 100%;
+        }
+
+        /* ========== TERMS ========== */
+        .terms-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12.5px;
+            color: #666;
+            margin: 14px 0 20px;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .terms-label input[type="checkbox"] {
+            margin-top: 2px;
+            accent-color: var(--primary-dark);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .terms-label a {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .terms-label a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: var(--brown);
+            color: var(--primary);
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+            color: var(--white);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(92, 48, 19, 0.22);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .btn-submit.loading {
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+        .spinner {
+            display: none;
+            width: 15px;
+            height: 15px;
+            border: 2px solid rgba(197, 164, 126, 0.3);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .btn-submit.loading .spinner {
+            display: block;
+        }
+
+        .btn-submit.loading .btn-label {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== SEND OTP BUTTON ===== */
+        .btn-send-otp {
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            border: 1.5px solid var(--brown);
+            color: var(--brown);
+            border-radius: 2px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .btn-send-otp:hover {
+            background: var(--brown);
+            color: var(--primary);
+        }
+
+        .btn-send-otp:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-send-otp.loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .btn-send-otp.loading .btn-label {
+            display: none;
+        }
+
+        .btn-send-otp.loading .spinner {
+            display: block;
+        }
+
+        /* ===== OTP STEP BOX ===== */
+        .otp-step {
+            background: #FFF8F0;
+            border: 1px solid rgba(197, 164, 126, 0.3);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .otp-step.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .otp-step-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .otp-step-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(197, 164, 126, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .otp-step-icon i {
+            font-size: 12px;
+            color: var(--primary-dark);
+        }
+
+        .otp-step-text {
+            font-size: 12px;
+            color: #7a5a30;
+            line-height: 1.5;
+        }
+
+        .otp-step-text strong {
+            color: var(--brown);
+        }
+
+        /* OTP resend row */
+        .otp-resend-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .otp-timer {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .resend-link {
+            font-size: 12px;
+            color: var(--primary-dark);
+            cursor: pointer;
+            font-weight: 500;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .resend-link:hover {
+            color: var(--brown);
+            text-decoration: underline;
+        }
+
+        .resend-link:disabled {
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        /* ========== SWITCH ========== */
+        .switch {
+            margin-top: 18px;
+            font-size: 13.5px;
+            color: var(--muted);
+        }
+
+        .switch span {
+            color: var(--primary-dark);
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .switch span:hover {
+            color: var(--brown);
+            text-decoration: underline;
+        }
+
+        /* ========== DIVIDER ========== */
+        .divider-login {
+            text-align: center;
+            margin: 22px 0 16px;
+            position: relative;
+        }
+
+        .divider-login span {
+            background: var(--bg-main);
+            padding: 0 12px;
+            position: relative;
+            z-index: 2;
+            font-size: 11px;
+            color: #bbb;
+            letter-spacing: 1.5px;
+        }
+
+        .divider-login::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        /* ========== GOOGLE BUTTON ========== */
+        .google-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .tooltip {
+            position: relative;
+        }
+
+        .google-btn {
+            width: auto;
+            padding: 10px 20px;
+            border-radius: 2px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+            color: #444;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .google-btn img {
+            width: 18px;
+        }
+
+        .google-btn:hover {
+            border-color: var(--primary);
+            color: var(--brown);
+            background: rgba(197, 164, 126, 0.06);
+        }
+
+        .tooltip-text {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: var(--white);
+            padding: 5px 12px;
+            font-size: 11px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--dark);
+        }
+
+        .tooltip:hover .tooltip-text {
+            opacity: 1;
+        }
+
+        /* ========== SMALL HELPER ========== */
+        small {
+            font-size: 11.5px;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ========== HIDDEN ========== */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ========== PAGE ANIMATIONS ========== */
+        .page-enter {
+            animation: slideIn 0.45s ease forwards;
+        }
+
+        .slide-out {
+            animation: slideRight 0.45s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(30px);
+                opacity: 0;
+            }
+        }
+
+        /* ========== FORGOT PASSWORD MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 36px 32px;
+            max-width: 380px;
+            width: 100%;
+            position: relative;
+            animation: slideIn 0.25s ease;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--muted);
+            transition: color 0.2s;
+            width: auto;
+            padding: 0;
+        }
+
+        .modal-close:hover {
+            background: none;
+            color: var(--dark);
+        }
+
+        .modal-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(197, 164, 126, 0.12);
+            border: 1px solid rgba(197, 164, 126, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+
+        .modal-icon i {
+            color: var(--primary-dark);
+            font-size: 20px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 6px;
+            color: var(--dark);
+        }
+
+        .modal-sub {
+            font-size: 13px;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 22px;
+            line-height: 1.6;
+        }
+
+        .btn-modal {
+            width: 100%;
+            padding: 12px;
+            background: var(--brown);
+            color: var(--primary);
+            border: none;
+            border-radius: 2px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-modal:hover {
+            background: var(--primary-dark);
+            color: var(--white);
+        }
+
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 8px 0;
+        }
+
+        .success-state.show {
+            display: block;
+        }
+
+        .success-state i {
+            font-size: 38px;
+            color: var(--success);
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .success-state p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: var(--dark);
+            color: var(--white);
+            padding: 11px 22px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .left {
+                min-height: 220px;
+                flex: none;
+            }
+
+            .left-features {
+                display: none;
+            }
+
+            .overlay {
+                bottom: 30px;
+                left: 30px;
+            }
+
+            .overlay h1 {
+                font-size: 36px;
+                letter-spacing: 5px;
+            }
+
+            .right {
+                padding: 50px 24px 40px;
+                align-items: flex-start;
+            }
+
+            .form-box {
+                max-width: 100%;
+            }
+
+            .back-btn {
+                top: 16px;
+                left: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LEFT IMAGE PANEL -->
+        <div class="left">
+            <div class="left-corner-br"></div>
+            <div class="left-features">
+                <div class="left-feat"><i class="fa-solid fa-truck-fast"></i> Track orders in real-time</div>
+                <div class="left-feat"><i class="fa-regular fa-heart"></i> Save to your wishlist</div>
+                <div class="left-feat"><i class="fa-solid fa-tag"></i> Exclusive member discounts</div>
+                <div class="left-feat"><i class="fa-solid fa-bolt"></i> Faster checkout every time</div>
+            </div>
+            <div class="overlay">
+                <h1>OJASVI</h1>
+                <p>Luxury Home Linen</p>
+                <div class="overlay-divider"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT FORM PANEL -->
+        <div class="right">
+
+            <a href="/" class="back-btn">
+                <i class="fa-solid fa-arrow-left" style="font-size:12px;"></i> Go Back
+            </a>
+
+            <div class="form-box">
+
+                <!-- SERVER-SIDE ERROR (shown by Thymeleaf if redirected with error param) -->
+                <div class="server-alert" th:if="${param.error}">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span
+                        th:text="${param.error == 'session' ? 'Your session has expired. Please log in again.' : 'Something went wrong. Please try again.'}"></span>
+                </div>
+
+                <!-- MODE TOGGLE -->
+                <div class="mode-toggle">
+                    <button class="toggle-btn active" id="btn-customer" onclick="switchMode('customer')">
+                        <i class="fa-regular fa-user"></i> Customer
+                    </button>
+                    <button class="toggle-btn" id="btn-admin" onclick="switchMode('admin')">
+                        <i class="fa-solid fa-shield-halved"></i> Admin
+                    </button>
+                </div>
+
+                <!-- ADMIN BADGE -->
+                <div class="admin-badge" id="admin-badge">
+                    <div class="admin-badge-dot"></div> Admin Portal
+                </div>
+
+                <h2 id="form-title">Welcome Back</h2>
+                <p class="form-subtitle" id="form-subtitle">Sign in to continue your Ojasvi journey.</p>
+
+                <!-- ADMIN NOTICE -->
+                <div class="admin-notice" id="admin-notice">
+                    <i class="fa-solid fa-lock"></i>
+                    Restricted access — authorized Ojasvi staff only. All login attempts are logged.
+                </div>
+
+                <!-- ====== CUSTOMER LOGIN ====== -->
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <input type="email" id="login-email" placeholder="Email Address" autocomplete="email">
+                    </div>
+                    <div class="err-msg" id="login-email-err">Please enter a valid email address.</div>
+
+                    <div class="pwd-wrap input-group">
+                        <input type="password" id="login-pwd" placeholder="Password" autocomplete="current-password">
+                        <button type="button" class="pwd-toggle" onclick="togglePwd('login-pwd',this)">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="err-msg" id="login-pwd-err">Password must be at least 6 characters.</div>
+
+                    <div class="forgot-wrapper">
+                        <label class="check-label">
+                            <input type="checkbox"> Remember me
+                        </label>
+                        <a href="#" class="forgot-link" onclick="openForgot(event)">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="login-btn">
+                        <span class="btn-label">Sign In</span>
+                        <div class="spinner"></div>
+                    </button>
+
+                    <p class="switch">Don't have an account? <span onclick="toggleForm()">Sign Up</span></p>
+                </form>
+
+                <!-- ====== CUSTOMER SIGNUP ====== -->
+                <form id="signupForm" class="hidden" onsubmit="handleSignup(event)">
+                    <div class="input-group">
+                        <input type="text" id="signup-name" placeholder="Full Name" autocomplete="name">
+                    </div>
+                    <div class="err-msg" id="signup-name-err">Please enter your full name.</div>
+
+                    <div class="input-group">
+                        <input type="email" id="signup-email" placeholder="Email Address" autocomplete="email">
+                    </div>
+                    <div class="err-msg" id="signup-email-err">Please enter a valid email address.</div>
+
+                    <div class="input-group">
+                        <input type="tel" id="signup-phone" placeholder="Phone Number" maxlength="10"
+                            inputmode="numeric">
+                    </div>
+                    <div class="err-msg" id="signup-phone-err">Enter a valid 10-digit phone number.</div>
+
+                    <div class="pwd-wrap input-group">
+                        <input type="password" id="signup-pwd" placeholder="Password" autocomplete="new-password">
+                        <button type="button" class="pwd-toggle" onclick="togglePwd('signup-pwd',this)">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="err-msg" id="signup-pwd-err">Password must be at least 6 characters.</div>
+
+                    <div class="pwd-wrap input-group">
+                        <input type="password" id="signup-cpwd" placeholder="Confirm Password"
+                            autocomplete="new-password">
+                        <button type="button" class="pwd-toggle" onclick="togglePwd('signup-cpwd',this)">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="err-msg" id="signup-cpwd-err">Passwords do not match.</div>
+
+                    <small>Password must be at least 6 characters</small>
+
+                    <label class="terms-label">
+                        <input type="checkbox" id="signup-terms">
+                        I agree to the <a href="#">Terms &amp; Conditions</a>
+                    </label>
+                    <div class="err-msg" id="signup-terms-err">You must agree to the terms.</div>
+
+                    <button type="submit" class="btn-submit" id="signup-btn">
+                        <span class="btn-label">Join Ojasvi</span>
+                        <div class="spinner"></div>
+                    </button>
+
+                    <p class="switch">Already have an account? <span onclick="toggleForm()">Sign In</span></p>
+                </form>
+
+                <!-- ====== ADMIN FORM (2-STEP) ====== -->
+                <form id="adminForm" class="hidden" onsubmit="handleAdmin(event)">
+
+                    <div id="admin-step1">
+                        <div class="input-group">
+                            <input type="email" id="admin-email" placeholder="Admin Email" autocomplete="email">
+                        </div>
+                        <div class="err-msg" id="admin-email-err">Please enter a valid admin email.</div>
+
+                        <div class="pwd-wrap input-group">
+                            <input type="password" id="admin-pwd" placeholder="Admin Password"
+                                autocomplete="current-password">
+                            <button type="button" class="pwd-toggle" onclick="togglePwd('admin-pwd',this)">
+                                <i class="fa-regular fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <div class="err-msg" id="admin-pwd-err">Password must be at least 6 characters.</div>
+
+                        <button type="button" class="btn-send-otp" id="send-otp-btn" onclick="sendAdminOTP()">
+                            <span class="btn-label"><i class="fa-solid fa-paper-plane" style="font-size:12px;"></i> Send
+                                OTP to Email</span>
+                            <div class="spinner"></div>
+                        </button>
+                    </div>
+
+                    <div id="admin-step2" class="hidden">
+                        <div class="otp-step show" id="otp-info-box">
+                            <div class="otp-step-header">
+                                <div class="otp-step-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                                <div class="otp-step-text">
+                                    OTP sent to <strong id="otp-sent-email">your email</strong>.<br>
+                                    Valid for <strong>5 minutes</strong>. Check spam if not received.
+                                </div>
+                            </div>
+                            <div class="otp-resend-row">
+                                <span class="otp-timer" id="otp-timer">Resend in 0:30</span>
+                                <button type="button" class="resend-link" id="resend-btn" onclick="resendOTP()"
+                                    disabled>Resend OTP</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" id="admin-otp" class="otp-field" placeholder="● ● ● ● ● ●" maxlength="6"
+                                inputmode="numeric" autocomplete="one-time-code">
+                        </div>
+                        <div class="err-msg" id="admin-otp-err">Please enter the 6-digit OTP.</div>
+
+                        <button type="submit" class="btn-submit" id="admin-btn">
+                            <i class="fa-solid fa-lock btn-label" style="font-size:12px;"></i>
+                            <span class="btn-label">Verify &amp; Sign In</span>
+                            <div class="spinner"></div>
+                        </button>
+
+                        <p style="text-align:center; margin-top:14px; font-size:12px; color:var(--muted);">
+                            Wrong email? <span onclick="resetAdminSteps()"
+                                style="color:var(--primary-dark);cursor:pointer;font-weight:600;">Go back</span>
+                        </p>
+                    </div>
+
+                    <p class="switch" style="margin-top:16px;">
+                        Need access? <a href="/contact"
+                            style="color:var(--primary-dark);font-weight:600;text-decoration:none;">Contact admin
+                            &rarr;</a>
+                    </p>
+                </form>
+
+                <!-- SOCIAL (customer only) -->
+                <div id="social-section">
+                    <div class="divider-login"><span>OR CONTINUE WITH</span></div>
+                    <div class="google-wrapper">
+                        <div class="tooltip">
+                            <button class="google-btn" type="button"
+                                onclick="showToast('Google login coming soon!','')">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+                                    alt="Google">
+                                Continue with Google
+                            </button>
+                            <span class="tooltip-text">Continue with Google</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /form-box -->
+        </div><!-- /right -->
+
+    </div><!-- /container -->
+
+    <!-- FORGOT PASSWORD MODAL -->
+    <div class="modal-overlay" id="forgot-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeForgot()" type="button"><i class="fa-solid fa-xmark"></i></button>
+            <div id="forgot-form-wrap">
+                <div class="modal-icon"><i class="fa-solid fa-key"></i></div>
+                <h3 class="modal-title">Forgot password?</h3>
+                <p class="modal-sub">Enter your Ojasvi account email. We'll send you a reset link.</p>
+                <div class="input-group">
+                    <input type="email" id="forgot-email" placeholder="Email Address">
+                </div>
+                <div class="err-msg" id="forgot-email-err" style="margin-bottom:16px;">Please enter a valid email.</div>
+                <button type="button" class="btn-modal" onclick="handleForgot()">Send Reset Link</button>
+            </div>
+            <div class="success-state" id="forgot-success">
+                <i class="fa-solid fa-circle-check"></i>
+                <p class="modal-title" style="font-size:18px;margin-bottom:8px;">Check your inbox</p>
+                <p>We've sent a reset link to your email. Check your inbox and spam folder.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div th:if="${param.logout}" style="color: green;">
+        You have been logged out successfully.
+    </div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        /* PAGE ANIMATION */
+        window.addEventListener("load", () => {
+            document.querySelector(".container").classList.add("page-enter");
+        });
+
+        /* MODE SWITCH */
+        let currentMode = 'customer';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            ['customer', 'admin'].forEach(m => {
+                document.getElementById('btn-' + m).classList.toggle('active', m === mode);
+            });
+            const isAdmin = mode === 'admin';
+            document.getElementById('loginForm').classList.toggle('hidden', isAdmin);
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('adminForm').classList.toggle('hidden', !isAdmin);
+            document.getElementById('social-section').classList.toggle('hidden', isAdmin);
+            document.getElementById('admin-badge').classList.toggle('show', isAdmin);
+            document.getElementById('admin-notice').classList.toggle('show', isAdmin);
+            document.getElementById('form-title').innerText = isAdmin ? 'Admin Sign In' : 'Welcome Back';
+            document.getElementById('form-subtitle').innerText = isAdmin
+                ? 'Restricted access — Ojasvi team only.'
+                : 'Sign in to continue your Ojasvi journey.';
+            clearErrors();
+            resetAdminSteps();
+        }
+
+        /* TOGGLE LOGIN / SIGNUP */
+        function toggleForm() {
+            const login = document.getElementById("loginForm");
+            const signup = document.getElementById("signupForm");
+            login.classList.toggle("hidden");
+            signup.classList.toggle("hidden");
+            const isSignup = !signup.classList.contains("hidden");
+            document.getElementById('form-title').innerText = isSignup ? "Create Account" : "Welcome Back";
+            document.getElementById('form-subtitle').innerText = isSignup
+                ? "Join Ojasvi and enjoy exclusive member benefits."
+                : "Sign in to continue your Ojasvi journey.";
+            document.getElementById('social-section').classList.toggle('hidden', isSignup);
+            clearErrors();
+        }
+
+        /* TOGGLE PASSWORD */
+        function togglePwd(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') { input.type = 'text'; icon.className = 'fa-regular fa-eye'; }
+            else { input.type = 'password'; icon.className = 'fa-regular fa-eye-slash'; }
+        }
+
+        /* HELPERS */
+        function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+
+        function showErr(id, show) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('show', show);
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.err-msg').forEach(el => el.classList.remove('show'));
+        }
+
+        function setLoading(btnId, state) {
+            const btn = document.getElementById(btnId);
+            if (btn) btn.classList.toggle('loading', state);
+        }
+
+        /* OTP TIMER */
+        let otpTimerInterval = null;
+        let otpTimerSeconds = 30;
+
+        function startOTPTimer() {
+            otpTimerSeconds = 30;
+            const timerEl = document.getElementById('otp-timer');
+            const resendBtn = document.getElementById('resend-btn');
+            resendBtn.disabled = true;
+            clearInterval(otpTimerInterval);
+            otpTimerInterval = setInterval(() => {
+                otpTimerSeconds--;
+                const m = Math.floor(otpTimerSeconds / 60);
+                const s = otpTimerSeconds % 60;
+                timerEl.textContent = `Resend in ${m}:${s.toString().padStart(2, '0')}`;
+                if (otpTimerSeconds <= 0) {
+                    clearInterval(otpTimerInterval);
+                    timerEl.textContent = '';
+                    resendBtn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        /* SEND OTP */
+        async function sendAdminOTP() {
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-pwd').value;
+            clearErrors();
+            let valid = true;
+            if (!isEmail(email)) { showErr('admin-email-err', true); valid = false; }
+            if (!password || password.length < 6) { showErr('admin-pwd-err', true); valid = false; }
+            if (!valid) return;
+
+            setLoading('send-otp-btn', true);
+            try {
+                const res = await fetch('/api/auth/admin/send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await res.json();
+                setLoading('send-otp-btn', false);
+
+                if (result.status === 200) {
+                    document.getElementById('otp-sent-email').textContent = maskEmail(email);
+                    document.getElementById('admin-step1').classList.add('hidden');
+                    document.getElementById('admin-step2').classList.remove('hidden');
+                    startOTPTimer();
+                    showToast('OTP sent to your email!', 'success');
+                    setTimeout(() => document.getElementById('admin-otp').focus(), 100);
+                } else {
+                    showToast(result.message || 'Invalid credentials', 'error');
+                }
+            } catch (err) {
+                setLoading('send-otp-btn', false);
+                showToast('Server Error. Please try again.', 'error');
+            }
+        }
+
+        /* RESEND OTP */
+        async function resendOTP() {
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-pwd').value;
+            showToast('Resending OTP…', '');
+            try {
+                const res = await fetch('/api/auth/admin/send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await res.json();
+                if (result.status === 200) {
+                    startOTPTimer();
+                    document.getElementById('admin-otp').value = '';
+                    document.getElementById('admin-otp').focus();
+                    showToast('New OTP sent!', 'success');
+                } else {
+                    showToast(result.message || 'Failed to resend OTP', 'error');
+                }
+            } catch (err) {
+                showToast('Server Error.', 'error');
+            }
+        }
+
+        /* RESET ADMIN STEPS */
+        function resetAdminSteps() {
+            clearInterval(otpTimerInterval);
+            document.getElementById('admin-step1').classList.remove('hidden');
+            document.getElementById('admin-step2').classList.add('hidden');
+            const otp = document.getElementById('admin-otp');
+            if (otp) otp.value = '';
+            clearErrors();
+        }
+
+        /* MASK EMAIL */
+        function maskEmail(email) {
+            const [user, domain] = email.split('@');
+            return user.slice(0, 2) + '***@' + domain;
+        }
+
+        /* ADMIN LOGIN - Step 2 */
+        async function handleAdmin(e) {
+            e.preventDefault();
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-pwd').value;
+            const otp = document.getElementById('admin-otp').value.trim();
+            clearErrors();
+            if (!otp || otp.length !== 6 || isNaN(otp)) {
+                showErr('admin-otp-err', true);
+                showToast('Please enter the 6-digit OTP', 'error');
+                return;
+            }
+            setLoading('admin-btn', true);
+            try {
+                const res = await fetch('/api/auth/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp })
+                });
+                const result = await res.json();
+                setLoading('admin-btn', false);
+                if (result.status === 200) {
+                    clearInterval(otpTimerInterval);
+                    showToast(result.message || 'Welcome back, Admin!', 'success');
+                    // FIX: redirect to Thymeleaf route, NOT /admin-dashboard directly
+                    // Session is set server-side in AuthController already
+                    setTimeout(() => { window.location.href = '/admin-dashboard'; }, 1000);
+                } else {
+                    showToast(result.message || 'Invalid or expired OTP', 'error');
+                    showErr('admin-otp-err', true);
+                }
+            } catch (err) {
+                setLoading('admin-btn', false);
+                showToast('Server Error. Please try again.', 'error');
+            }
+        }
+
+        /* CUSTOMER LOGIN */
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-pwd').value;
+            clearErrors();
+            if (!isEmail(email)) { showErr('login-email-err', true); return; }
+            if (password.length < 6) { showErr('login-pwd-err', true); return; }
+            setLoading('login-btn', true);
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await res.json();
+                setLoading('login-btn', false);
+                if (result.status === 200) {
+                    showToast(result.message, 'success');
+                    // FIX: no localStorage — session is set server-side
+                    setTimeout(() => { window.location.href = '/customer-dashboard'; }, 1000);
+                } else {
+                    showToast(result.message || 'Login Failed', 'error');
+                }
+            } catch (err) {
+                setLoading('login-btn', false);
+                showToast('Server Error', 'error');
+            }
+        }
+
+        /* CUSTOMER SIGNUP */
+        async function handleSignup(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value;
+            const mobile = document.getElementById('signup-phone').value;
+            const password = document.getElementById('signup-pwd').value;
+            const cpwd = document.getElementById('signup-cpwd').value;
+            const terms = document.getElementById('signup-terms').checked;
+            clearErrors();
+            let valid = true;
+            if (!fullName) { showErr('signup-name-err', true); valid = false; }
+            if (!isEmail(email)) { showErr('signup-email-err', true); valid = false; }
+            if (!/^\d{10}$/.test(mobile)) { showErr('signup-phone-err', true); valid = false; }
+            if (password.length < 6) { showErr('signup-pwd-err', true); valid = false; }
+            if (password !== cpwd) { showErr('signup-cpwd-err', true); valid = false; }
+            if (!terms) { showErr('signup-terms-err', true); valid = false; }
+            if (!valid) return;
+            setLoading('signup-btn', true);
+            try {
+                const res = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, mobile, password })
+                });
+                const result = await res.json();
+                setLoading('signup-btn', false);
+                if (result.status === 200) {
+                    showToast(result.message, 'success');
+                    setTimeout(() => toggleForm(), 1000);
+                } else {
+                    showToast(result.message || 'Signup Failed', 'error');
+                }
+            } catch (err) {
+                setLoading('signup-btn', false);
+                showToast('Server Error', 'error');
+            }
+        }
+
+        /* DIGITS ONLY */
+        document.getElementById('admin-otp').addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 6);
+        });
+        document.getElementById('signup-phone').addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        });
+
+        /* ENTER KEY */
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' || e.target.tagName === 'BUTTON') return;
+            if (currentMode === 'admin') {
+                const step2Hidden = document.getElementById('admin-step2').classList.contains('hidden');
+                if (step2Hidden) { sendAdminOTP(); } else { handleAdmin(e); }
+                return;
+            }
+            const loginVisible = !document.getElementById('loginForm').classList.contains('hidden');
+            if (loginVisible) { handleLogin(e); } else { handleSignup(e); }
+        });
+
+        /* FORGOT PASSWORD */
+        function openForgot(e) {
+            if (e) e.preventDefault();
+            document.getElementById('forgot-modal').classList.add('show');
+            document.getElementById('forgot-email').focus();
+        }
+
+        function closeForgot() {
+            document.getElementById('forgot-modal').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('forgot-form-wrap').style.display = '';
+                document.getElementById('forgot-success').classList.remove('show');
+                document.getElementById('forgot-email').value = '';
+                showErr('forgot-email-err', false);
+            }, 200);
+        }
+
+        function handleForgot() {
+            const email = document.getElementById('forgot-email').value;
+            if (!isEmail(email)) { showErr('forgot-email-err', true); return; }
+            showErr('forgot-email-err', false);
+            setTimeout(() => {
+                document.getElementById('forgot-form-wrap').style.display = 'none';
+                document.getElementById('forgot-success').classList.add('show');
+            }, 700);
+        }
+
+        document.getElementById('forgot-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeForgot();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeForgot();
+        });
+
+        /* TOAST */
+        let toastTimer;
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type ? ' ' + type : '');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+        }
+    </script>
+</body>
+
+</html>
