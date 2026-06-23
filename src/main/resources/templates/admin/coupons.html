@@ -814,12 +814,12 @@
         <nav class="sidebar-nav">
             <div class="nav-section-title">Overview</div>
             <a class="nav-link" th:href="@{/admin-dashboard}"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-            
+
             <div class="nav-section-title">Store</div>
             <a class="nav-link" th:href="@{/admin/orders}">
                 <i class="fa-solid fa-cart-shopping"></i> Orders
             </a>
-             <a class="nav-link" th:href="@{/admin/products}">
+            <a class="nav-link" th:href="@{/admin/products}">
                 <i class="fa-solid fa-box"></i> Products
             </a>
             <a class="nav-link" th:href="@{/admin/customers}">
@@ -903,7 +903,6 @@
                 </button>
             </div>
 
-            <!-- STATS -->
             <div class="stats-row">
                 <div class="stat-mini">
                     <div class="stat-mini-label">Total Coupons</div>
@@ -923,7 +922,6 @@
                 </div>
             </div>
 
-            <!-- TABLE -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Coupon List</h3>
@@ -992,7 +990,6 @@
         </div>
     </div>
 
-    <!-- COUPON MODAL -->
     <div class="modal" id="coupon-modal">
         <div class="modal-box">
             <div class="modal-header">
@@ -1002,15 +999,30 @@
             </div>
             <form id="coupon-form" th:action="@{/admin/coupons/save}" method="post">
                 <input type="hidden" id="coupon-id" name="id">
-                <div class="modal-field">
-                    <label class="modal-label">Coupon Code *</label>
-                    <div style="display:flex;gap:8px;">
-                        <input type="text" name="code" id="coupon-code" class="modal-input" placeholder="e.g. SAVE20"
-                            required style="text-transform:uppercase;flex:1;">
-                        <button type="button" class="btn-outline" onclick="generateCode()"
-                            style="white-space:nowrap;">Generate</button>
+                <div class="modal-row">
+                    <div class="modal-field">
+                        <label class="modal-label">Coupon Code *</label>
+                        <div style="display:flex;gap:8px;">
+                            <input type="text" name="code" id="coupon-code" class="modal-input"
+                                placeholder="e.g. SAVE20" required style="text-transform:uppercase;flex:1;">
+                            <button type="button" class="btn-outline" onclick="generateCode()"
+                                style="white-space:nowrap;">Generate</button>
+                        </div>
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label">Coupon Name *</label>
+                        <input type="text" name="title" id="coupon-title" class="modal-input"
+                            placeholder="Summer Sale 20% Off" required>
                     </div>
                 </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Description</label>
+                    <textarea name="description" id="coupon-description" class="modal-input" rows="3"
+                        placeholder="Coupon description"></textarea>
+                </div>
+
                 <div class="modal-row">
                     <div class="modal-field">
                         <label class="modal-label">Discount Type *</label>
@@ -1022,31 +1034,160 @@
                     <div class="modal-field">
                         <label class="modal-label">Discount Value *</label>
                         <input type="number" name="discountValue" id="coupon-value" class="modal-input"
-                            placeholder="e.g. 10" min="0" required>
+                            placeholder="e.g. 10" min="0" step="0.01" required>
                     </div>
                 </div>
+
                 <div class="modal-row">
                     <div class="modal-field">
-                        <label class="modal-label">Min Order Amount (₹)</label>
-                        <input type="number" name="minOrderAmount" class="modal-input" placeholder="e.g. 500" min="0">
+                        <label class="modal-label">Maximum Discount</label>
+                        <input type="number" name="maxDiscountAmount" id="max-discount" class="modal-input" step="0.01"
+                            min="0" placeholder="1000">
                     </div>
+
                     <div class="modal-field">
-                        <label class="modal-label">Max Uses</label>
-                        <input type="number" name="maxUses" class="modal-input" placeholder="Leave blank for unlimited"
-                            min="1">
+                        <label class="modal-label">Min Order Amount (₹)</label>
+                        <input type="number" name="minOrderAmount" id="min-order" class="modal-input" step="0.01"
+                            min="0" placeholder="500">
                     </div>
                 </div>
-                <div class="modal-field">
-                    <label class="modal-label">Expiry Date</label>
-                    <input type="date" name="expiryDate" class="modal-input">
+
+                <div class="modal-row">
+                    <div class="modal-field">
+                        <label class="modal-label">Maximum Uses</label>
+                        <input type="number" name="maxUses" id="max-uses" class="modal-input" min="1"
+                            placeholder="Leave blank for unlimited">
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label">Uses Per Customer</label>
+                        <input type="number" name="maxUsesPerCustomer" id="max-per-customer" class="modal-input" min="1"
+                            placeholder="1">
+                    </div>
                 </div>
+
+                <div class="modal-row">
+                    <div class="modal-field">
+                        <label class="modal-label">Start Date</label>
+                        <input type="datetime-local" name="startDate" id="start-date" class="modal-input">
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label">Expiry Date</label>
+                        <input type="datetime-local" name="expiryDate" id="expiry-date" class="modal-input">
+                    </div>
+                </div>
+
+                <div class="modal-row">
+                    <div class="modal-field">
+                        <label class="modal-label">First Order Only</label>
+                        <select name="firstOrderOnly" id="first-order" class="modal-input">
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label">Free Shipping</label>
+                        <select name="freeShipping" id="free-shipping" class="modal-input">
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Coupon Audience *</label>
+
+                    <select name="audience" id="coupon-audience" class="modal-input">
+
+                        <option value="GLOBAL">
+                            Global (All Customers)
+                        </option>
+
+                        <option value="CUSTOMER_SPECIFIC">
+                            Customer Specific
+                        </option>
+                    </select>
+                </div>
+
+                <div class="modal-field" id="customer-section" style="display:none;">
+
+                    <label class="modal-label">
+                        Select Customers
+                    </label>
+
+                    <select name="customerIds" id="customer-ids" class="modal-input" multiple>
+
+                        <option th:each="customer : ${customers}" th:value="${customer.id}"
+                            th:text="${customer.fullName}">
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Apply Coupon To</label>
+
+                    <select id="apply-type" name="applyType" class="modal-input">
+                        <option value="ALL">All Products</option>
+                        <option value="CATEGORY">Specific Category</option>
+                        <option value="PRODUCT">Specific Product</option>
+                    </select>
+                </div>
+
+                <div class="modal-field" id="category-section" style="display:none;">
+                    <label class="modal-label">Category</label>
+
+                    <select name="category.id" id="category-id" class="modal-input">
+                        <option value="">Select Category</option>
+
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}">
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="modal-field" id="product-section" style="display:none;">
+                    <label class="modal-label">Product</label>
+
+                    <select name="product.id" id="product-id" class="modal-input">
+                        <option value="">Select Product</option>
+
+                        <option th:each="product : ${products}" th:value="${product.id}"
+                            th:text="${product.productName}">
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Country Restriction</label>
+
+                    <select name="countryCode" id="country-code" class="modal-input">
+
+                        <option value="">All Countries</option>
+
+                        <option value="IN">India</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+
+                    </select>
+                </div>
+
                 <div class="modal-field">
                     <label class="modal-label">Status</label>
-                    <select name="isActive" class="modal-input">
+
+                    <select name="isActive" id="coupon-status" class="modal-input">
                         <option value="true">Active</option>
                         <option value="false">Inactive</option>
                     </select>
                 </div>
+
                 <button type="submit" class="modal-btn">Save Coupon</button>
             </form>
         </div>
@@ -1057,10 +1198,67 @@
     </div>
 
     <script th:inline="javascript">
-        const couponsData = /*[[${coupons}]]*/[];
+        const couponsData = [];
 
         function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show') }
         function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show') }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const params =
+                new URLSearchParams(window.location.search);
+
+            if (params.get('openModal') === 'true') {
+                openCouponModal();
+            }
+
+            document.querySelectorAll('.flash').forEach(el => {
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 500);
+                }, 4000);
+            });
+
+            const applyType =
+                document.getElementById('apply-type');
+
+            function toggleApplySections() {
+
+                document.getElementById('category-section')
+                    .style.display = 'none';
+
+                document.getElementById('product-section')
+                    .style.display = 'none';
+
+                if (applyType.value === 'CATEGORY') {
+                    document.getElementById('category-section')
+                        .style.display = 'block';
+                }
+
+                if (applyType.value === 'PRODUCT') {
+                    document.getElementById('product-section')
+                        .style.display = 'block';
+                }
+            }
+
+            applyType.addEventListener(
+                'change',
+                toggleApplySections
+            );
+
+            toggleApplySections();
+        });
+
+        const audience = document.getElementById('coupon-audience');
+        const customerSection = document.getElementById('customer-section');
+
+        audience.addEventListener('change', function () {
+
+            customerSection.style.display =
+                this.value === 'CUSTOMER_SPECIFIC'
+                    ? 'block'
+                    : 'none';
+        });
 
         function openCouponModal(id) {
             document.getElementById('coupon-form').reset();
@@ -1069,14 +1267,118 @@
             if (id && couponsData.length > 0) {
                 const c = couponsData.find(x => x.id == id);
                 if (c) {
-                    document.getElementById('coupon-id').value = c.id;
-                    document.getElementById('coupon-code').value = c.code;
-                    document.getElementById('coupon-type').value = c.discountType;
-                    document.getElementById('coupon-value').value = c.discountValue;
-                    document.getElementById('coupon-modal-title').textContent = 'Edit Coupon';
+                    document.getElementById('coupon-modal-title').textContent =
+                        'Edit Coupon';
+
+                    document.getElementById('coupon-id').value =
+                        c.id || '';
+
+                    document.getElementById('coupon-code').value =
+                        c.code || '';
+
+                    document.getElementById('coupon-title').value =
+                        c.title || '';
+
+                    document.getElementById('coupon-description').value =
+                        c.description || '';
+
+                    document.getElementById('coupon-type').value =
+                        c.discountType || 'PERCENT';
+
+                    document.getElementById('coupon-value').value =
+                        c.discountValue || '';
+
+                    document.getElementById('max-discount').value =
+                        c.maxDiscountAmount || '';
+
+                    document.getElementById('min-order').value =
+                        c.minOrderAmount || '';
+
+                    document.getElementById('max-uses').value =
+                        c.maxUses || '';
+
+                    document.getElementById('max-per-customer').value =
+                        c.maxUsesPerCustomer || '';
+
+                    document.getElementById('first-order').value =
+                        String(c.firstOrderOnly);
+
+                    document.getElementById('free-shipping').value =
+                        String(c.freeShipping);
+
+                    document.getElementById('coupon-status').value =
+                        String(c.isActive);
+
+                    document.getElementById('country-code').value =
+                        c.countryCode || '';
+
+                    if (document.getElementById('customer-type')) {
+
+                        document.getElementById('customer-type').value =
+                            c.customerType || 'ALL';
+                    }
+
+                    if (document.getElementById('currency-code')) {
+
+                        document.getElementById('currency-code').value =
+                            c.currencyCode || '';
+                    }
+
+                    if (document.getElementById('auto-apply')) {
+
+                        document.getElementById('auto-apply').value =
+                            c.autoApply;
+                    }
+
+                    if (document.getElementById('priority')) {
+
+                        document.getElementById('priority').value =
+                            c.priority || 1;
+                    }
+
+                    if (document.getElementById('admin-notes')) {
+
+                        document.getElementById('admin-notes').value =
+                            c.adminNotes || '';
+                    }
+
+                    document.getElementById('apply-type').value =
+                        c.applyType || 'ALL';
+
+                    document.getElementById('apply-type')
+                        .dispatchEvent(new Event('change'));
+
+                    if (c.category && c.category.id) {
+
+                        document.getElementById('category-id').value =
+                            c.category.id;
+                    }
+
+                    if (c.product && c.product.id) {
+
+                        document.getElementById('product-id').value =
+                            c.product.id;
+                    }
+
+                    if (c.startDate) {
+
+                        document.getElementById('start-date').value =
+                            c.startDate.substring(0, 16);
+                    }
+
+                    if (c.expiryDate) {
+
+                        document.getElementById('expiry-date').value =
+                            c.expiryDate.substring(0, 16);
+                    }
                 }
             }
-            document.getElementById('coupon-modal').classList.add('show');
+
+            document.getElementById('apply-type')
+                .dispatchEvent(new Event('change'));
+
+            document.getElementById('coupon-modal')
+                .classList.add('show');
         }
 
         function closeCouponModal() { document.getElementById('coupon-modal').classList.remove('show'); }
@@ -1087,14 +1389,6 @@
             for (let i = 0; i < 8; i++) code += chars[Math.floor(Math.random() * chars.length)];
             document.getElementById('coupon-code').value = code;
         }
-
-        document.getElementById('coupon-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeCouponModal(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCouponModal(); });
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.flash').forEach(el => {
-                setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 500); }, 4000);
-            });
-        });
     </script>
 </body>
 

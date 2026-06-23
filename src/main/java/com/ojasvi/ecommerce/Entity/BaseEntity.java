@@ -33,4 +33,7 @@ public abstract class BaseEntity {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
+    
+    public Boolean getIsActive() { return isActive; }
+    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
 }

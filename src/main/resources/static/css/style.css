@@ -887,24 +887,6 @@ section h2 {
     text-align: center;
 }
 
-.newsletter {
-    text-align: center;
-}
-
-.newsletter input {
-    padding: 12px;
-    width: 300px;
-    max-width: 100%;
-}
-
-.newsletter button {
-    padding: 12px 20px;
-    background: var(--primary);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
-}
-
 @media (max-width: 1200px) {
     .product-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -968,12 +950,6 @@ section h2 {
 
     .product-card img {
         height: 140px;
-    }
-
-    .newsletter input,
-    .newsletter button {
-        width: 100%;
-        margin-top: 10px;
     }
 }
 
@@ -2184,24 +2160,6 @@ section h2 {
     border-radius: 10px;
 }
 
-.newsletter {
-    text-align: center;
-    background: #f9f9f9;
-}
-
-.newsletter input {
-    padding: 10px;
-    width: 250px;
-    margin-right: 10px;
-}
-
-.newsletter button {
-    padding: 10px 20px;
-    background: #000;
-    color: var(--white);
-    border: none;
-}
-
 .shipping {
     max-width: 800px;
     margin: 140px auto 60px;
@@ -2259,7 +2217,12 @@ section h2 {
 
 .footer-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-wrap: wrap;
 }
 
 .footer-logo {
@@ -2304,6 +2267,8 @@ section h2 {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    flex: 1;
+    min-width: 180px;
 }
 
 .footer-col a {
@@ -2315,6 +2280,76 @@ section h2 {
 
 .footer-col a:hover {
     color: var(--primary);
+}
+
+.newsletter-col {
+    width: 100%;
+    max-width: 320px;
+}
+
+.newsletter-text {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #cfcfcf;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    outline: none;
+}
+
+.newsletter-form input::placeholder {
+    color: #999;
+}
+
+.newsletter-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.newsletter-form input,
+.newsletter-form button {
+    box-sizing: border-box;
+}
+
+.newsletter-form button:hover {
+    background: var(--primary-dark);
+}
+
+.newsletter-note {
+    display: block;
+    margin-top: 10px;
+    color: #999;
+    font-size: 12px;
+}
+
+.newsletter-success {
+    margin-bottom: 12px;
+    color: #4caf50;
+    font-size: 14px;
+}
+
+.newsletter-error {
+    margin-bottom: 12px;
+    color: #ff6b6b;
+    font-size: 14px;
 }
 
 .footer-bottom {
@@ -2333,8 +2368,8 @@ section h2 {
     }
 
     .footer-col {
-        width: 45%;
-    }
+    flex: 0 0 calc(50% - 15px);
+}
 }
 
 @media (max-width: 600px) {
@@ -2354,6 +2389,10 @@ section h2 {
 
     .footer-logo img {
         height: 50px;
+    }
+
+    .newsletter-col {
+        max-width: 100%;
     }
 
     .footer-bottom p {

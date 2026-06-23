@@ -18,7 +18,55 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
     
+    private String getUniqueCategoryCode(String code) {
+
+        String finalCode = code;
+        int counter = 1;
+
+        while (categoryRepository.existsByCode(finalCode)) {
+
+            finalCode = code + counter;
+            counter++;
+        }
+
+        return finalCode;
+    }
+    
+    private String generateCategoryCode(String name) {
+
+        String code;
+
+        String[] words = name.trim().split("\\s+");
+
+        if (words.length == 1) {
+
+            String cleaned = words[0]
+                    .replaceAll("[^A-Za-z]", "")
+                    .toUpperCase();
+
+            code = cleaned.length() >= 3
+                    ? cleaned.substring(0, 3)
+                    : cleaned;
+        } else {
+
+            StringBuilder builder = new StringBuilder();
+
+            for (String word : words) {
+                builder.append(
+                        Character.toUpperCase(word.charAt(0))
+                );
+            }
+
+            code = builder.toString();
+        }
+
+        return getUniqueCategoryCode(code);
+    }
+    
     public Category save(Category category) {
+    	
+    	category.setCode(generateCategoryCode(category.getName()));
+    	
         return categoryRepository.save(category);
     }
 

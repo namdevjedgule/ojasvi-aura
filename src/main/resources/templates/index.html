@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ojasvi - Luxury Home Linen</title>
-    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Nobility in every thread, from raw silk to refined linen</h1>
+            <h1>Breathe life into your sanctuary</h1>
             <!-- <p class="hero-para">Breathe life into your sanctuary.</p> -->
             <a th:href="@{/collections}" class="btn">Explore Collection</a>
         </div>
@@ -65,51 +65,18 @@
     </section>
 
     <section class="categories section">
+
         <h2>Shop by Category</h2>
         <p>Curated collections crafted for refined living.</p>
 
         <div class="category-grid">
-
-            <div class="category-card">
-                <div class="category-img">
-                    <img th:src="@{/images/categories/runner.png}" alt="runner">
-                </div>
-                <p>Runner</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-img">
-                    <img th:src="@{/images/categories/throws.png}" alt="throws">
-                </div>
-                <p>Throw</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-img">
-                    <img th:src="@{/images/categories/cushions.png}" alt="cushions">
-                </div>
-                <p>Cushion</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-img">
-                    <img th:src="@{/images/categories/bedsheets.png}" alt="bedsheets">
-                </div>
-                <p>Bedsheet</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-img">
-                    <img th:src="@{/images/categories/bedcover.png}" alt="bedcover">
-                </div>
-                <p>Bed Cover</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-img">
-                    <img th:src="@{/images/categories/bath-linen.png}" alt="bath-linen">
-                </div>
-                <p>Bath Linen</p>
+            <div class="category-card" th:each="subCategory : ${subCategories}">
+                <a th:href="@{/shop(subCategoryId=${subCategory.id})}" style="text-decoration:none;color:inherit;">
+                    <div class="category-img">
+                        <img th:src="@{'/uploads/' + ${subCategory.image}}" th:alt="${subCategory.name}">
+                    </div>
+                    <p th:text="${subCategory.name}"></p>
+                </a>
             </div>
         </div>
     </section>
@@ -442,20 +409,14 @@
         </div>
     </section>
 
-    <section class="newsletter section">
-        <h2>Join Our Community</h2>
-        <input type="email" placeholder="Enter email">
-        <button>Subscribe</button>
-    </section>
-
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
     <script th:src="@{/js/script.js}"></script>
     <script th:inline="javascript">
-    const loggedInUser = [[${user}]];
+        const loggedInUser = /*[[${user}]]*/ {};
 
-    console.log("Logged in user:", loggedInUser);
-</script>
+        console.log("Logged in user:", loggedInUser);
+    </script>
 
 </body>
 

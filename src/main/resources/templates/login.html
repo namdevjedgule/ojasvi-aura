@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Ojasvi - Login</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400;500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Inter&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -1476,8 +1473,6 @@
                 if (result.status === 200) {
                     clearInterval(otpTimerInterval);
                     showToast(result.message || 'Welcome back, Admin!', 'success');
-                    // FIX: redirect to Thymeleaf route, NOT /admin-dashboard directly
-                    // Session is set server-side in AuthController already
                     setTimeout(() => { window.location.href = '/admin-dashboard'; }, 1000);
                 } else {
                     showToast(result.message || 'Invalid or expired OTP', 'error');

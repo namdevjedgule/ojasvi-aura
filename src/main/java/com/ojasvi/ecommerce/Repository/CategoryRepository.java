@@ -11,5 +11,9 @@ import com.ojasvi.ecommerce.Entity.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findBySlug(String slug);
+    
+    boolean existsBySlug(String slug);
+
+    boolean existsByCode(String code);
 
 }

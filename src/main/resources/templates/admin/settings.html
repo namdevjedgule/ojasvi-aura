@@ -1003,9 +1003,9 @@
                                     <div class="form-group">
                                         <label class="form-label">Store Description</label>
                                         <textarea name="description" class="form-input" rows="3" style="resize:none;"
-                                            placeholder="Short description of your store...">
-                                        <th:block th:text="${settings != null ? settings.description : ''}"></th:block>
-                                    </textarea>
+                                            placeholder="Short description of your store..."
+                                            th:text="${settings != null ? settings.description : ''}">
+                                        </textarea>
                                     </div>
                                     <div class="form-group" style="margin-bottom:0;">
                                         <label class="form-label">GST Number</label>
@@ -1035,8 +1035,7 @@
                                         <div class="form-group">
                                             <label class="form-label">City</label>
                                             <input type="text" name="city" class="form-input"
-                                                th:value="${settings != null ? settings.city : ''}"
-                                                placeholder="Nashik">
+                                                th:value="${settings != null ? settings.city : ''}" placeholder="Pune">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">State</label>
@@ -1054,7 +1053,8 @@
                                         </div>
                                         <div class="form-group" style="margin-bottom:0;">
                                             <label class="form-label">Country</label>
-                                            <input type="text" name="country" class="form-input" value="India" readonly>
+                                            <input type="text" name="country" class="form-input"
+                                                th:value="${settings != null ? settings.country : 'India'}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -1127,31 +1127,25 @@
                                         <div class="form-group">
                                             <label class="form-label">Primary Colour</label>
                                             <div class="color-row">
-                                                <input type="color" name="primaryColor" class="color-swatch"
-                                                    th:value="${settings != null ? settings.primaryColor : '#C5A47E'}">
-                                                <input type="text" name="primaryColorHex" class="form-input"
-                                                    th:value="${settings != null ? settings.primaryColor : '#C5A47E'}"
-                                                    placeholder="#C5A47E">
+                                                <input type="color" class="color-swatch" value="#C5A47E" disabled>
+
+                                                <input type="text" class="form-input" value="#C5A47E" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Brown / Dark</label>
                                             <div class="color-row">
-                                                <input type="color" name="brownColor" class="color-swatch"
-                                                    th:value="${settings != null ? settings.brownColor : '#5C3013'}">
-                                                <input type="text" name="brownColorHex" class="form-input"
-                                                    th:value="${settings != null ? settings.brownColor : '#5C3013'}"
-                                                    placeholder="#5C3013">
+                                                <input type="color" class="color-swatch" value="#5C3013" disabled>
+
+                                                <input type="text" class="form-input" value="#5C3013" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Background</label>
                                             <div class="color-row">
-                                                <input type="color" name="bgColor" class="color-swatch"
-                                                    th:value="${settings != null ? settings.bgColor : '#F5F1EB'}">
-                                                <input type="text" name="bgColorHex" class="form-input"
-                                                    th:value="${settings != null ? settings.bgColor : '#F5F1EB'}"
-                                                    placeholder="#F5F1EB">
+                                                <input type="color" class="color-swatch" value="#F5F1EB" disabled>
+
+                                                <input type="text" class="form-input" value="#F5F1EB" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -1398,8 +1392,8 @@
                                         <label class="form-label">Meta Description</label>
                                         <textarea name="metaDescription" class="form-input" rows="3"
                                             style="resize:none;" maxlength="160"
-                                            placeholder="Discover premium handcrafted home linen — bedsheets, throws, cushions and bath linen. Nobility in every thread.">
-                                        <th:block th:text="${settings != null ? settings.metaDescription : ''}"></th:block>
+                                            placeholder="Discover premium handcrafted home linen — bedsheets, throws, cushions and bath linen. Nobility in every thread."
+                                            th:text="${settings != null ? settings.metaDescription : ''}">
                                     </textarea>
                                         <p class="form-hint">Recommended: 140–160 characters. Shown in Google search
                                             results.</p>

@@ -4,13 +4,11 @@
 
         <div class="footer-col">
             <div class="footer-logo">
-                 <a th:href="@{/}">
-                    <img id="footerLogo"
-                         th:src="@{/images/logo/ojasvi-final-logo.png}"
-                         alt="Ojasvi Logo">
+                <a th:href="@{/}">
+                    <img id="footerLogo" th:src="@{/images/logo/ojasvi-final-logo.png}" alt="Ojasvi Logo">
                 </a>
             </div>
-            <p class="footer-para">Breathe life into your home.</p>
+            <p class="footer-para">Breathe life into your sanctuary.</p>
 
             <div class="footer-social">
                 <a id="instagramlink" href="#"><i class="fab fa-instagram"></i></a>
@@ -23,7 +21,7 @@
 
         <div class="footer-col">
             <h4>Quick Links</h4>
-             <a th:href="@{/}">Home</a>
+            <a th:href="@{/}">Home</a>
             <a th:href="@{/shop}">Shop</a>
             <a th:href="@{/collections}">Collections</a>
             <a th:href="@{/blog}">Blog</a>
@@ -38,6 +36,35 @@
             <a th:href="@{/faq}">FAQs</a>
             <a th:href="@{/privacy-policy}">Privacy Policy</a>
             <a th:href="@{/terms-conditions}">Terms & Conditions</a>
+        </div>
+
+        <div class="footer-col newsletter-col">
+            <h4>Stay Updated</h4>
+
+            <p class="newsletter-text">
+                Subscribe for exclusive offers, new collections, and home styling inspiration.
+            </p>
+
+            <div th:if="${success}" class="newsletter-success">
+                <span th:text="${success}"></span>
+            </div>
+
+            <div th:if="${error}" class="newsletter-error">
+                <span th:text="${error}"></span>
+            </div>
+
+            <form th:action="@{/newsletter/subscribe}" method="post" class="newsletter-form">
+
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+                <button type="submit">
+                    Subscribe
+                </button>
+            </form>
+
+            <small class="newsletter-note">
+                No spam. Unsubscribe anytime.
+            </small>
         </div>
 
         <div class="footer-col">

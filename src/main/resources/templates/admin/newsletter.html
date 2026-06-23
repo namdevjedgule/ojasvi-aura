@@ -3,15 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Products — Ojasvi Admin</title>
+    <title>Newsletter — Ojasvi Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500&family=Inter:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,300;400;500;600&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,500&display=swap"
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* ===== EXACT SAME CSS AS admin-dashboard.html ===== */
         :root {
             --primary: #C5A47E;
             --primary-dark: #AE7F4D;
@@ -60,6 +59,7 @@
             font-weight: 400
         }
 
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
             top: 0;
@@ -164,21 +164,6 @@
             border-left-color: var(--primary)
         }
 
-        .nav-badge {
-            margin-left: auto;
-            background: rgba(197, 164, 126, .15);
-            color: var(--primary);
-            font-size: 10px;
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-weight: 500
-        }
-
-        .nav-badge.red {
-            background: rgba(163, 45, 45, .2);
-            color: #e57373
-        }
-
         .sidebar-footer {
             padding: 14px 22px;
             border-top: 1px solid rgba(197, 164, 126, .1)
@@ -232,6 +217,7 @@
             color: #e57373
         }
 
+        /* MAIN */
         .main {
             margin-left: var(--sidebar-w);
             min-height: 100vh;
@@ -284,7 +270,7 @@
             outline: none;
             font-size: 13px;
             color: var(--text);
-            width: 180px;
+            width: 200px;
             font-family: 'Inter', sans-serif
         }
 
@@ -349,6 +335,7 @@
             color: var(--text-muted)
         }
 
+        /* FLASH */
         .flash-success {
             background: var(--success-bg);
             border: 1px solid rgba(15, 157, 138, .25);
@@ -375,223 +362,16 @@
             gap: 8px
         }
 
+        /* PAGE */
         .page-content {
             padding: 26px 28px
         }
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden
-        }
-
-        .card-header {
-            padding: 16px 20px 13px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between
-        }
-
-        .card-title {
-            font-size: 14px;
-            color: var(--text)
-        }
-
-        .card-link {
-            font-size: 12px;
-            color: var(--primary-dark);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color .2s
-        }
-
-        .card-link:hover {
-            color: var(--brown)
-        }
-
-        .card-body {
-            padding: 14px 20px
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse
-        }
-
-        .data-table th {
-            font-family: 'Inter', sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: .8px;
-            padding: 0 12px 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border)
-        }
-
-        .data-table td {
-            padding: 11px 12px;
-            font-size: 13px;
-            color: var(--text);
-            border-bottom: 1px solid #f5f1eb;
-            vertical-align: middle
-        }
-
-        .data-table tr:last-child td {
-            border-bottom: none
-        }
-
-        .data-table tr:hover td {
-            background: var(--bg-hover)
-        }
-
-        .badge {
-            font-size: 11px;
-            font-weight: 500;
-            padding: 3px 10px;
-            border-radius: 20px;
-            white-space: nowrap
-        }
-
-        .badge-active {
-            background: var(--success-bg);
-            color: var(--success)
-        }
-
-        .badge-inactive {
-            background: #f5f5f5;
-            color: #999
-        }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .5);
-            z-index: 90
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .45);
-            z-index: 999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px
-        }
-
-        .modal.show {
-            display: flex
-        }
-
-        .modal-box {
-            background: var(--bg-card);
-            border-radius: 14px;
-            padding: 28px;
-            max-width: 480px;
-            width: 100%;
-            animation: fadeUp .2s ease;
-            max-height: 90vh;
-            overflow-y: auto
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px
-        }
-
-        .modal-title {
-            font-size: 16px
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            color: var(--text-muted);
-            transition: color .2s
-        }
-
-        .modal-close:hover {
-            color: var(--text)
-        }
-
-        .modal-field {
-            margin-bottom: 14px
-        }
-
-        .modal-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: .5px
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 13px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            background: var(--bg);
-            color: var(--text);
-            transition: border-color .2s
-        }
-
-        .modal-input:focus {
-            border-color: var(--primary)
-        }
-
-        .modal-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--brown);
-            color: var(--primary);
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            margin-top: 6px;
-            transition: background .2s
-        }
-
-        .modal-btn:hover {
-            background: var(--primary-dark);
-            color: #fff
-        }
-
-        /* Page header row */
         .page-header-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px
+            align-items: flex-start;
+            margin-bottom: 22px
         }
 
         .page-header-row h2 {
@@ -627,24 +407,374 @@
             color: #fff
         }
 
-        /* Auto-slug checkbox */
-        .auto-slug-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 4px;
-            font-size: 12px;
-            color: var(--text-muted)
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 22px
         }
 
-        .auto-slug-row input {
-            accent-color: var(--primary-dark);
-            cursor: pointer
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: transform .2s, box-shadow .2s
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .06)
+        }
+
+        .stat-icon-wrap {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px
+        }
+
+        .stat-icon-wrap i {
+            font-size: 17px
+        }
+
+        .icon-gold {
+            background: rgba(197, 164, 126, .12);
+            color: var(--primary-dark)
+        }
+
+        .icon-green {
+            background: var(--success-bg);
+            color: var(--success)
+        }
+
+        .icon-blue {
+            background: var(--info-bg);
+            color: var(--info)
+        }
+
+        .icon-red {
+            background: var(--danger-bg);
+            color: var(--danger)
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-bottom: 6px
+        }
+
+        .stat-value {
+            font-family: 'Roboto Serif', serif;
+            font-size: 24px;
+            color: var(--text);
+            margin-bottom: 5px
+        }
+
+        .stat-trend {
+            font-size: 11px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        /* CONTENT GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 18px;
+            margin-bottom: 18px
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden
+        }
+
+        .card-header {
+            padding: 16px 20px 13px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: var(--text)
+        }
+
+        .card-link {
+            font-size: 12px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color .2s
+        }
+
+        .card-link:hover {
+            color: var(--brown)
+        }
+
+        .card-body {
+            padding: 18px 20px
+        }
+
+        /* TABLE */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .data-table th {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            padding: 0 14px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .data-table td {
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--text);
+            border-bottom: 1px solid #f5f1eb;
+            vertical-align: middle
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none
+        }
+
+        .data-table tr:hover td {
+            background: var(--bg-hover)
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap
+        }
+
+        .badge-active {
+            background: var(--success-bg);
+            color: var(--success)
+        }
+
+        .badge-inactive {
+            background: #f5f5f5;
+            color: #999
+        }
+
+        .badge-sent {
+            background: var(--success-bg);
+            color: var(--success)
+        }
+
+        .badge-draft {
+            background: var(--warning-bg);
+            color: var(--warning)
+        }
+
+        .badge-scheduled {
+            background: var(--info-bg);
+            color: var(--info)
+        }
+
+        /* SUBSCRIBER EMAIL CELL */
+        .sub-email {
+            font-size: 13px;
+            color: var(--text)
+        }
+
+        .sub-date {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px
+        }
+
+        /* FORM (compose card) */
+        .form-group {
+            margin-bottom: 16px
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0
+        }
+
+        .form-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-weight: 600
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: var(--bg);
+            color: var(--text);
+            transition: border-color .2s
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            background: var(--bg-card)
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 140px;
+            line-height: 1.6
+        }
+
+        .form-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 5px
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: transparent;
+            color: var(--brown);
+            border: 1.5px solid var(--brown);
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all .2s
+        }
+
+        .btn-outline:hover {
+            background: var(--brown);
+            color: var(--primary)
+        }
+
+        .btn-danger {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            color: var(--danger);
+            border: 1.5px solid var(--danger);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all .2s
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: #fff
+        }
+
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--brown);
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 11px 22px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background .2s;
+            width: 100%;
+            justify-content: center
+        }
+
+        .save-btn:hover {
+            background: var(--primary-dark);
+            color: #fff
+        }
+
+        .recipient-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 4px
+        }
+
+        .recipient-chip {
+            flex: 1;
+            text-align: center;
+            padding: 9px 10px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .recipient-chip.active {
+            background: var(--brown);
+            color: var(--primary);
+            border-color: var(--brown)
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 90
+        }
+
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 13px
+        }
+
+        .empty-state i {
+            font-size: 42px;
+            color: #ddd;
+            display: block;
+            margin-bottom: 14px
         }
 
         @media(max-width:1200px) {
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr)
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr
             }
         }
 
@@ -688,7 +818,7 @@
 
     <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
-    <!-- SIDEBAR -->
+    <!-- ===== SIDEBAR — same as admin-dashboard.html ===== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <a class="brand-logo" th:href="@{/}">OJASVI</a>
@@ -697,15 +827,18 @@
                 <div class="admin-tag-dot"></div>ADMIN PORTAL
             </div>
         </div>
+
         <nav class="sidebar-nav">
             <div class="nav-section-title">Overview</div>
-            <a class="nav-link" th:href="@{/admin-dashboard}"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-            
+            <a class="nav-link" th:href="@{/admin-dashboard}">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
+
             <div class="nav-section-title">Store</div>
             <a class="nav-link" th:href="@{/admin/orders}">
                 <i class="fa-solid fa-cart-shopping"></i> Orders
             </a>
-             <a class="nav-link" th:href="@{/admin/products}">
+            <a class="nav-link" th:href="@{/admin/products}">
                 <i class="fa-solid fa-box"></i> Products
             </a>
             <a class="nav-link" th:href="@{/admin/customers}">
@@ -727,6 +860,7 @@
             <a class="nav-link" th:href="@{/admin/coupons}">
                 <i class="fa-solid fa-tag"></i> Coupons
             </a>
+            <!-- FIX 1: Newsletter is ACTIVE on this page -->
             <a class="nav-link active" th:href="@{/admin/newsletter}">
                 <i class="fa-regular fa-envelope"></i> Newsletter
             </a>
@@ -739,16 +873,19 @@
                 <i class="fa-solid fa-gear"></i> Settings
             </a>
         </nav>
+
         <div class="sidebar-footer">
             <div class="admin-user">
                 <div class="admin-avatar"
                     th:text="${user.fullName != null ? #strings.toUpperCase(#strings.substring(user.fullName,0,1)) : 'A'}">
-                    A</div>
+                    A
+                </div>
                 <div>
                     <div class="admin-name" th:text="${user.fullName}">Admin</div>
                     <div class="admin-role" th:text="${user.role != null ? user.role.roleName : 'ADMIN'}">ADMIN</div>
                 </div>
             </div>
+            <!-- FIX 2: secure POST logout — same pattern as admin-dashboard -->
             <form th:action="@{/logout}" method="post" id="logout-form">
                 <button type="submit" id="logout-btn" style="display:none;"></button>
                 <div class="signout-btn" onclick="document.getElementById('logout-btn').click()">
@@ -758,28 +895,215 @@
         </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- ===== MAIN ===== -->
     <div class="main">
+
         <div class="topbar">
             <div style="display:flex;align-items:center;gap:12px;">
                 <div class="hamburger-btn" onclick="openSidebar()"><i class="fa-solid fa-bars"></i></div>
                 <div class="topbar-left">
                     <h2>Newsletter</h2>
-                    <p>Manage your newsletter subscriptions and communications</p>
+                    <p th:text="${totalSubscribers != null ? totalSubscribers + ' subscribers' : '0 subscribers'}">
+                        Manage subscribers and campaigns
+                    </p>
                 </div>
             </div>
             <div class="topbar-right">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Search subscribers..."
+                        oninput="filterSubscribers()">
+                </div>
+                <div class="topbar-icon">
+                    <i class="fa-regular fa-bell"></i>
+                    <div class="notif-dot"></div>
+                </div>
                 <a th:href="@{/}" class="topbar-icon"><i class="fa-solid fa-house"></i></a>
             </div>
         </div>
 
         <div class="page-content">
 
-            <div class="flash flash-success" th:if="${success}">
+            <div class="flash-success" th:if="${success}">
                 <i class="fa-solid fa-circle-check"></i><span th:text="${success}"></span>
             </div>
-            <div class="flash flash-error" th:if="${error}">
+            <div class="flash-error" th:if="${error}">
                 <i class="fa-solid fa-circle-exclamation"></i><span th:text="${error}"></span>
+            </div>
+
+            <div class="page-header-row">
+                <div>
+                    <h2>Newsletter</h2>
+                    <p>Manage subscribers and send campaigns to your customers</p>
+                </div>
+                <a th:href="@{/admin/newsletter/export}" class="btn-add">
+                    <i class="fa-solid fa-download"></i> Export Subscribers
+                </a>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrap icon-gold"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-label">Total Subscribers</div>
+                    <div class="stat-value" th:text="${totalSubscribers != null ? totalSubscribers : 0}">0</div>
+                    <div class="stat-trend">All time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrap icon-green"><i class="fa-solid fa-user-plus"></i></div>
+                    <div class="stat-label">New This Month</div>
+                    <div class="stat-value" th:text="${newSubscribersThisMonth != null ? newSubscribersThisMonth : 0}">0
+                    </div>
+                    <div class="stat-trend">Growing list</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrap icon-blue"><i class="fa-regular fa-paper-plane"></i></div>
+                    <div class="stat-label">Campaigns Sent</div>
+                    <div class="stat-value" th:text="${campaignsSent != null ? campaignsSent : 0}">0</div>
+                    <div class="stat-trend">Lifetime</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrap icon-red"><i class="fa-solid fa-user-minus"></i></div>
+                    <div class="stat-label">Unsubscribed</div>
+                    <div class="stat-value" th:text="${unsubscribedCount != null ? unsubscribedCount : 0}">0</div>
+                    <div class="stat-trend">All time</div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+
+                <!-- SUBSCRIBERS TABLE -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Subscribers</h3>
+                        <span style="font-size:12px;color:var(--text-muted);" id="showing-count"
+                            th:text="${subscribers != null ? 'Showing ' + subscribers.size() + ' subscribers' : 'Showing 0 subscribers'}">
+                        </span>
+                    </div>
+
+                    <div th:if="${subscribers != null and !#lists.isEmpty(subscribers)}" style="padding:0 14px;">
+                        <table class="data-table" id="subscribers-table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Subscribed On</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="sub : ${subscribers}" th:attr="data-email=${sub.email}">
+                                    <td>
+                                        <div class="sub-email" th:text="${sub.email}">subscriber@email.com</div>
+                                    </td>
+                                    <td style="color:var(--text-muted);font-size:12px;"
+                                        th:text="${sub.subscribedAt != null ? #temporals.format(sub.subscribedAt,'dd MMM yyyy') : '—'}">
+                                        01 Jan 2026
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-active" th:if="${sub.isActive}">Subscribed</span>
+                                        <span class="badge badge-inactive"
+                                            th:unless="${sub.isActive}">Unsubscribed</span>
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/admin/newsletter/remove/{id}(id=${sub.id})}" method="post"
+                                            onsubmit="return confirm('Remove this subscriber?')">
+                                            <button type="submit" class="btn-danger">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" th:if="${subscribers == null or #lists.isEmpty(subscribers)}">
+                        <i class="fa-solid fa-envelope-open"></i>
+                        <p>No subscribers yet. Once customers subscribe from the storefront, they'll appear here.</p>
+                    </div>
+                </div>
+
+                <!-- COMPOSE CAMPAIGN -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Send Campaign</h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/newsletter/send}" method="post" id="campaign-form">
+
+                            <div class="form-group">
+                                <label class="form-label">Send To</label>
+                                <div class="recipient-toggle">
+                                    <div class="recipient-chip active" data-value="all" onclick="selectRecipient(this)">
+                                        All Subscribers
+                                    </div>
+                                    <div class="recipient-chip" data-value="active" onclick="selectRecipient(this)">
+                                        Active Only
+                                    </div>
+                                </div>
+                                <input type="hidden" name="recipientType" id="recipient-type" value="all">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Subject Line *</label>
+                                <input type="text" name="subject" class="form-input"
+                                    placeholder="e.g. New Monsoon Collection — 20% Off" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Message *</label>
+                                <textarea name="message" class="form-input"
+                                    placeholder="Write your campaign message here..." required></textarea>
+                                <p class="form-hint">Plain text or basic HTML supported.</p>
+                            </div>
+
+                            <button type="submit" class="save-btn" onclick="return confirm('Send this campaign now?')">
+                                <i class="fa-regular fa-paper-plane"></i> Send Campaign
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CAMPAIGN HISTORY -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Campaign History</h3>
+                </div>
+                <div th:if="${campaigns != null and !#lists.isEmpty(campaigns)}" style="padding:0 14px;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Recipients</th>
+                                <th>Sent Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="campaign : ${campaigns}">
+                                <td style="font-weight:500;" th:text="${campaign.subject}">Subject Line</td>
+                                <td th:text="${campaign.recipientCount}">0</td>
+                                <td style="color:var(--text-muted);font-size:12px;"
+                                    th:text="${campaign.sentAt != null ? #temporals.format(campaign.sentAt,'dd MMM yyyy, hh:mm a') : '—'}">
+                                    01 Jan 2026
+                                </td>
+                                <td>
+                                    <span class="badge badge-sent" th:if="${campaign.status == 'SENT'}">Sent</span>
+                                    <span class="badge badge-draft" th:if="${campaign.status == 'DRAFT'}">Draft</span>
+                                    <span class="badge badge-scheduled"
+                                        th:if="${campaign.status == 'SCHEDULED'}">Scheduled</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="empty-state" th:if="${campaigns == null or #lists.isEmpty(campaigns)}">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <p>No campaigns sent yet. Compose your first newsletter above.</p>
+                </div>
             </div>
 
         </div>
@@ -793,11 +1117,50 @@
         function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show') }
         function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show') }
 
+        function selectRecipient(el) {
+            document.querySelectorAll('.recipient-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('recipient-type').value = el.dataset.value;
+        }
+
+        function filterSubscribers() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#subscribers-table tbody tr');
+            let visible = 0;
+
+            rows.forEach(row => {
+                const email = (row.dataset.email || '').toLowerCase();
+                const show = email.includes(search);
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            const counter = document.getElementById('showing-count');
+            if (counter) counter.textContent = 'Showing ' + visible + ' subscribers';
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.flash').forEach(el => {
-                setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 500); }, 4000);
+            document.querySelectorAll('.flash-success, .flash-error').forEach(el => {
+                setTimeout(() => {
+                    el.style.transition = 'opacity .5s ease';
+                    el.style.opacity = '0';
+                    setTimeout(() => el.remove(), 500);
+                }, 4000);
             });
         });
+
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.opacity = '1';
+            t.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                t.style.opacity = '0';
+                t.style.transform = 'translateX(-50%) translateY(20px)';
+            }, 3000);
+        }
     </script>
 </body>
 

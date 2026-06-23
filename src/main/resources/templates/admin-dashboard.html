@@ -889,7 +889,7 @@
             <a class="nav-link" th:href="@{/admin/orders}">
                 <i class="fa-solid fa-cart-shopping"></i> Orders
             </a>
-             <a class="nav-link" th:href="@{/admin/products}">
+            <a class="nav-link" th:href="@{/admin/products}">
                 <i class="fa-solid fa-box"></i> Products
             </a>
             <a class="nav-link" th:href="@{/admin/customers}">
@@ -1073,10 +1073,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="action-grid">
-                                    <a class="action-btn" th:href="@{/admin/products/add}">
+                                    <a class="action-btn" th:href="@{/admin/products(openModal='true')}">
                                         <i class="fa-solid fa-plus"></i>Add Product
                                     </a>
-                                    <a class="action-btn" th:href="@{/admin/coupons}">
+                                    <a class="action-btn" th:href="@{/admin/coupons(openModal='true')}">
                                         <i class="fa-solid fa-tag"></i>New Coupon
                                     </a>
                                     <a class="action-btn" th:href="@{/admin/orders}">
@@ -1125,7 +1125,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 
     <div id="toast"
         style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown);color:var(--primary);padding:10px 22px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap;">
