@@ -2,52 +2,478 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
     <title>Cart - Ojasvi</title>
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=satoshi@400,500&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        :root {
+            --primary: #C5A47E;
+            --primary-dark: #AE7F4D;
+            --primary-light: #E6C9A8;
+            --brown: #5C3013;
+            --brown-deep: #3a1d0b;
+            --bg: #F5F1EB;
+            --bg-card: #FFFFFF;
+            --text: #1A1A1A;
+            --text-muted: #888;
+            --border: #EDE8E0;
+            --success: #0F9D8A;
+            --danger: #A32D2D;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Roboto Serif', serif; }
+
+        /* ═══════════ PAGE WRAPPER ═══════════ */
+        .cart-page {
+            padding: 130px 6% 60px;
+            background: var(--bg);
+            min-height: 80vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cart-page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cart-page-header .tag {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .cart-page-header h2 {
+            font-size: 32px;
+            color: var(--text);
+        }
+
+        .cart-page-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ═══════════ LAYOUT GRID ═══════════ */
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        /* ═══════════ CART ITEMS LIST ═══════════ */
+        .cart-items-card {
+            background: var(--bg-card);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+        }
+
+        .cart-items-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items-header h3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .cart-items-header span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            transition: background .2s;
+        }
+
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item:hover { background: #FAF7F2; }
+
+        .cart-item-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .cart-item-img-placeholder {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            background: #f0ece4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cart-item-img-placeholder i { font-size: 24px; color: var(--primary); }
+
+        .cart-item-info { flex: 1; min-width: 0; }
+
+        .cart-item-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cart-item-meta {
+            display: flex;
+            gap: 14px;
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .cart-item-price-each {
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .cart-item-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-subtotal {
+            font-family: 'Roboto Serif', serif;
+            font-size: 18px;
+            color: var(--brown);
+            font-weight: 600;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            transition: color .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cart-item-remove:hover { color: var(--danger); }
+
+        /* ═══════════ ORDER SUMMARY ═══════════ */
+        .cart-summary {
+            background: var(--bg-card);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            padding: 26px;
+            position: sticky;
+            top: 130px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+        }
+
+        .cart-summary h3 {
+            font-size: 17px;
+            margin-bottom: 18px;
+            color: var(--text);
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cart-summary-row.total {
+            border-top: 1px solid var(--border);
+            margin-top: 14px;
+            padding-top: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .cart-summary-row.total .amount {
+            font-family: 'Roboto Serif', serif;
+            color: var(--brown);
+            font-size: 20px;
+        }
+
+        .cart-coupon {
+            display: flex;
+            gap: 8px;
+            margin: 18px 0;
+        }
+
+        .cart-coupon input {
+            flex: 1;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            background: var(--bg);
+        }
+
+        .cart-coupon input:focus { border-color: var(--primary); }
+
+        .cart-coupon button {
+            padding: 11px 18px;
+            border: 1.5px solid var(--brown);
+            background: transparent;
+            color: var(--brown);
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cart-coupon button:hover { background: var(--brown); color: var(--primary); }
+
+        .cart-checkout-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 16px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: var(--brown);
+            font-weight: 700;
+            font-size: 14.5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform .25s, box-shadow .25s;
+            letter-spacing: .3px;
+        }
+
+        .cart-checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(197,164,126,0.4);
+        }
+
+        .cart-secure-note {
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cart-secure-note i { color: var(--success); }
+
+        /* ═══════════ EMPTY STATE ═══════════ */
+        .empty-cart {
+            text-align: center;
+            padding: 90px 30px;
+            background: var(--bg-card);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+        }
+
+        .empty-cart .icon-wrap {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: rgba(197,164,126,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .empty-cart .icon-wrap i { font-size: 34px; color: var(--primary-dark); }
+
+        .empty-cart h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .empty-cart p {
+            color: var(--text-muted);
+            margin-bottom: 26px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .empty-cart .btn-shop {
+            display: inline-block;
+            padding: 13px 32px;
+            background: var(--brown);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: .3px;
+            transition: all .25s;
+        }
+
+        .empty-cart .btn-shop:hover {
+            background: var(--primary-dark);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* ═══════════ RESPONSIVE ═══════════ */
+        @media (max-width: 900px) {
+            .cart-layout { grid-template-columns: 1fr; }
+            .cart-summary { position: static; }
+        }
+
+        @media (max-width: 560px) {
+            .cart-page { padding: 110px 5% 40px; }
+            .cart-item { flex-wrap: wrap; }
+            .cart-item-right { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; margin-top: 10px; }
+            .cart-page-header h2 { font-size: 26px; }
+        }
+    </style>
 </head>
 
 <body>
 
     <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 
-    <section class="cart">
+    <section class="cart-page">
 
-        <h2>Your Cart</h2>
-
-        <div id="cart-items"></div>
-
-        <div id="empty-cart" class="empty-cart">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <h3>Your Cart is Empty</h3>
-            <p>Looks like you haven't added anything yet</p>
-            <a href="shop.html" class="btn">Continue Shopping</a>
+        <div class="cart-page-header">
+            <span class="tag">Your Selections</span>
+            <h2>Shopping Cart</h2>
+            <p th:if="${cartItems != null and !#lists.isEmpty(cartItems)}"
+               th:text="${#lists.size(cartItems)} + ' item(s) ready for checkout'">
+                items in your cart
+            </p>
         </div>
 
-        <div id="cart-total" class="cart-total"></div>
+        <!-- ═══════════ CART WITH ITEMS ═══════════ -->
+        <div class="cart-layout" th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
 
-        <div class="page-buttons">
-            <a href="checkout.html" class="btn">Proceed to Checkout</a>
-            <a href="orderSuccess.html" class="btn">Order Confirmation</a>
-            <a href="customer-dashboard.html" class="btn">customer Account</a>
-            <a href="admin-dashboard.html" class="btn">admin Account</a>
-            <a href="productDetails.html" class="btn">Product details</a>
-            <a href="errorPage.html" class="btn">Page not found</a>
-            <a href="errorServer.html" class="btn">Server error</a>
+            <div class="cart-items-card">
+                <div class="cart-items-header">
+                    <h3>Items in Cart</h3>
+                    <span th:text="${#lists.size(cartItems)} + ' product(s)'">0 products</span>
+                </div>
+
+                <div class="cart-item" th:each="item : ${cartItems}">
+
+                    <img class="cart-item-img" th:if="${item.imageUrl != null}"
+                         th:src="${item.imageUrl}" alt="Product">
+                    <div class="cart-item-img-placeholder" th:if="${item.imageUrl == null}">
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+
+                    <div class="cart-item-info">
+                        <h3 th:text="${item.productName}">Product Name</h3>
+                        <div class="cart-item-meta">
+                            <span><i class="fa-solid fa-cubes"></i> Qty: <span th:text="${item.quantity}">1</span></span>
+                        </div>
+                        <div class="cart-item-price-each">
+                            ₹<span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">0</span> each
+                        </div>
+                    </div>
+
+                    <div class="cart-item-right">
+                        <span class="cart-item-subtotal"
+                              th:text="'₹' + ${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}">
+                            ₹0
+                        </span>
+                        <button class="cart-item-remove" th:attr="onclick=|removeFromCart(${item.productId})|">
+                            <i class="fa-solid fa-trash"></i> Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+
+                <div class="cart-summary-row">
+                    <span>Subtotal (<span th:text="${#lists.size(cartItems)}">0</span> items)</span>
+                    <span>₹<span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
+                </div>
+                <div class="cart-summary-row">
+                    <span>Shipping</span>
+                    <span th:text="${shippingCharge != null and shippingCharge > 0 ? '₹' + shippingCharge : 'Free'}">Free</span>
+                </div>
+                <div class="cart-summary-row" th:if="${couponDiscount != null and couponDiscount > 0}">
+                    <span>Coupon Discount</span>
+                    <span style="color: var(--success);" th:text="'-₹' + ${#numbers.formatDecimal(couponDiscount, 0, 'COMMA', 0, 'POINT')}">-₹0</span>
+                </div>
+
+                <div class="cart-coupon">
+                    <input type="text" id="coupon-input" placeholder="Coupon code">
+                    <button type="button" onclick="applyCoupon()">Apply</button>
+                </div>
+
+                <div class="cart-summary-row total">
+                    <span>Grand Total</span>
+                    <span class="amount">₹<span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
+                </div>
+
+                <a href="/checkout" class="cart-checkout-btn">
+                    <i class="fa-solid fa-lock"></i> Proceed to Checkout
+                </a>
+
+                <div class="cart-secure-note">
+                    <i class="fa-solid fa-shield-halved"></i> Secure checkout, encrypted payment
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════ EMPTY STATE ═══════════ -->
+        <div class="empty-cart" th:if="${cartItems == null or #lists.isEmpty(cartItems)}">
+            <div class="icon-wrap">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <h3>Your Cart is Empty</h3>
+            <p>Looks like you haven't added anything to your cart yet.</p>
+            <a th:href="@{/shop}" class="btn-shop">
+                <i class="fa-solid fa-arrow-left" style="margin-right:6px;"></i> Continue Shopping
+            </a>
         </div>
 
     </section>
@@ -55,6 +481,38 @@
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
     <script th:src="@{/js/script.js}"></script>
+    <script>
+        function removeFromCart(productId) {
+            fetch('/api/cart/remove', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId: productId })
+            })
+            .then(r => r.json())
+            .then(() => location.reload())
+            .catch(() => alert('Failed to remove item'));
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-input').value.trim();
+            if (!code) return;
+
+            fetch('/api/cart/apply-coupon', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: code })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message || 'Invalid coupon code');
+                }
+            })
+            .catch(() => alert('Could not apply coupon'));
+        }
+    </script>
 
 </body>
 

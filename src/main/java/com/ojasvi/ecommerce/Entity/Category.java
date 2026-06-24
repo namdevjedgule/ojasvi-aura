@@ -37,4 +37,7 @@ public class Category extends BaseEntity {
             orphanRemoval = true)
     @JsonIgnore
     private List<SubCategory> subCategories;
+    
+    @Transient
+    private Long productCount;
 }

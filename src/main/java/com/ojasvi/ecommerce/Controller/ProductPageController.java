@@ -26,8 +26,13 @@ public class ProductPageController {
             @RequestParam(required = false) Long subCategoryId,
             Model model) {
 
-        model.addAttribute("products",   productService.getActiveProducts());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        var products = productService.getShopProducts();
+        var categories = categoryService.getCategoriesForShop();
+
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        model.addAttribute("totalProductCount", products.size());
+
         return "shop";
     }
 
@@ -40,7 +45,7 @@ public class ProductPageController {
     @GetMapping("/product/{slug}")   
     public String productDetails(@PathVariable String slug, Model model) {
 
-        Product product = productService.getBySlug(slug);
+        Product product = productService.getBySlugWithImages(slug);
 
         if (product == null) return "redirect:/shop";
 

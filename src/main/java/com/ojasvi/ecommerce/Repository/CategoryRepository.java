@@ -1,8 +1,10 @@
 package com.ojasvi.ecommerce.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ojasvi.ecommerce.Entity.Category;
@@ -15,5 +17,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     boolean existsBySlug(String slug);
 
     boolean existsByCode(String code);
+    
+    @Query("""
+    	    SELECT DISTINCT c
+    	    FROM Category c
+    	    LEFT JOIN FETCH c.subCategories
+    	""")
+    	List<Category> findAllWithSubCategories();
 
 }

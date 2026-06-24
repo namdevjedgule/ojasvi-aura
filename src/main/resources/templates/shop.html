@@ -35,1140 +35,90 @@
     <section class="shop-products section">
         <h2>Shop Products</h2>
 
-        <div class="filter-buttons">
-            <button class="active" data-filter="all">All (<span>0</span>)</button>
-            <button data-filter="table">Table Linen (<span>0</span>)</button>
-            <button data-filter="living">Living (<span>0</span>)</button>
-            <button data-filter="bedroom">Bedroom (<span>0</span>)</button>
-            <button data-filter="bath">Bath (<span>0</span>)</button>
-            <button data-filter="accessories">Accessories (<span>0</span>)</button>
+        <div class="filter-buttons" id="category-filters">
+            <button class="active" data-category-id="" onclick="selectCategory(this, '')">
+                All
+                <span th:text="'(' + ${totalProductCount} + ')'">(0)</span>
+            </button>
+            <button th:each="cat : ${categories}" th:attr="data-category-id=${cat.id}"
+                th:onclick="|selectCategory(this, '${cat.id}')|">
+                <span class="cat-name" th:text="${cat.name}"></span>
+                <span class="cat-count" th:text="'(' + (${cat.productCount != null ? cat.productCount : 0}) + ')'">
+                </span>
+            </button>
         </div>
 
-        <div class="product-grid">
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Silk Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹1,999</span>
-                        <span class="old">₹2,999</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Turkish Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹1,499</span>
-                        <span class="old">₹2,199</span>
-                        <span class="discount">32% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Suzani Runner</h3>
-                    <div class="price">
-                        <span class="current">₹1,999</span>
-                        <span class="old">₹2,799</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Block Print Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹1,499</span>
-                        <span class="old">₹2,199</span>
-                        <span class="discount">32% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Silk Kantha Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹1,999</span>
-                        <span class="old">₹2,799</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Organza Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹1,499</span>
-                        <span class="old">₹2,199</span>
-                        <span class="discount">32% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Jute Cotton Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹999</span>
-                        <span class="old">₹1,499</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>French Lace Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹999</span>
-                        <span class="old">₹1,499</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Boho Runner</h3>
-                    <div class="price">
-                        <span class="current">₹999</span>
-                        <span class="old">₹1,499</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="table">
-                <div class="product-img">
-                    <img src="images/product/runner.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Table</p>
-                    <h3>Linen Embroidered Runner</h3>
-                    <div class="price">
-                        <span class="current">₹999</span>
-                        <span class="old">₹1,499</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Cotton Slub Block Print Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Cotton Ajrakh Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Cotton Mudcloth Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Syahi Begar Bagru Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Solid Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Solid Hawa-Mahal Jali Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Jaipuria Jaquard Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Sabra Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/shibori-throw.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Silk Kantha Throw</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/cushion.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Suzani Cushion (24*24)</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/cushion.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Suzani Cushion (16*16)</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/cushion.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Suzani Lumber Cushion (24*24)</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/cushion.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Sabra Cushion (18*18)</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/cushion.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Kilim Cushion (18*18)</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="living">
-                <div class="product-img">
-                    <img src="images/product/cushion.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Living</p>
-                    <h3>Beeded Embroidered Cushion (16*16)</h3>
-                    <div class="price">
-                        <span class="current">₹2,499</span>
-                        <span class="old">₹3,499</span>
-                        <span class="discount">29% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/tapestry.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Mandala Bedsheet / Bedcover Queen Cotton</h3>
-                    <div class="price">
-                        <span class="current">₹2,999</span>
-                        <span class="old">₹4,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/tapestry.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Mandala Bedsheet / Bedcover with Pillow Covers King Cotton</h3>
-                    <div class="price">
-                        <span class="current">₹3,499</span>
-                        <span class="old">₹4,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/tapestry.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Mandala King Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹2,799</span>
-                        <span class="old">₹3,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/tapestry.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Mandala King with Pillow Covers</h3>
-                    <div class="price">
-                        <span class="current">₹3,299</span>
-                        <span class="old">₹4,699</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/tapestry.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Elephant 3 PC 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,199</span>
-                        <span class="old">₹5,899</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>7 PC Screen Print Cotton 220 TC</h3>
-                    <div class="price">
-                        <span class="current">₹2,599</span>
-                        <span class="old">₹3,799</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Solid Pink with Quilted Pillow Cover 300 TC</h3>
-                    <div class="price">
-                        <span class="current">₹3,199</span>
-                        <span class="old">₹4,599</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Solid Emb Green with Pillow Cover</h3>
-                    <div class="price">
-                        <span class="current">₹2,899</span>
-                        <span class="old">₹4,199</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Solid Emb Beige with Pillow Cover 300 TC</h3>
-                    <div class="price">
-                        <span class="current">₹3,099</span>
-                        <span class="old">₹4,499</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>VBC Super King with Pillow Cover 240 TC</h3>
-                    <div class="price">
-                        <span class="current">₹3,799</span>
-                        <span class="old">₹5,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Super King Allure with Pillow Cover</h3>
-                    <div class="price">
-                        <span class="current">₹3,999</span>
-                        <span class="old">₹5,699</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Super King Allure Jaipuria with Pillow Cover</h3>
-                    <div class="price">
-                        <span class="current">₹4,199</span>
-                        <span class="old">₹5,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Solid Pintex Brown with Pillow 300 TC</h3>
-                    <div class="price">
-                        <span class="current">₹3,299</span>
-                        <span class="old">₹4,799</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Solid Offwhite Green 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,499</span>
-                        <span class="old">₹6,199</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Solid Olive Emb 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,599</span>
-                        <span class="old">₹6,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Jaipuria Jaquard 5 PC 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,999</span>
-                        <span class="old">₹6,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Stripes Pink Grey 3 PC 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,299</span>
-                        <span class="old">₹5,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Stripes 5 PC 600 TC Pink Blue</h3>
-                    <div class="price">
-                        <span class="current">₹4,599</span>
-                        <span class="old">₹6,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Floral 5 PC 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,799</span>
-                        <span class="old">₹6,499</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Off-white Brown Boots Emb 3 PC 600 TC</h3>
-                    <div class="price">
-                        <span class="current">₹4,899</span>
-                        <span class="old">₹6,699</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Heritage Luxe 300 TC</h3>
-                    <div class="price">
-                        <span class="current">₹3,899</span>
-                        <span class="old">₹5,499</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Bamboo Bliss 300 TC</h3>
-                    <div class="price">
-                        <span class="current">₹3,699</span>
-                        <span class="old">₹5,199</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedsheet.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Bedsheet with Pillow</h3>
-                    <div class="price">
-                        <span class="current">₹2,999</span>
-                        <span class="old">₹4,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Queen Multicolor Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹2,999</span>
-                        <span class="old">₹4,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Queen Screen Kantha Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹3,199</span>
-                        <span class="old">₹4,599</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Queen Patchwork Kantha Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹3,499</span>
-                        <span class="old">₹4,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Mandala Kantha Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹3,699</span>
-                        <span class="old">₹5,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Queen Ikat Kantha Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹3,299</span>
-                        <span class="old">₹4,799</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Queen Block Print Bedcover</h3>
-                    <div class="price">
-                        <span class="current">₹2,899</span>
-                        <span class="old">₹4,199</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/bedcover.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Queen Kantha Bedcover with Pillow Covers</h3>
-                    <div class="price">
-                        <span class="current">₹3,799</span>
-                        <span class="old">₹5,399</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/quilt.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>King Comforter Quilt 200 GSM</h3>
-                    <div class="price">
-                        <span class="current">₹4,999</span>
-                        <span class="old">₹6,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/quilt.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Silk Red Patchwork Quilt</h3>
-                    <div class="price">
-                        <span class="current">₹4,299</span>
-                        <span class="old">₹5,999</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/quilt.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Silk Turquoise Blue Patchwork Quilt</h3>
-                    <div class="price">
-                        <span class="current">₹4,499</span>
-                        <span class="old">₹6,299</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bedroom">
-                <div class="product-img">
-                    <img src="images/product/quilt.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bedroom</p>
-                    <h3>Silk Off White Patchwork Quilt</h3>
-                    <div class="price">
-                        <span class="current">₹4,399</span>
-                        <span class="old">₹6,199</span>
-                        <span class="discount">30% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bath">
-                <div class="product-img">
-                    <img src="images/product/towel.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bath</p>
-                    <h3>Block Print Waffle Towel</h3>
-                    <div class="price">
-                        <span class="current">₹799</span>
-                        <span class="old">₹1,199</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bath">
-                <div class="product-img">
-                    <img src="images/product/towel.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bath</p>
-                    <h3>Ultra Soft Terry Towel Med</h3>
-                    <div class="price">
-                        <span class="current">₹799</span>
-                        <span class="old">₹1,199</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bath">
-                <div class="product-img">
-                    <img src="images/product/towel.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bath</p>
-                    <h3>Ultra soft Terry Towel large</h3>
-                    <div class="price">
-                        <span class="current">₹799</span>
-                        <span class="old">₹1,199</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bath">
-                <div class="product-img">
-                    <img src="images/product/robe.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bath</p>
-                    <h3>Block Print</h3>
-                    <div class="price">
-                        <span class="current">₹799</span>
-                        <span class="old">₹1,199</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="bath">
-                <div class="product-img">
-                    <img src="images/product/robe.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Bath</p>
-                    <h3>Screen Print</h3>
-                    <div class="price">
-                        <span class="current">₹799</span>
-                        <span class="old">₹1,199</span>
-                        <span class="discount">33% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="accessories">
-                <div class="product-img">
-                    <img src="images/product/tote.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Accessories</p>
-                    <h3>Cotton Tote Bag</h3>
-                    <div class="price">
-                        <span class="current">₹599</span>
-                        <span class="old">₹999</span>
-                        <span class="discount">40% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
-            <div class="product-card" data-category="accessories">
-                <div class="product-img">
-                    <img src="images/product/tote.jpg">
-                    <span class="wishlist">♡</span>
-                </div>
-                <div class="product-info">
-                    <p class="category">Accessories</p>
-                    <h3>Silk Tote Bag</h3>
-                    <div class="price">
-                        <span class="current">₹599</span>
-                        <span class="old">₹999</span>
-                        <span class="discount">40% OFF</span>
-                    </div>
-                </div>
-                <button class="add-cart">Add To Cart</button>
-            </div>
-
+        <div th:each="cat : ${categories}" class="subfilter-buttons" th:id="${'subfilter-' + cat.id}">
+            <button class="active" data-subcategory-id="" th:attr="onclick=|selectSubCategory(this, ${cat.id}, '')|">
+                All <span th:text="${cat.name}">Category</span>
+            </button>
+            <button th:each="sub : ${cat.subCategories}" th:attr="data-subcategory-id=${sub.id},
+                             onclick=|selectSubCategory(this, ${cat.id}, ${sub.id})|" th:text="${sub.name}">
+                Sub Category
+            </button>
         </div>
+
+        <div class="product-grid" id="product-grid">
+
+            <div class="product-card" th:each="product : ${products}" th:attr="data-category-id=${product.category != null ? product.category.id : ''},
+                          data-subcategory-id=${product.subCategory != null ? product.subCategory.id : ''}">
+
+                <div class="product-img">
+                    <a th:href="@{/product/{slug}(slug=${product.slug})}">
+                        <img th:if="${product.images != null and product.images.size() > 0}"
+                            th:src="${product.images[0].imageUrl}" th:alt="${product.productName}">
+                        <div class="product-img-placeholder"
+                            th:if="${product.images == null or #lists.isEmpty(product.images)}">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                    </a>
+                    <span class="wishlist" th:attr="onclick=|toggleWishlist(${product.id}, this)|">♡</span>
+                </div>
+
+                <div class="product-info">
+                    <p class="category"
+                        th:text="${product.subCategory != null ? product.subCategory.name : (product.category != null ? product.category.name : '')}">
+                        Category
+                    </p>
+                    <h3 th:text="${product.productName}">Product Name</h3>
+
+                    <div class="price">
+                        <span class="current"
+                            th:text="'₹' + ${#numbers.formatDecimal(product.sellingPrice, 0, 'COMMA', 0, 'POINT')}">₹0</span>
+                        <span class="old"
+                            th:if="${product.mrp != null and product.mrp.compareTo(product.sellingPrice) > 0}"
+                            th:text="'₹' + ${#numbers.formatDecimal(product.mrp, 0, 'COMMA', 0, 'POINT')}">₹0</span>
+                        <span class="discount"
+                            th:if="${product.mrp != null and product.mrp.compareTo(product.sellingPrice) > 0}"
+                            th:text="${#numbers.formatDecimal(((product.mrp - product.sellingPrice) / product.mrp) * 100, 0, 0) + '% OFF'}">
+                            0% OFF
+                        </span>
+                    </div>
+                </div>
+
+                <button class="add-cart" th:if="${product.stock != null and product.stock > 0}"
+                    th:attr="onclick=|addToCart(${product.id})|">
+                    Add To Cart
+                </button>
+                <button class="add-cart" disabled style="opacity:0.5;cursor:not-allowed;"
+                    th:if="${product.stock == null or product.stock == 0}">
+                    Out of Stock
+                </button>
+            </div>
+
+            <div class="no-products-msg show" th:if="${products == null or #lists.isEmpty(products)}">
+                <i class="fa-solid fa-box-open"></i>
+                <h3>No products available yet</h3>
+                <p>Check back soon — new arrivals are on the way.</p>
+            </div>
+        </div>
+
+        <div class="no-products-msg" id="no-match-msg">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>No products found</h3>
+            <p>Try a different category or sub-category.</p>
+        </div>
+
     </section>
 
     <section class="shop-info section">
@@ -1193,10 +143,107 @@
 
         </div>
     </section>
-    
+
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
     <script th:src="@{/js/script.js}"></script>
+
+    <script>
+
+        let activeCategoryId = '';
+        let activeSubCategoryId = '';
+
+        function selectCategory(btn, categoryId) {
+            activeCategoryId = categoryId;
+            activeSubCategoryId = '';
+
+            document.querySelectorAll('#category-filters button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.subfilter-buttons').forEach(el => el.classList.remove('show'));
+            if (categoryId) {
+                const subRow = document.getElementById('subfilter-' + categoryId);
+                if (subRow) {
+                    subRow.classList.add('show');
+                    subRow.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                    subRow.querySelector('button').classList.add('active');
+                }
+            }
+
+            applyFilter();
+        }
+
+        function selectSubCategory(btn, categoryId, subCategoryId) {
+            activeCategoryId = String(categoryId);
+            activeSubCategoryId = subCategoryId ? String(subCategoryId) : '';
+
+            const subRow = document.getElementById('subfilter-' + categoryId);
+            if (subRow) {
+                subRow.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const cards = document.querySelectorAll('#product-grid .product-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCat = card.dataset.categoryId || '';
+                const cardSub = card.dataset.subcategoryId || '';
+
+                const matchCategory = !activeCategoryId || cardCat === activeCategoryId;
+                const matchSubCategory = !activeSubCategoryId || cardSub === activeSubCategoryId;
+
+                const show = matchCategory && matchSubCategory;
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            document.getElementById('no-match-msg').classList.toggle('show', visibleCount === 0);
+        }
+
+        function addToCart(productId) {
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId: productId, quantity: 1 })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || 'Added to cart');
+                    }
+                })
+                .catch(() => {
+                    if (typeof showToast === 'function') {
+                        showToast('Please login to add items to cart');
+                    }
+                });
+        }
+
+        function toggleWishlist(productId, el) {
+            fetch('/api/wishlist/toggle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId: productId })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    el.textContent = data.inWishlist ? '♥' : '♡';
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || (data.inWishlist ? 'Added to wishlist' : 'Removed from wishlist'));
+                    }
+                })
+                .catch(() => {
+                    if (typeof showToast === 'function') {
+                        showToast('Please login to use wishlist');
+                    }
+                });
+        }
+    </script>
 
 </body>
 

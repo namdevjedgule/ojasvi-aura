@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.productName} + ' - Ojasvi'">Product Details - Ojasvi</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        th:content="${product.metaDescription != null ? product.metaDescription : product.description}">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        :root {
+            --primary: #C5A47E;
+            --primary-dark: #AE7F4D;
+            --primary-light: #E6C9A8;
+            --brown: #5C3013;
+            --brown-deep: #3a1d0b;
+            --bg: #F5F1EB;
+            --bg-card: #FFFFFF;
+            --text: #1A1A1A;
+            --text-muted: #888;
+            --border: #EDE8E0;
+            --success: #0F9D8A;
+            --danger: #A32D2D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Roboto Serif', serif;
+            font-weight: 500;
+        }
+
+        .pd-breadcrumb {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 130px 6% 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .pd-breadcrumb a {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .pd-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .pd-breadcrumb span {
+            margin: 0 6px;
+            color: #ccc;
+        }
+
+        .pd-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 6% 60px;
+        }
+
+        .pd-main {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .pd-thumbs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: sticky;
+            top: 130px;
+        }
+
+        .pd-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color .2s;
+            background: var(--bg-card);
+            flex-shrink: 0;
+        }
+
+        .pd-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .pd-thumb.active {
+            border-color: var(--primary);
+            border-width: 2px;
+        }
+
+        .pd-thumb:hover {
+            border-color: var(--primary-dark);
+        }
+
+        .pd-image-wrap {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 1 / 1;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .pd-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s ease;
+        }
+
+        .pd-image-wrap:hover img {
+            transform: scale(1.04);
+        }
+
+        .pd-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0ece4;
+        }
+
+        .pd-image-placeholder i {
+            font-size: 60px;
+            color: var(--primary);
+        }
+
+        .pd-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: var(--brown);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            z-index: 2;
+        }
+
+        .pd-badge.set {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .pd-badge.out {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .pd-details {
+            padding-top: 6px;
+        }
+
+        .pd-category {
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .pd-title {
+            font-size: 30px;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .pd-meta-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 18px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .pd-sku {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .pd-stock-ok {
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .pd-stock-low {
+            color: #B8860B;
+            font-weight: 500;
+        }
+
+        .pd-stock-out {
+            color: var(--danger);
+            font-weight: 500;
+        }
+
+        .pd-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            margin: 18px 0 6px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pd-price-current {
+            font-family: 'Roboto Serif', serif;
+            font-size: 30px;
+            color: var(--brown);
+        }
+
+        .pd-price-old {
+            font-size: 17px;
+            color: #aaa;
+            text-decoration: line-through;
+        }
+
+        .pd-discount-tag {
+            background: rgba(197, 164, 126, 0.15);
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .pd-set-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: rgba(197, 164, 126, 0.08);
+            border: 1px solid rgba(197, 164, 126, 0.25);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--brown);
+            margin: 16px 0;
+        }
+
+        .pd-set-note i {
+            color: var(--primary-dark);
+            margin-top: 2px;
+        }
+
+        .pd-description {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: #555;
+            margin: 18px 0;
+        }
+
+        .pd-attrs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 18px 0;
+        }
+
+        .pd-attr-chip {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 14px;
+            min-width: 90px;
+        }
+
+        .pd-attr-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text-muted);
+        }
+
+        .pd-attr-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .pd-qty-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 24px 0;
+        }
+
+        .pd-qty {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .pd-qty button {
+            width: 38px;
+            height: 38px;
+            border: none;
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .pd-qty button:hover {
+            background: var(--primary-light);
+        }
+
+        .pd-qty span {
+            width: 44px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .pd-stock-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .pd-cta-row {
+            display: flex;
+            gap: 12px;
+            margin: 10px 0 26px;
+        }
+
+        .pd-btn-cart {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: var(--brown);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform .25s, box-shadow .25s;
+            letter-spacing: .3px;
+        }
+
+        .pd-btn-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(197, 164, 126, 0.35);
+        }
+
+        .pd-btn-cart:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .pd-btn-wishlist {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background: var(--bg-card);
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all .25s;
+            flex-shrink: 0;
+        }
+
+        .pd-btn-wishlist:hover,
+        .pd-btn-wishlist.active {
+            border-color: var(--primary);
+            color: var(--danger);
+            background: rgba(197, 164, 126, 0.08);
+        }
+
+        .pd-trust {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .pd-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .pd-trust-item i {
+            color: var(--primary-dark);
+            font-size: 16px;
+        }
+
+        .pd-accordion {
+            margin-top: 28px;
+            border-top: 1px solid var(--border);
+        }
+
+        .pd-accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pd-accordion-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 2px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .pd-accordion-head i {
+            transition: transform .25s;
+            color: var(--primary-dark);
+        }
+
+        .pd-accordion-item.open .pd-accordion-head i {
+            transform: rotate(180deg);
+        }
+
+        .pd-accordion-body {
+            display: none;
+            padding: 0 2px 16px;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #666;
+        }
+
+        .pd-accordion-item.open .pd-accordion-body {
+            display: block;
+        }
+
+        .pd-related {
+            margin-top: 80px;
+        }
+
+        .pd-related h2 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .pd-related-sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        .pd-related-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .pd-rel-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 12px;
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+            transition: transform .25s, box-shadow .25s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
+        .pd-rel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        .pd-rel-img {
+            width: 100%;
+            height: 190px;
+            border-radius: 10px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .pd-rel-img-placeholder {
+            width: 100%;
+            height: 190px;
+            border-radius: 10px;
+            background: #f0ece4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .pd-rel-img-placeholder i {
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .pd-rel-card h4 {
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .pd-rel-card .pd-rel-price {
+            color: var(--brown);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .pd-no-related {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            padding: 30px 0;
+        }
+
+        #pd-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--brown);
+            color: var(--primary);
+            padding: 11px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all .3s;
+            pointer-events: none;
+            z-index: 9999;
+            white-space: nowrap;
+        }
+
+        #pd-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 900px) {
+            .pd-main {
+                grid-template-columns: 1fr;
+            }
+
+            .pd-thumbs {
+                position: static;
+                flex-direction: row;
+                overflow-x: auto;
+                order: 2;
+            }
+
+            .pd-image-wrap {
+                order: 1;
+            }
+
+            .pd-details {
+                order: 3;
+            }
+
+            .pd-related-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pd-breadcrumb {
+                padding: 110px 5% 0;
+            }
+
+            .pd-container {
+                padding: 16px 5% 40px;
+            }
+
+            .pd-title {
+                font-size: 22px;
+            }
+
+            .pd-price-current {
+                font-size: 24px;
+            }
+
+            .pd-cta-row {
+                flex-direction: column;
+            }
+
+            .pd-btn-wishlist {
+                width: 100%;
+                height: 46px;
+                border-radius: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <nav class="pd-breadcrumb">
+        <a th:href="@{/}">Home</a><span>/</span>
+        <a th:href="@{/shop}">Shop</a><span>/</span>
+        <a th:if="${product.category != null}" th:href="@{/shop(categoryId=${product.category.id})}"
+            th:text="${product.category.name}">Category</a>
+        <span th:if="${product.category != null}">/</span>
+        <span th:text="${product.productName}">Product Name</span>
+    </nav>
+
+    <div class="pd-container">
+
+        <div class="pd-main">
+
+            <div class="pd-thumbs" th:if="${product.images != null and !#lists.isEmpty(product.images)}">
+                <div class="pd-thumb" th:each="img, iter : ${product.images}"
+                    th:classappend="${iter.index == 0} ? 'active' : ''"
+                    th:attr="onclick=|setMainImage(this, '${img.imageUrl}')|">
+                    <img th:src="${img.imageUrl}" th:alt="${product.productName}">
+                </div>
+            </div>
+
+            <div class="pd-image-wrap">
+                <span class="pd-badge set" th:if="${product.isSet}">
+                    <i class="fa-solid fa-layer-group"></i> Set of Items
+                </span>
+                <span class="pd-badge out" th:if="${product.stock == null or product.stock == 0}">
+                    Out of Stock
+                </span>
+
+                <img id="pd-main-image" th:if="${product.images != null and !#lists.isEmpty(product.images)}"
+                    th:src="${product.images[0].imageUrl}" th:alt="${product.productName}">
+
+                <div class="pd-image-placeholder" th:if="${product.images == null or #lists.isEmpty(product.images)}">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+            </div>
+
+            <div class="pd-details">
+
+                <div class="pd-category"
+                    th:text="${product.subCategory != null ? product.subCategory.name : (product.category != null ? product.category.name : '')}">
+                    Category
+                </div>
+
+                <h1 class="pd-title" th:text="${product.productName}">Product Name</h1>
+
+                <div class="pd-meta-row">
+                    <span class="pd-sku" th:if="${product.sku != null}" th:text="'SKU: ' + ${product.sku}">SKU: —</span>
+
+                    <span class="pd-stock-out" th:if="${product.stock == null or product.stock == 0}">
+                        <i class="fa-solid fa-circle-xmark"></i> Out of Stock
+                    </span>
+                    <span class="pd-stock-low"
+                        th:if="${product.stock != null and product.stock > 0 and product.stock <= 10}">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Only <span th:text="${product.stock}">0</span>
+                        left
+                    </span>
+                    <span class="pd-stock-ok" th:if="${product.stock != null and product.stock > 10}">
+                        <i class="fa-solid fa-circle-check"></i> In Stock
+                    </span>
+                </div>
+
+                <div class="pd-price-row">
+                    <span class="pd-price-current"
+                        th:text="'₹' + ${#numbers.formatDecimal(product.sellingPrice, 0, 'COMMA', 0, 'POINT')}">
+                        ₹0
+                    </span>
+                    <span class="pd-price-old"
+                        th:if="${product.mrp != null and product.mrp.compareTo(product.sellingPrice) > 0}"
+                        th:text="'₹' + ${#numbers.formatDecimal(product.mrp, 0, 'COMMA', 0, 'POINT')}">
+                        ₹0
+                    </span>
+                    <span class="pd-discount-tag"
+                        th:if="${product.mrp != null and product.mrp.compareTo(product.sellingPrice) > 0}"
+                        th:text="${#numbers.formatDecimal(((product.mrp - product.sellingPrice) / product.mrp) * 100, 0, 0)} + '% OFF'">
+                        0% OFF
+                    </span>
+                </div>
+
+                <div class="pd-set-note" th:if="${product.isSet and product.setContents != null}">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span><strong>This is a set:</strong> <span th:text="${product.setContents}">Set
+                            contents</span></span>
+                </div>
+
+                <p class="pd-description" th:if="${product.description != null}" th:text="${product.description}">
+                    Product description goes here.
+                </p>
+
+                <div class="pd-attrs">
+                    <div class="pd-attr-chip" th:if="${product.fabric != null and !product.fabric.isEmpty()}">
+                        <span class="pd-attr-label">Fabric</span>
+                        <span class="pd-attr-value" th:text="${product.fabric}">Cotton</span>
+                    </div>
+                    <div class="pd-attr-chip" th:if="${product.color != null and !product.color.isEmpty()}">
+                        <span class="pd-attr-label">Color</span>
+                        <span class="pd-attr-value" th:text="${product.color}">Beige</span>
+                    </div>
+                    <div class="pd-attr-chip" th:if="${product.size != null and !product.size.isEmpty()}">
+                        <span class="pd-attr-label">Size</span>
+                        <span class="pd-attr-value" th:text="${product.size}">Free Size</span>
+                    </div>
+                    <div class="pd-attr-chip" th:if="${product.printType != null and !product.printType.isEmpty()}">
+                        <span class="pd-attr-label">Pattern</span>
+                        <span class="pd-attr-value" th:text="${product.printType}">Block Print</span>
+                    </div>
+                    <div class="pd-attr-chip" th:if="${product.collection != null and !product.collection.isEmpty()}">
+                        <span class="pd-attr-label">Collection</span>
+                        <span class="pd-attr-value" th:text="${product.collection}">Boho</span>
+                    </div>
+                </div>
+
+                <div class="pd-qty-row">
+                    <div class="pd-qty">
+                        <button type="button" onclick="changeQty(-1)">−</button>
+                        <span id="pd-qty-value">1</span>
+                        <button type="button" onclick="changeQty(1)">+</button>
+                    </div>
+                    <span class="pd-stock-hint" th:if="${product.stock != null and product.stock > 0}"
+                        th:text="${product.stock} + ' available'">
+                        0 available
+                    </span>
+                </div>
+
+                <div class="pd-cta-row">
+                    <button class="pd-btn-cart" th:if="${product.stock != null and product.stock > 0}"
+                        th:attr="onclick=|addToCart(${product.id})|">
+                        <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+                    </button>
+                    <button class="pd-btn-cart" disabled th:if="${product.stock == null or product.stock == 0}">
+                        Currently Unavailable
+                    </button>
+                    <button class="pd-btn-wishlist" id="pd-wishlist-btn"
+                        th:attr="onclick=|toggleWishlist(${product.id}, this)|">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="pd-trust">
+                    <div class="pd-trust-item"><i class="fa-solid fa-truck-fast"></i> Fast Delivery</div>
+                    <div class="pd-trust-item"><i class="fa-solid fa-rotate-left"></i> Easy Returns</div>
+                    <div class="pd-trust-item"><i class="fa-solid fa-shield-halved"></i> Secure Payment</div>
+                </div>
+
+                <div class="pd-accordion">
+
+                    <div class="pd-accordion-item open"
+                        th:if="${product.careInstructions != null and !product.careInstructions.isEmpty()}">
+                        <div class="pd-accordion-head" onclick="toggleAccordion(this)">
+                            <span>Care Instructions</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="pd-accordion-body" th:text="${product.careInstructions}">
+                            Care instructions go here.
+                        </div>
+                    </div>
+
+                    <div class="pd-accordion-item" th:if="${product.isSet and product.setContents != null}">
+                        <div class="pd-accordion-head" onclick="toggleAccordion(this)">
+                            <span>What's Included</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="pd-accordion-body" th:text="${product.setContents}">
+                            Set contents.
+                        </div>
+                    </div>
+
+                    <div class="pd-accordion-item">
+                        <div class="pd-accordion-head" onclick="toggleAccordion(this)">
+                            <span>Shipping &amp; Returns</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="pd-accordion-body">
+                            Delivered in 5–7 business days. Easy 7-day return policy on unused items in original
+                            packaging.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="pd-related">
+            <h2>You May Also Like</h2>
+            <p class="pd-related-sub">More from
+                <span
+                    th:text="${product.subCategory != null ? product.subCategory.name : (product.category != null ? product.category.name : 'this collection')}">
+                    this category
+                </span>
+            </p>
+
+            <div class="pd-related-grid" th:if="${relatedProducts != null and !#lists.isEmpty(relatedProducts)}">
+                <a class="pd-rel-card" th:each="rel : ${relatedProducts}"
+                    th:href="@{/product/{slug}(slug=${rel.slug})}">
+
+                    <img class="pd-rel-img" th:if="${rel.images != null and !#lists.isEmpty(rel.images)}"
+                        th:src="${rel.images[0].imageUrl}" th:alt="${rel.productName}">
+                    <div class="pd-rel-img-placeholder" th:if="${rel.images == null or #lists.isEmpty(rel.images)}">
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+
+                    <h4 th:text="${rel.productName}">Related Product</h4>
+                    <p class="pd-rel-price"
+                        th:text="'₹' + ${#numbers.formatDecimal(rel.sellingPrice, 0, 'COMMA', 0, 'POINT')}">₹0</p>
+                </a>
+            </div>
+
+            <p class="pd-no-related" th:if="${relatedProducts == null or #lists.isEmpty(relatedProducts)}">
+                No related products to show right now.
+            </p>
+        </div>
+
+    </div>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <div id="pd-toast"></div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script th:inline="javascript">
+
+        const productId = /*[[${product.id}]]*/ 0;
+        const maxStock = /*[[${product.stock != null ? product.stock : 0}]]*/ 0;
+
+        function setMainImage(thumbEl, imageUrl) {
+            document.getElementById('pd-main-image').src = imageUrl;
+            document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
+            thumbEl.classList.add('active');
+        }
+
+        let currentQty = 1;
+
+        function changeQty(delta) {
+            const next = currentQty + delta;
+            if (next < 1) return;
+            if (maxStock > 0 && next > maxStock) {
+                showPdToast('Only ' + maxStock + ' in stock');
+                return;
+            }
+            currentQty = next;
+            document.getElementById('pd-qty-value').textContent = currentQty;
+        }
+
+        function toggleAccordion(headEl) {
+            const item = headEl.closest('.pd-accordion-item');
+            item.classList.toggle('open');
+        }
+
+        function addToCart(id) {
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: id,
+                    quantity: currentQty
+                })
+            })
+                .then(async response => {
+                    const data = await response.json();
+                    if (response.status === 401) {
+                        showPdToast('Please login first');
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 1500);
+                        return;
+                    }
+                    showPdToast(data.message || 'Added to cart');
+                })
+                .catch(() => {
+                    showPdToast('Something went wrong');
+                });
+        }
+
+        function toggleWishlist(id, btn) {
+
+            fetch('/api/wishlist/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: id
+                })
+            })
+                .then(async response => {
+
+                    const data = await response.json();
+
+                    if (response.status === 401) {
+
+                        showPdToast('Please login first');
+
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 1500);
+
+                        return;
+                    }
+
+                    const icon = btn.querySelector('i');
+
+                    if (data.inWishlist) {
+                        icon.className = 'fa-solid fa-heart';
+                        btn.classList.add('active');
+                    } else {
+                        icon.className = 'fa-regular fa-heart';
+                        btn.classList.remove('active');
+                    }
+
+                    showPdToast(data.message);
+                })
+                .catch(() => {
+                    showPdToast('Something went wrong');
+                });
+        }
+
+        let pdToastTimer;
+        function showPdToast(msg) {
+            const t = document.getElementById('pd-toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(pdToastTimer);
+            pdToastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+        }
+    </script>
+
+</body>
+
+</html>

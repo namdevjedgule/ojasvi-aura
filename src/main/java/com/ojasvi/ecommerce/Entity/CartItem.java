@@ -1,5 +1,7 @@
 package com.ojasvi.ecommerce.Entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +25,9 @@ public class CartItem extends BaseEntity {
 
     private Integer quantity;
 
-    private Double price;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal price;
 
-    private Double subtotal;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal subtotal;
 }

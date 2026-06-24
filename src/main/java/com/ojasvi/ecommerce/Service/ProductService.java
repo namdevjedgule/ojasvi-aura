@@ -3,6 +3,8 @@ package com.ojasvi.ecommerce.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,395 +22,404 @@ import com.ojasvi.ecommerce.Repository.SubCategoryRepository;
 @Service
 public class ProductService {
 
-	@Autowired
-	private ProductRepository productRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
-	@Autowired
-	private ProductImageRepository productImageRepository;
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
-	@Autowired
-	private ImageUploadService imageUploadService;
+    @Autowired
+    private ImageUploadService imageUploadService;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-	@Autowired
-	private SubCategoryRepository subCategoryRepository;
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
 
-	public List<Product> getAllProducts() {
-		return productRepository.findAllWithImages();
-	}
+    public List<Product> getAllProducts() {
+        return productRepository.findAllWithImages();
+    }
 
-	public Product getProductByIdWithImages(Long id) {
-		return productRepository.findByIdWithImages(id).orElseThrow(() -> new RuntimeException("Product not found"));
-	}
+    public Product getProductByIdWithImages(Long id) {
+        return productRepository.findByIdWithImages(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
 
-	public List<Product> findAll() {
-		return productRepository.findAll();
-	}
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
 
-	public List<Product> getActiveProducts() {
-		return productRepository.findByIsActiveTrue();
-	}
+    public List<Product> getShopProducts() {
+        return productRepository.findActiveProductsWithImages();
+    }
 
-	public Product getProductById(Long id) {
-		return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-	}
+    public List<Product> getActiveProductsBasic() {
+        return productRepository.findByIsActiveTrue();
+    }
 
-	public Product getBySlug(String slug) {
-		return productRepository.findBySlug(slug).orElse(null);
-	}
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
 
-	public List<Product> getByCategory(Long categoryId) {
-		return productRepository.findByCategoryId(categoryId);
-	}
+    public Product getBySlug(String slug) {
+        return productRepository.findBySlug(slug).orElse(null);
+    }
 
-	public List<Product> getFeaturedProducts() {
-		return productRepository.findByFeaturedTrueAndIsActiveTrue();
-	}
+    public Product getBySlugWithImages(String slug) {
+        return productRepository.findBySlugWithImages(slug).orElse(null);
+    }
 
-	public List<Product> getRelated(Product product) {
+    public List<Product> getByCategory(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
 
-		if (product.getSubCategory() == null) {
-			return List.of();
-		}
+    public List<Product> getFeaturedProducts() {
+        return productRepository.findByFeaturedTrueAndIsActiveTrue();
+    }
 
-		return productRepository.findTop4BySubCategoryAndIdNotAndIsActiveTrue(product.getSubCategory(),
-				product.getId());
-	}
+    public List<Product> getRelated(Product product) {
 
-	private String generateSku(Product product) {
+        if (product.getSubCategory() == null) {
+            return List.of();
+        }
 
-		String categoryCode = product.getCategory().getCode();
+        Pageable top4 = PageRequest.of(0, 4);
 
-		String subCategoryCode = product.getSubCategory().getCode();
+        return productRepository.findRelatedWithImages(
+                product.getSubCategory(), product.getId(), top4);
+    }
 
-		return categoryCode + "-" + subCategoryCode + "-" + String.format("%06d", product.getId());
-	}
+    private String generateSku(Product product) {
 
-	private String generateSlug(String productName) {
+        String categoryCode = product.getCategory().getCode();
 
-		String baseSlug = productName.trim().toLowerCase().replaceAll("[^a-z0-9\\s-]", "").replaceAll("\\s+", "-")
-				.replaceAll("-+", "-");
+        String subCategoryCode = product.getSubCategory().getCode();
 
-		String slug = baseSlug;
+        return categoryCode + "-" + subCategoryCode + "-" + String.format("%06d", product.getId());
+    }
 
-		int counter = 1;
+    private String generateSlug(String productName) {
 
-		while (productRepository.existsBySlug(slug)) {
+        String baseSlug = productName.trim().toLowerCase().replaceAll("[^a-z0-9\\s-]", "").replaceAll("\\s+", "-")
+                .replaceAll("-+", "-");
 
-			slug = baseSlug + "-" + counter++;
-		}
+        String slug = baseSlug;
 
-		return slug;
-	}
+        int counter = 1;
 
-	@Transactional
-	public void saveProduct(ProductRequest request, List<MultipartFile> imageFiles) {
+        while (productRepository.existsBySlug(slug)) {
 
-		Category category = categoryRepository.findById(request.getCategoryId())
-				.orElseThrow(() -> new RuntimeException("Category not found"));
+            slug = baseSlug + "-" + counter++;
+        }
 
-		SubCategory subCategory = subCategoryRepository.findById(request.getSubCategoryId())
-				.orElseThrow(() -> new RuntimeException("Sub Category not found"));
+        return slug;
+    }
 
-		Product product = new Product();
+    @Transactional
+    public void saveProduct(ProductRequest request, List<MultipartFile> imageFiles) {
 
-		product.setProductName(request.getProductName());
-		product.setDescription(request.getDescription());
-		product.setFabric(request.getFabric());
-		product.setPrintType(request.getPrintType());
-		product.setCollection(request.getCollection());
-		product.setProductType(request.getProductType());
-		product.setColor(request.getColor());
-		product.setSize(request.getSize());
-		product.setWeight(request.getWeight());
-		product.setLength(request.getLength());
-		product.setWidth(request.getWidth());
-		
-		product.setIsSet(request.getIsSet() != null ? request.getIsSet() : false);
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
 
-		product.setSetContents(request.getSetContents());
+        SubCategory subCategory = subCategoryRepository.findById(request.getSubCategoryId())
+                .orElseThrow(() -> new RuntimeException("Sub Category not found"));
 
-		product.setDimensionUnit(request.getDimensionUnit());
+        Product product = new Product();
 
-		product.setCareInstructions(request.getCareInstructions());
-		product.setTags(request.getTags());
+        product.setProductName(request.getProductName());
+        product.setDescription(request.getDescription());
+        product.setFabric(request.getFabric());
+        product.setPrintType(request.getPrintType());
+        product.setCollection(request.getCollection());
+        product.setProductType(request.getProductType());
+        product.setColor(request.getColor());
+        product.setSize(request.getSize());
+        product.setWeight(request.getWeight());
+        product.setLength(request.getLength());
+        product.setWidth(request.getWidth());
 
-		product.setMrp(request.getMrp());
-		product.setSellingPrice(request.getSellingPrice());
-		product.setStock(request.getStock());
+        product.setIsSet(request.getIsSet() != null ? request.getIsSet() : false);
 
-		product.setFeatured(request.getFeatured() != null ? request.getFeatured() : false);
+        product.setSetContents(request.getSetContents());
 
-		product.setIsActive(request.getActive() != null ? request.getActive() : true);
+        product.setDimensionUnit(request.getDimensionUnit());
 
-		product.setCategory(category);
-		product.setSubCategory(subCategory);
+        product.setCareInstructions(request.getCareInstructions());
+        product.setTags(request.getTags());
 
-		product.setSlug(generateSlug(product.getProductName()));
+        product.setMrp(request.getMrp());
+        product.setSellingPrice(request.getSellingPrice());
+        product.setStock(request.getStock());
 
-		Product savedProduct = productRepository.save(product);
+        product.setFeatured(request.getFeatured() != null ? request.getFeatured() : false);
 
-		savedProduct.setSku(generateSku(savedProduct));
+        product.setIsActive(request.getActive() != null ? request.getActive() : true);
 
-		savedProduct = productRepository.save(savedProduct);
+        product.setCategory(category);
+        product.setSubCategory(subCategory);
 
-		saveImages(savedProduct, imageFiles);
-	}
+        product.setSlug(generateSlug(product.getProductName()));
 
-	@Transactional
-	public Product updateProduct(Long id, ProductRequest request, List<MultipartFile> imageFiles) {
+        Product savedProduct = productRepository.save(product);
 
-		Product existing = getProductById(id);
+        savedProduct.setSku(generateSku(savedProduct));
 
-		Category category = categoryRepository.findById(request.getCategoryId())
-				.orElseThrow(() -> new RuntimeException("Category not found"));
+        savedProduct = productRepository.save(savedProduct);
 
-		SubCategory subCategory = subCategoryRepository.findById(request.getSubCategoryId())
-				.orElseThrow(() -> new RuntimeException("Sub Category not found"));
+        saveImages(savedProduct, imageFiles);
+    }
 
-		String oldName = existing.getProductName();
+    @Transactional
+    public Product updateProduct(Long id, ProductRequest request, List<MultipartFile> imageFiles) {
 
-		boolean skuNeedsUpdate = !existing.getCategory().getId().equals(category.getId())
-				|| !existing.getSubCategory().getId().equals(subCategory.getId());
+        Product existing = getProductById(id);
 
-		existing.setProductName(request.getProductName());
-		existing.setDescription(request.getDescription());
-		existing.setFabric(request.getFabric());
-		existing.setPrintType(request.getPrintType());
-		existing.setCollection(request.getCollection());
-		existing.setProductType(request.getProductType());
-		existing.setSize(request.getSize());
-		existing.setColor(request.getColor());
-		existing.setWeight(request.getWeight());
-		existing.setLength(request.getLength());
-		existing.setWidth(request.getWidth());
-		
-		existing.setIsSet(request.getIsSet() != null ? request.getIsSet(): false);
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
 
-		existing.setSetContents(request.getSetContents());
+        SubCategory subCategory = subCategoryRepository.findById(request.getSubCategoryId())
+                .orElseThrow(() -> new RuntimeException("Sub Category not found"));
 
-		existing.setDimensionUnit(request.getDimensionUnit());
+        String oldName = existing.getProductName();
 
-		existing.setCareInstructions(request.getCareInstructions());
-		existing.setTags(request.getTags());
+        boolean skuNeedsUpdate = !existing.getCategory().getId().equals(category.getId())
+                || !existing.getSubCategory().getId().equals(subCategory.getId());
 
-		existing.setMrp(request.getMrp());
-		existing.setSellingPrice(request.getSellingPrice());
-		existing.setStock(request.getStock());
+        existing.setProductName(request.getProductName());
+        existing.setDescription(request.getDescription());
+        existing.setFabric(request.getFabric());
+        existing.setPrintType(request.getPrintType());
+        existing.setCollection(request.getCollection());
+        existing.setProductType(request.getProductType());
+        existing.setSize(request.getSize());
+        existing.setColor(request.getColor());
+        existing.setWeight(request.getWeight());
+        existing.setLength(request.getLength());
+        existing.setWidth(request.getWidth());
 
-		existing.setFeatured(request.getFeatured() != null ? request.getFeatured() : false);
-		existing.setIsActive(request.getActive() != null ? request.getActive() : true);
+        existing.setIsSet(request.getIsSet() != null ? request.getIsSet() : false);
 
-		existing.setCategory(category);
-		existing.setSubCategory(subCategory);
+        existing.setSetContents(request.getSetContents());
 
-		if (!oldName.equals(request.getProductName())) {
+        existing.setDimensionUnit(request.getDimensionUnit());
 
-			existing.setSlug(generateSlug(request.getProductName()));
-		}
+        existing.setCareInstructions(request.getCareInstructions());
+        existing.setTags(request.getTags());
 
-		if (skuNeedsUpdate) {
+        existing.setMrp(request.getMrp());
+        existing.setSellingPrice(request.getSellingPrice());
+        existing.setStock(request.getStock());
 
-			existing.setSku(generateSku(existing));
-		}
+        existing.setFeatured(request.getFeatured() != null ? request.getFeatured() : false);
+        existing.setIsActive(request.getActive() != null ? request.getActive() : true);
 
-		Product updatedProduct = productRepository.save(existing);
+        existing.setCategory(category);
+        existing.setSubCategory(subCategory);
 
-		if (imageFiles != null && !imageFiles.isEmpty()) {
+        if (!oldName.equals(request.getProductName())) {
 
-			saveImages(updatedProduct, imageFiles);
-		}
+            existing.setSlug(generateSlug(request.getProductName()));
+        }
 
-		return updatedProduct;
-	}
+        if (skuNeedsUpdate) {
 
-	@Transactional
-	public void deleteProduct(Long id) {
+            existing.setSku(generateSku(existing));
+        }
 
-		Product product = getProductById(id);
+        Product updatedProduct = productRepository.save(existing);
 
-		product.setIsActive(false);
+        if (imageFiles != null && !imageFiles.isEmpty()) {
 
-		productRepository.save(product);
-	}
+            saveImages(updatedProduct, imageFiles);
+        }
 
-	@Transactional
-	public void toggleStatus(Long id) {
+        return updatedProduct;
+    }
 
-		Product product = getProductById(id);
+    @Transactional
+    public void deleteProduct(Long id) {
 
-		product.setIsActive(!Boolean.TRUE.equals(product.getIsActive()));
+        Product product = getProductById(id);
 
-		productRepository.save(product);
-	}
+        product.setIsActive(false);
 
-	@Transactional
-	public void deleteProductImage(Long imageId) {
+        productRepository.save(product);
+    }
 
-		ProductImage image = productImageRepository.findById(imageId)
-				.orElseThrow(() -> new RuntimeException("Image not found"));
+    @Transactional
+    public void toggleStatus(Long id) {
 
-		Product product = image.getProduct();
+        Product product = getProductById(id);
 
-		boolean wasPrimary = Boolean.TRUE.equals(image.getPrimaryImage());
+        product.setIsActive(!Boolean.TRUE.equals(product.getIsActive()));
 
-		productImageRepository.delete(image);
+        productRepository.save(product);
+    }
 
-		if (wasPrimary) {
+    @Transactional
+    public void deleteProductImage(Long imageId) {
 
-			List<ProductImage> remainingImages = productImageRepository
-					.findByProductIdOrderByDisplayOrderAsc(product.getId());
+        ProductImage image = productImageRepository.findById(imageId)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
 
-			if (!remainingImages.isEmpty()) {
+        Product product = image.getProduct();
 
-				ProductImage first = remainingImages.get(0);
+        boolean wasPrimary = Boolean.TRUE.equals(image.getPrimaryImage());
 
-				first.setPrimaryImage(true);
+        productImageRepository.delete(image);
 
-				productImageRepository.save(first);
-			}
-		}
-	}
+        if (wasPrimary) {
 
-	public long countProducts() {
-		return productRepository.count();
-	}
+            List<ProductImage> remainingImages = productImageRepository
+                    .findByProductIdOrderByDisplayOrderAsc(product.getId());
 
-	public long countActiveProducts() {
-		return productRepository.countByIsActiveTrue();
-	}
+            if (!remainingImages.isEmpty()) {
 
-	public long countLowStockProducts() {
-		return productRepository.countByStockLessThanEqualAndIsActiveTrue(10);
-	}
+                ProductImage first = remainingImages.get(0);
 
-	public long lowStockCount() {
-		return productRepository.countByStockLessThanEqualAndIsActiveTrue(10);
-	}
+                first.setPrimaryImage(true);
 
-	private void saveImages(Product product, List<MultipartFile> imageFiles) {
+                productImageRepository.save(first);
+            }
+        }
+    }
 
-		if (imageFiles == null || imageFiles.isEmpty()) {
-			return;
-		}
+    public long countProducts() {
+        return productRepository.count();
+    }
 
-		List<ProductImage> existingImages = productImageRepository
-				.findByProductIdOrderByDisplayOrderAsc(product.getId());
+    public long countActiveProducts() {
+        return productRepository.countByIsActiveTrue();
+    }
 
-		int order = existingImages.size();
+    public long countLowStockProducts() {
+        return productRepository.countByStockLessThanEqualAndIsActiveTrue(10);
+    }
 
-		boolean primaryExists = existingImages.stream().anyMatch(ProductImage::getPrimaryImage);
+    public long lowStockCount() {
+        return productRepository.countByStockLessThanEqualAndIsActiveTrue(10);
+    }
 
-		for (MultipartFile file : imageFiles) {
+    private void saveImages(Product product, List<MultipartFile> imageFiles) {
 
-			if (file == null || file.isEmpty()) {
-				continue;
-			}
+        if (imageFiles == null || imageFiles.isEmpty()) {
+            return;
+        }
 
-			String imagePath = imageUploadService.upload(file);
+        List<ProductImage> existingImages = productImageRepository
+                .findByProductIdOrderByDisplayOrderAsc(product.getId());
 
-			ProductImage image = new ProductImage();
+        int order = existingImages.size();
 
-			image.setProduct(product);
-			image.setImageUrl(imagePath);
-			image.setDisplayOrder(order++);
-			image.setPrimaryImage(!primaryExists);
+        boolean primaryExists = existingImages.stream().anyMatch(ProductImage::getPrimaryImage);
 
-			productImageRepository.save(image);
+        int sequence = existingImages.size() + 1;
 
-			primaryExists = true;
-		}
-	}
+        for (MultipartFile file : imageFiles) {
 
-	public List<Product> getBestSellerProducts() {
-		return productRepository.findTop8ByIsActiveTrueOrderBySoldCountDesc();
-	}
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
 
-	public List<Product> getFeaturedTopTwelveProducts() {
-		return productRepository.findTop12ByFeaturedTrueAndIsActiveTrue();
-	}
+            String imagePath = imageUploadService.upload(file, product.getProductName(), sequence);
 
-	public List<Product> getNewArrivalProducts() {
-		return productRepository.findTop12ByIsActiveTrueOrderByCreatedAtDesc();
-	}
-	
-	public long countInStock() {
+            ProductImage image = new ProductImage();
+
+            image.setProduct(product);
+            image.setImageUrl(imagePath);
+            image.setDisplayOrder(order++);
+            image.setPrimaryImage(!primaryExists);
+
+            productImageRepository.save(image);
+
+            primaryExists = true;
+            sequence++;
+        }
+    }
+
+    public List<Product> getBestSellerProducts() {
+        return productRepository.findTop8ByIsActiveTrueOrderBySoldCountDesc();
+    }
+
+    public List<Product> getFeaturedTopTwelveProducts() {
+        return productRepository.findTop12ByFeaturedTrueAndIsActiveTrue();
+    }
+
+    public List<Product> getNewArrivalProducts() {
+        return productRepository.findTop12ByIsActiveTrueOrderByCreatedAtDesc();
+    }
+
+    public long countInStock() {
         return productRepository.countByStockGreaterThan(10);
     }
- 
+
     public long countLowStock() {
         return productRepository.countByStockBetween(1, 10);
     }
- 
+
     public long countOutOfStock() {
         return productRepository.countByStock(0);
     }
- 
- 
+
     public List<Product> getLowStockProducts() {
         return productRepository.findByStockBetween(1, 10);
     }
- 
+
     public List<Product> getOutOfStockProducts() {
         return productRepository.findByStock(0);
     }
- 
+
     public void updateStock(Long productId, Integer newStock) {
-        Product product = getProductById(productId);   
- 
+        Product product = getProductById(productId);
+
         if (newStock < 0) {
             throw new IllegalArgumentException("Stock cannot be negative");
         }
- 
+
         product.setStock(newStock);
         productRepository.save(product);
     }
- 
- 
+
     public void adjustStock(Long productId, Integer delta) {
         Product product = getProductById(productId);
- 
+
         int currentStock = product.getStock() != null ? product.getStock() : 0;
         int newStock = currentStock + delta;
- 
+
         if (newStock < 0) {
             throw new IllegalArgumentException("Stock cannot go below zero");
         }
- 
+
         product.setStock(newStock);
         productRepository.save(product);
     }
- 
- 
+
     public void toggleActiveStatus(Long productId) {
         Product product = getProductById(productId);
         product.setIsActive(!Boolean.TRUE.equals(product.getIsActive()));
         productRepository.save(product);
     }
- 
- 
+
     public String generateInventoryCsv() {
         StringBuilder sb = new StringBuilder();
         sb.append("Product Name,SKU,Category,Stock,Status\n");
- 
+
         List<Product> products = productRepository.findAll();
- 
+
         for (Product p : products) {
-            String name     = p.getProductName() != null ? p.getProductName().replace(",", " ") : "";
-            String sku      = p.getSku() != null ? p.getSku() : "";
+            String name = p.getProductName() != null ? p.getProductName().replace(",", " ") : "";
+            String sku = p.getSku() != null ? p.getSku() : "";
             String category = p.getCategory() != null ? p.getCategory().getName() : "";
-            int    stock     = p.getStock() != null ? p.getStock() : 0;
-            String status    = stock == 0 ? "Out of Stock" : (stock <= 10 ? "Low Stock" : "Good");
- 
+            int stock = p.getStock() != null ? p.getStock() : 0;
+            String status = stock == 0 ? "Out of Stock" : (stock <= 10 ? "Low Stock" : "Good");
+
             sb.append(name).append(",")
               .append(sku).append(",")
               .append(category).append(",")
               .append(stock).append(",")
               .append(status).append("\n");
         }
- 
+
         return sb.toString();
     }
 }

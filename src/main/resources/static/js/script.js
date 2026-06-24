@@ -49,51 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    const buttons = document.querySelectorAll(".filter-buttons button");
-    const products = document.querySelectorAll(".product-card");
-
-    function updateCounts() {
-        buttons.forEach(button => {
-            const filter = button.dataset.filter;
-            let count = 0;
-
-            products.forEach(product => {
-                const category = product.dataset.category;
-
-                if (filter === "all" || category === filter) {
-                    count++;
-                }
-            });
-
-            const span = button.querySelector("span");
-            if (span) span.textContent = count;
-        });
-    }
-
-    if (buttons.length > 0 && products.length > 0) {
-        buttons.forEach(button => {
-            button.addEventListener("click", () => {
-
-                buttons.forEach(btn => btn.classList.remove("active"));
-                button.classList.add("active");
-
-                const filter = button.dataset.filter;
-
-                products.forEach(product => {
-                    const category = product.dataset.category;
-
-                    if (filter === "all" || category === filter) {
-                        product.style.display = "block";
-                    } else {
-                        product.style.display = "none";
-                    }
-                });
-            });
-        });
-
-        updateCounts();
-    }
-
     /* ================= CART LOGIC ================= */
     const cartItemsContainer = document.getElementById("cart-items");
 
