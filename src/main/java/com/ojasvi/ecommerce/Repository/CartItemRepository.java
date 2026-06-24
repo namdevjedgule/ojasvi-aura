@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ojasvi.ecommerce.Entity.Cart;
 import com.ojasvi.ecommerce.Entity.CartItem;
 
 @Repository
@@ -24,4 +25,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     	    WHERE ci.cart.id = :cartId
     	""")
     	List<CartItem> findCartItemsWithProduct(@Param("cartId") Long cartId);
+    
+    Optional<CartItem> findByCartAndProductId(Cart cart, Long productId);
 }

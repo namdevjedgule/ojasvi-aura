@@ -144,6 +144,8 @@
         </div>
     </section>
 
+    <div id="toast" class="toast"></div>
+
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
     <script th:src="@{/js/script.js}"></script>
@@ -242,6 +244,17 @@
                         showToast('Please login to use wishlist');
                     }
                 });
+        }
+
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                t.classList.remove('show');
+            }, 3000);
         }
     </script>
 

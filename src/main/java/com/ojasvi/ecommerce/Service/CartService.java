@@ -131,4 +131,30 @@ public class CartService {
 
 	    cartRepository.save(cart);
 	}
+
+	@Transactional
+	public void removeFromCart(User user, Long productId) {
+
+	    Cart cart = cartRepository.findByUser(user)
+	            .orElseThrow(() ->
+	                    new RuntimeException("Cart not found"));
+
+	    CartItem cartItem = cartItemRepository
+	            .findByCartAndProductId(cart, productId)
+	            .orElseThrow(() ->
+	                    new RuntimeException("Item not found in cart"));
+
+	    cart.setTotalAmount(
+	            cart.getTotalAmount()
+	                    .subtract(cartItem.getSubtotal())
+	    );
+
+	    cart.setTotalItems(
+	            cart.getTotalItems() - cartItem.getQuantity()
+	    );
+
+	    cartItemRepository.delete(cartItem);
+
+	    cartRepository.save(cart);
+	}
 }

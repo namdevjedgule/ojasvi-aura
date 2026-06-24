@@ -1,0 +1,13 @@
+<div th:fragment="toast">
+
+    <div class="flash flash-success" th:if="${success}">
+        <i class="fa-solid fa-circle-check"></i>
+        <span th:text="${success}"></span>
+    </div>
+
+    <div class="flash flash-error" th:if="${error}">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span th:text="${error}"></span>
+    </div>
+
+</div>

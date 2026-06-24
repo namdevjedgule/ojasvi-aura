@@ -45,4 +45,32 @@ public class CartRestController {
 	                cartService.addToCart(user, productId, qty)
 	        );
 	    }
+	 
+	 @PostMapping("/remove")
+	 public ResponseEntity<?> removeFromCart(
+	         @RequestBody Map<String, Object> payload,
+	         HttpSession session) {
+
+	     User user = SessionUtil.getLoggedInUser(session);
+
+	     if (user == null) {
+	         return ResponseEntity.status(401)
+	                 .body(Map.of(
+	                         "success", false,
+	                         "message", "Please login first"
+	                 ));
+	     }
+
+	     Long productId =
+	             Long.valueOf(payload.get("productId").toString());
+
+	     cartService.removeFromCart(user, productId);
+
+	     return ResponseEntity.ok(
+	             Map.of(
+	                     "success", true,
+	                     "message", "Item removed successfully"
+	             )
+	     );
+	 }
 }

@@ -6,10 +6,13 @@
     <title>Ojasvi - Wishlist</title>
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <style>
@@ -28,7 +31,12 @@
             --danger: #A32D2D;
         }
 
-        h1, h2, h3, h4 { font-family: 'Roboto Serif', serif; }
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Roboto Serif', serif;
+        }
 
         /* ═══════════ PAGE WRAPPER ═══════════ */
         .wishlist-page {
@@ -81,12 +89,12 @@
             overflow: hidden;
             position: relative;
             transition: transform .25s, box-shadow .25s;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
         }
 
         .wishlist-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 16px 36px rgba(0,0,0,0.1);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
         }
 
         .wishlist-card-img-wrap {
@@ -116,7 +124,10 @@
             background: #f0ece4;
         }
 
-        .wishlist-card-img-placeholder i { font-size: 36px; color: var(--primary); }
+        .wishlist-card-img-placeholder i {
+            font-size: 36px;
+            color: var(--primary);
+        }
 
         .wishlist-remove-icon {
             position: absolute;
@@ -125,7 +136,7 @@
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.92);
+            background: rgba(255, 255, 255, 0.92);
             border: none;
             display: flex;
             align-items: center;
@@ -143,7 +154,9 @@
             transform: scale(1.08);
         }
 
-        .wishlist-card-body { padding: 16px 18px 18px; }
+        .wishlist-card-body {
+            padding: 16px 18px 18px;
+        }
 
         .wishlist-card-category {
             font-size: 11px;
@@ -192,8 +205,13 @@
             gap: 5px;
         }
 
-        .wishlist-stock-note.ok { color: var(--success); }
-        .wishlist-stock-note.out { color: var(--danger); }
+        .wishlist-stock-note.ok {
+            color: var(--success);
+        }
+
+        .wishlist-stock-note.out {
+            color: var(--danger);
+        }
 
         .wishlist-actions {
             display: flex;
@@ -234,7 +252,7 @@
 
         .wishlist-cart-btn:hover {
             border-color: var(--primary);
-            background: rgba(197,164,126,0.1);
+            background: rgba(197, 164, 126, 0.1);
         }
 
         .wishlist-cart-btn:disabled {
@@ -255,14 +273,17 @@
             width: 86px;
             height: 86px;
             border-radius: 50%;
-            background: rgba(197,164,126,0.12);
+            background: rgba(197, 164, 126, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px;
         }
 
-        .empty-wishlist .icon-wrap i { font-size: 34px; color: var(--primary-dark); }
+        .empty-wishlist .icon-wrap i {
+            font-size: 34px;
+            color: var(--primary-dark);
+        }
 
         .empty-wishlist h3 {
             font-size: 22px;
@@ -296,32 +317,20 @@
             transform: translateY(-2px);
         }
 
-        /* ═══════════ TOAST ═══════════ */
-        #wl-toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--brown);
-            color: var(--primary);
-            padding: 11px 24px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 500;
-            opacity: 0;
-            transition: all .3s;
-            pointer-events: none;
-            z-index: 9999;
-            white-space: nowrap;
-        }
-
-        #wl-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
         /* ═══════════ RESPONSIVE ═══════════ */
         @media (max-width: 560px) {
-            .wishlist-page { padding: 110px 5% 40px; }
-            .wishlist-page-header h2 { font-size: 26px; }
-            .wishlist-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+            .wishlist-page {
+                padding: 110px 5% 40px;
+            }
+
+            .wishlist-page-header h2 {
+                font-size: 26px;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 16px;
+            }
         }
     </style>
 </head>
@@ -336,7 +345,7 @@
             <span class="tag">Saved For Later</span>
             <h2>My Wishlist</h2>
             <p th:if="${wishlistItems != null and !#lists.isEmpty(wishlistItems)}"
-               th:text="${#lists.size(wishlistItems)} + ' item(s) you love'">
+                th:text="${#lists.size(wishlistItems)} + ' item(s) you love'">
                 items saved
             </p>
         </div>
@@ -353,24 +362,25 @@
                             <i class="fa-regular fa-image"></i>
                         </div>
                     </a>
-                    <button class="wishlist-remove-icon" th:attr="onclick=|removeFromWishlist(${item.productId}, this)|" title="Remove">
+                    <button class="wishlist-remove-icon" th:attr="onclick=|removeFromWishlist(${item.productId}, this)|"
+                        title="Remove">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
 
                 <div class="wishlist-card-body">
-                    <div class="wishlist-card-category" th:if="${item.category != null}" th:text="${item.category}">Category</div>
+                    <div class="wishlist-card-category" th:if="${item.category != null}" th:text="${item.category}">
+                        Category</div>
 
                     <h3 th:text="${item.productName}">Product Name</h3>
 
                     <div class="wishlist-price-row">
                         <span class="wishlist-price-current"
-                              th:text="'₹' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">
+                            th:text="'₹' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">
                             ₹0
                         </span>
-                        <span class="wishlist-price-old"
-                              th:if="${item.mrp != null and item.mrp > item.price}"
-                              th:text="'₹' + ${#numbers.formatDecimal(item.mrp, 0, 'COMMA', 0, 'POINT')}">
+                        <span class="wishlist-price-old" th:if="${item.mrp != null and item.mrp > item.price}"
+                            th:text="'₹' + ${#numbers.formatDecimal(item.mrp, 0, 'COMMA', 0, 'POINT')}">
                             ₹0
                         </span>
                     </div>
@@ -386,10 +396,8 @@
                         <a th:href="@{'/product/' + ${item.slug}}" class="wishlist-view-btn">
                             View Product
                         </a>
-                        <button class="wishlist-cart-btn"
-                                th:disabled="${item.stock == null or item.stock == 0}"
-                                th:attr="onclick=|moveToCart(${item.productId})|"
-                                title="Add to cart">
+                        <button class="wishlist-cart-btn" th:disabled="${item.stock == null or item.stock == 0}"
+                            th:attr="onclick=|moveToCart(${item.productId})|" title="Add to cart">
                             <i class="fa-solid fa-bag-shopping"></i>
                         </button>
                     </div>
@@ -413,7 +421,7 @@
 
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
-    <div id="wl-toast"></div>
+    <div id="toast" class="toast"></div>
 
     <script th:src="@{/js/script.js}"></script>
     <script>
@@ -423,21 +431,21 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId: productId })
             })
-            .then(r => r.json())
-            .then(data => {
-                const card = btn.closest('.wishlist-card');
-                card.style.transition = 'opacity .3s, transform .3s';
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.9)';
-                setTimeout(() => {
-                    card.remove();
-                    if (document.querySelectorAll('.wishlist-card').length === 0) {
-                        location.reload();
-                    }
-                }, 300);
-                showWlToast(data.message || 'Removed from wishlist');
-            })
-            .catch(() => showWlToast('Failed to remove item'));
+                .then(r => r.json())
+                .then(data => {
+                    const card = btn.closest('.wishlist-card');
+                    card.style.transition = 'opacity .3s, transform .3s';
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        card.remove();
+                        if (document.querySelectorAll('.wishlist-card').length === 0) {
+                            location.reload();
+                        }
+                    }, 300);
+                    showToast(data.message || 'Removed from wishlist');
+                })
+                .catch(() => showToast('Failed to remove item'));
         }
 
         function moveToCart(productId) {
@@ -446,18 +454,20 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId: productId, quantity: 1 })
             })
-            .then(r => r.json())
-            .then(data => showWlToast(data.message || 'Added to cart'))
-            .catch(() => showWlToast('Please login to add items to cart'));
+                .then(r => r.json())
+                .then(data => showToast(data.message || 'Added to cart'))
+                .catch(() => showToast('Please login to add items to cart'));
         }
 
-        let wlToastTimer;
-        function showWlToast(msg) {
-            const t = document.getElementById('wl-toast');
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
             t.textContent = msg;
             t.classList.add('show');
-            clearTimeout(wlToastTimer);
-            wlToastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                t.classList.remove('show');
+            }, 3000);
         }
     </script>
 

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ojasvi.ecommerce.Entity.Cart;
+import com.ojasvi.ecommerce.Entity.User;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
@@ -22,4 +23,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 			WHERE c.user.id = :userId
 			""")
 	Optional<Cart> findCartWithItems(@Param("userId") Long userId);
+
+	Optional<Cart> findByUser(User user);
 }

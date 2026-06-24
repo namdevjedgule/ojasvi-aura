@@ -6,10 +6,13 @@
     <title>Cart - Ojasvi</title>
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
     <style>
@@ -28,9 +31,13 @@
             --danger: #A32D2D;
         }
 
-        h1, h2, h3, h4 { font-family: 'Roboto Serif', serif; }
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Roboto Serif', serif;
+        }
 
-        /* ═══════════ PAGE WRAPPER ═══════════ */
         .cart-page {
             padding: 130px 6% 60px;
             background: var(--bg);
@@ -66,7 +73,6 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* ═══════════ LAYOUT GRID ═══════════ */
         .cart-layout {
             display: grid;
             grid-template-columns: 1fr 360px;
@@ -74,13 +80,12 @@
             align-items: start;
         }
 
-        /* ═══════════ CART ITEMS LIST ═══════════ */
         .cart-items-card {
             background: var(--bg-card);
             border-radius: 18px;
             border: 1px solid var(--border);
             overflow: hidden;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
         }
 
         .cart-items-header {
@@ -112,8 +117,13 @@
             transition: background .2s;
         }
 
-        .cart-item:last-child { border-bottom: none; }
-        .cart-item:hover { background: #FAF7F2; }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item:hover {
+            background: #FAF7F2;
+        }
 
         .cart-item-img {
             width: 90px;
@@ -135,9 +145,15 @@
             flex-shrink: 0;
         }
 
-        .cart-item-img-placeholder i { font-size: 24px; color: var(--primary); }
+        .cart-item-img-placeholder i {
+            font-size: 24px;
+            color: var(--primary);
+        }
 
-        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
 
         .cart-item-info h3 {
             font-size: 15px;
@@ -191,7 +207,9 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .cart-item-remove:hover { color: var(--danger); }
+        .cart-item-remove:hover {
+            color: var(--danger);
+        }
 
         /* ═══════════ ORDER SUMMARY ═══════════ */
         .cart-summary {
@@ -201,7 +219,7 @@
             padding: 26px;
             position: sticky;
             top: 130px;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
         }
 
         .cart-summary h3 {
@@ -251,7 +269,9 @@
             background: var(--bg);
         }
 
-        .cart-coupon input:focus { border-color: var(--primary); }
+        .cart-coupon input:focus {
+            border-color: var(--primary);
+        }
 
         .cart-coupon button {
             padding: 11px 18px;
@@ -266,7 +286,10 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .cart-coupon button:hover { background: var(--brown); color: var(--primary); }
+        .cart-coupon button:hover {
+            background: var(--brown);
+            color: var(--primary);
+        }
 
         .cart-checkout-btn {
             display: block;
@@ -288,7 +311,7 @@
 
         .cart-checkout-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 26px rgba(197,164,126,0.4);
+            box-shadow: 0 10px 26px rgba(197, 164, 126, 0.4);
         }
 
         .cart-secure-note {
@@ -303,7 +326,9 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .cart-secure-note i { color: var(--success); }
+        .cart-secure-note i {
+            color: var(--success);
+        }
 
         /* ═══════════ EMPTY STATE ═══════════ */
         .empty-cart {
@@ -318,14 +343,17 @@
             width: 86px;
             height: 86px;
             border-radius: 50%;
-            background: rgba(197,164,126,0.12);
+            background: rgba(197, 164, 126, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px;
         }
 
-        .empty-cart .icon-wrap i { font-size: 34px; color: var(--primary-dark); }
+        .empty-cart .icon-wrap i {
+            font-size: 34px;
+            color: var(--primary-dark);
+        }
 
         .empty-cart h3 {
             font-size: 22px;
@@ -361,15 +389,35 @@
 
         /* ═══════════ RESPONSIVE ═══════════ */
         @media (max-width: 900px) {
-            .cart-layout { grid-template-columns: 1fr; }
-            .cart-summary { position: static; }
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
         }
 
         @media (max-width: 560px) {
-            .cart-page { padding: 110px 5% 40px; }
-            .cart-item { flex-wrap: wrap; }
-            .cart-item-right { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; margin-top: 10px; }
-            .cart-page-header h2 { font-size: 26px; }
+            .cart-page {
+                padding: 110px 5% 40px;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
+
+            .cart-item-right {
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+
+            .cart-page-header h2 {
+                font-size: 26px;
+            }
         }
     </style>
 </head>
@@ -384,7 +432,7 @@
             <span class="tag">Your Selections</span>
             <h2>Shopping Cart</h2>
             <p th:if="${cartItems != null and !#lists.isEmpty(cartItems)}"
-               th:text="${#lists.size(cartItems)} + ' item(s) ready for checkout'">
+                th:text="${#lists.size(cartItems)} + ' item(s) ready for checkout'">
                 items in your cart
             </p>
         </div>
@@ -400,8 +448,7 @@
 
                 <div class="cart-item" th:each="item : ${cartItems}">
 
-                    <img class="cart-item-img" th:if="${item.imageUrl != null}"
-                         th:src="${item.imageUrl}" alt="Product">
+                    <img class="cart-item-img" th:if="${item.imageUrl != null}" th:src="${item.imageUrl}" alt="Product">
                     <div class="cart-item-img-placeholder" th:if="${item.imageUrl == null}">
                         <i class="fa-regular fa-image"></i>
                     </div>
@@ -409,7 +456,8 @@
                     <div class="cart-item-info">
                         <h3 th:text="${item.productName}">Product Name</h3>
                         <div class="cart-item-meta">
-                            <span><i class="fa-solid fa-cubes"></i> Qty: <span th:text="${item.quantity}">1</span></span>
+                            <span><i class="fa-solid fa-cubes"></i> Qty: <span
+                                    th:text="${item.quantity}">1</span></span>
                         </div>
                         <div class="cart-item-price-each">
                             ₹<span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">0</span> each
@@ -418,7 +466,7 @@
 
                     <div class="cart-item-right">
                         <span class="cart-item-subtotal"
-                              th:text="'₹' + ${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}">
+                            th:text="'₹' + ${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}">
                             ₹0
                         </span>
                         <button class="cart-item-remove" th:attr="onclick=|removeFromCart(${item.productId})|">
@@ -433,15 +481,18 @@
 
                 <div class="cart-summary-row">
                     <span>Subtotal (<span th:text="${#lists.size(cartItems)}">0</span> items)</span>
-                    <span>₹<span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
+                    <span>₹<span
+                            th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
                 </div>
                 <div class="cart-summary-row">
                     <span>Shipping</span>
-                    <span th:text="${shippingCharge != null and shippingCharge > 0 ? '₹' + shippingCharge : 'Free'}">Free</span>
+                    <span
+                        th:text="${shippingCharge != null and shippingCharge > 0 ? '₹' + shippingCharge : 'Free'}">Free</span>
                 </div>
                 <div class="cart-summary-row" th:if="${couponDiscount != null and couponDiscount > 0}">
                     <span>Coupon Discount</span>
-                    <span style="color: var(--success);" th:text="'-₹' + ${#numbers.formatDecimal(couponDiscount, 0, 'COMMA', 0, 'POINT')}">-₹0</span>
+                    <span style="color: var(--success);"
+                        th:text="'-₹' + ${#numbers.formatDecimal(couponDiscount, 0, 'COMMA', 0, 'POINT')}">-₹0</span>
                 </div>
 
                 <div class="cart-coupon">
@@ -451,7 +502,8 @@
 
                 <div class="cart-summary-row total">
                     <span>Grand Total</span>
-                    <span class="amount">₹<span th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
+                    <span class="amount">₹<span
+                            th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
                 </div>
 
                 <a href="/checkout" class="cart-checkout-btn">
@@ -480,37 +532,98 @@
 
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
 
+    <div id="toast" class="toast"></div>
+
     <script th:src="@{/js/script.js}"></script>
     <script>
         function removeFromCart(productId) {
+
+            if (!confirm("Remove this item from cart?")) {
+                return;
+            }
+
             fetch('/api/cart/remove', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ productId: productId })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: productId
+                })
             })
-            .then(r => r.json())
-            .then(() => location.reload())
-            .catch(() => alert('Failed to remove item'));
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.success) {
+
+                        showToast(data.message || 'Item removed successfully', 'success');
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+
+                    } else {
+
+                        showToast(data.message || 'Failed to remove item', 'error');
+                    }
+
+                })
+                .catch(error => {
+                    console.error(error);
+                    showToast('Failed to remove item', 'error');
+                });
         }
 
         function applyCoupon() {
+
             const code = document.getElementById('coupon-input').value.trim();
-            if (!code) return;
+
+            if (!code) {
+                showToast('Please enter a coupon code', 'error');
+                return;
+            }
 
             fetch('/api/cart/apply-coupon', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code: code })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    code: code
+                })
             })
-            .then(r => r.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert(data.message || 'Invalid coupon code');
-                }
-            })
-            .catch(() => alert('Could not apply coupon'));
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.success) {
+
+                        showToast(data.message || 'Coupon applied successfully', 'success');
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+
+                    } else {
+
+                        showToast(data.message || 'Invalid coupon code', 'error');
+                    }
+
+                })
+                .catch(error => {
+                    console.error(error);
+                    showToast('Could not apply coupon', 'error');
+                });
+        }
+
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                t.classList.remove('show');
+            }, 3000);
         }
     </script>
 
