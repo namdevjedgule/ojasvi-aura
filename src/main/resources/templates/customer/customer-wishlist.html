@@ -1116,8 +1116,8 @@
                     <i class="fa-solid fa-bars"></i>
                 </div>
                 <div class="topbar-left">
-                    <h2 id="page-title">My Wishlist</h2>
-                    <p id="page-sub" th:text="'Welcome back, ' + ${user.fullName}">Welcome back</p>
+                    <h2 id="page-title">Wishlist</h2>
+                    <p id="page-sub">Your saved items</p>
                 </div>
             </div>
             <div class="topbar-right">
@@ -1148,7 +1148,7 @@
                     <i class="fa-regular fa-heart"
                         style="font-size:40px; color:#ddd; display:block; margin-bottom:14px;"></i>
                     Your wishlist is empty.<br>
-                    <a th:href="@{/products/shop}"
+                    <a th:href="@{/shop}"
                         style="color:var(--primary-dark); font-weight:500; margin-top:8px; display:inline-block;">Discover
                         products →</a>
                 </div>

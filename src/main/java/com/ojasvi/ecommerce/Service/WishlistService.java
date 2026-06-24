@@ -74,4 +74,16 @@ public class WishlistService {
                 })
                 .toList();
     }
+
+    public List<Long> getWishlistProductIdsByUser(Long userId) {
+
+        if (userId == null) {
+            return List.of();
+        }
+
+        return wishlistRepository.findByUserId(userId)
+                .stream()
+                .map(w -> w.getProduct().getId())
+                .toList();
+    }
 }

@@ -1149,7 +1149,7 @@
                             <p>Explore our latest collections and exclusive member offers.</p>
                         </div>
                     </div>
-                    <a th:href="@{/products/shop}" class="offer-btn">Shop Now</a>
+                    <a th:href="@{/shop}" class="offer-btn">Shop Now</a>
                 </div>
 
                 <div class="stats-grid">
@@ -1184,12 +1184,12 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Recent Orders</h3>
-                            <a class="card-link" onclick="showSection('orders')">View all →</a>
+                            <a class="card-link" th:href="@{/customer/orders}">View all →</a>
                         </div>
                         <div style="padding:20px; text-align:center; color:#999; font-size:13px;">
                             <i class="fa-solid fa-bag-shopping"
                                 style="font-size:32px; color:#ddd; display:block; margin-bottom:10px;"></i>
-                            No orders yet. <a th:href="@{/products/shop}" style="color:var(--primary-dark);">Start shopping →</a>
+                            No orders yet. <a th:href="@{/shop}" style="color:var(--primary-dark);">Start shopping →</a>
                         </div>
                     </div>
 
@@ -1221,7 +1221,9 @@
                                     <div class="p-stat-lbl">Points</div>
                                 </div>
                             </div>
-                            <button class="edit-profile-btn" onclick="showSection('profile')">Edit Profile</button>
+                            <button class="edit-profile-btn" th:onclick="|window.location.href='@{/customer/profile}'|">
+                                Edit Profile
+                            </button>
                         </div>
 
                         <div class="card">
@@ -1251,142 +1253,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-            <div class="page-section" id="sec-orders">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">My Orders</h3>
-                    </div>
-                    <div style="padding:40px; text-align:center; color:#999; font-size:13px;">
-                        <i class="fa-solid fa-box-open"
-                            style="font-size:40px; color:#ddd; display:block; margin-bottom:14px;"></i>
-                        No orders yet.<br>
-                        <a th:href="@{/products/shop}"
-                            style="color:var(--primary-dark); font-weight:500; margin-top:8px; display:inline-block;">Browse
-                            our collections →</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="page-section" id="sec-wishlist">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">My Wishlist</h3>
-                    </div>
-                    <div style="padding:40px; text-align:center; color:#999; font-size:13px;">
-                        <i class="fa-regular fa-heart"
-                            style="font-size:40px; color:#ddd; display:block; margin-bottom:14px;"></i>
-                        Your wishlist is empty.<br>
-                        <a th:href="@{/products/shop}"
-                            style="color:var(--primary-dark); font-weight:500; margin-top:8px; display:inline-block;">Discover
-                            products →</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="page-section" id="sec-addresses">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Saved Addresses</h3>
-                        <a class="card-link" th:href="@{/addresses/add}">+ Add New Address</a>
-                    </div>
-                    <div style="padding:40px; text-align:center; color:#999; font-size:13px;">
-                        <i class="fa-solid fa-location-dot"
-                            style="font-size:40px; color:#ddd; display:block; margin-bottom:14px;"></i>
-                        No saved addresses yet.
-                    </div>
-                </div>
-            </div>
-
-            <div class="page-section" id="sec-profile">
-                <div class="card" style="max-width:600px;">
-                    <div class="card-header">
-                        <h3 class="card-title">Edit Profile</h3>
-                    </div>
-                    <div class="card-body" style="display:flex; flex-direction:column; gap:16px;">
-
-                        <div style="text-align:center; padding:10px 0 6px;">
-                            <div th:if="${user.profileImage == null or user.profileImage.isEmpty()}"
-                                class="profile-avatar-lg"
-                                style="margin:0 auto 10px; background:var(--bg); border:2px solid var(--border); color:var(--brown);"
-                                th:text="${#strings.toUpperCase(#strings.substring(user.fullName,0,1))}">
-                            </div>
-                            <img th:if="${user.profileImage != null and !user.profileImage.isEmpty()}"
-                                th:src="${user.profileImage}" th:alt="${user.fullName}"
-                                style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block;">
-                            <a class="card-link" style="font-size:12px;">Change Photo</a>
-                        </div>
-
-                        <form th:action="@{/api/user/update-profile}" method="post">
-                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
-                                <div>
-                                    <label
-                                        style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px;">Full
-                                        Name</label>
-                                    <input type="text" name="fullName" th:value="${user.fullName}"
-                                        style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--bg);">
-                                </div>
-                                <div>
-                                    <label
-                                        style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px;">Phone</label>
-                                    <input type="text" name="mobile" th:value="${user.mobile}"
-                                        style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--bg);">
-                                </div>
-                            </div>
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px;">Email
-                                    Address</label>
-                                <input type="email" name="email" th:value="${user.email}"
-                                    style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--bg);">
-                            </div>
-                            <div style="margin-bottom:14px;">
-                                <label
-                                    style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px;">New
-                                    Password <span style="color:#bbb; text-transform:none;">(leave blank to keep
-                                        current)</span></label>
-                                <input type="password" name="newPassword" placeholder="Enter new password"
-                                    style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Inter',sans-serif; outline:none; background:var(--bg);">
-                            </div>
-                            <button type="submit"
-                                style="width:100%; padding:12px; background:var(--brown); color:var(--primary); border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; letter-spacing:.5px; transition:background .2s;"
-                                onmouseover="this.style.background='#AE7F4D'"
-                                onmouseout="this.style.background='var(--brown)'">
-                                Save Changes
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="page-section" id="sec-loyalty">
-                <div class="loyalty-card" style="margin-bottom:20px;">
-                    <div class="loyalty-header">
-                        <h3 class="card-title">Your Loyalty Points</h3>
-                        <span class="loyalty-tier">Member</span>
-                    </div>
-                    <div class="loyalty-points">0 <span>pts</span></div>
-                    <div style="font-size:13px; color:var(--text-muted); margin-top:4px;">Earn points on every purchase
-                    </div>
-                    <div class="loyalty-bar-bg">
-                        <div class="loyalty-bar-fill" style="width:0%"></div>
-                    </div>
-                    <div class="loyalty-meta"><span>0 / 500 pts</span><span>Next: Silver tier</span></div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Points History</h3>
-                    </div>
-                    <div style="padding:30px; text-align:center; color:#999; font-size:13px;">
-                        No points earned yet. Place your first order to start earning!
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -1397,30 +1266,6 @@
     <script th:src="@{/js/script.js}"></script>
 
     <script>
-        const sections = ['overview', 'orders', 'wishlist', 'addresses', 'profile', 'loyalty'];
-        const titles = {
-            overview: ['My Account', 'Welcome back'],
-            orders: ['My Orders', 'View your order history'],
-            wishlist: ['Wishlist', 'Your saved items'],
-            addresses: ['Addresses', 'Manage delivery addresses'],
-            profile: ['Profile', 'Update your information'],
-            loyalty: ['Loyalty Points', 'Your rewards and points']
-        };
-
-        function showSection(id) {
-            sections.forEach(s => {
-                document.getElementById('sec-' + s).classList.toggle('active', s === id);
-            });
-            document.querySelectorAll('.nav-link').forEach(l => {
-                const oc = l.getAttribute('onclick') || '';
-                l.classList.toggle('active', oc.includes("'" + id + "'"));
-            });
-            document.getElementById('page-title').textContent = titles[id][0];
-            document.getElementById('page-sub').textContent = titles[id][1];
-            closeSidebar();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
         function openSidebar() {
             document.getElementById('sidebar').classList.add('open');
             document.getElementById('overlay').classList.add('show');

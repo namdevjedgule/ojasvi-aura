@@ -1,5 +1,7 @@
 package com.ojasvi.ecommerce.Entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +25,9 @@ public class OrderItem extends BaseEntity {
 
     private String productName;
 
-    private Double productPrice;
+    private BigDecimal productPrice;
 
     private Integer quantity;
 
-    private Double subtotal;
+    private BigDecimal subtotal;
 }

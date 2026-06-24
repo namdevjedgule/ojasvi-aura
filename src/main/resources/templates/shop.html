@@ -72,7 +72,12 @@
                             <i class="fa-regular fa-image"></i>
                         </div>
                     </a>
-                    <span class="wishlist" th:attr="onclick=|toggleWishlist(${product.id}, this)|">♡</span>
+                    <span class="wishlist" th:attr="onclick=|toggleWishlist(${product.id}, this)|">
+                        <i th:class="${wishlistIds != null and wishlistIds.contains(product.id)} 
+                ? 'fa-solid fa-heart active' 
+                : 'fa-regular fa-heart'">
+                        </i>
+                    </span>
                 </div>
 
                 <div class="product-info">
@@ -213,16 +218,19 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId: productId, quantity: 1 })
             })
-                .then(r => r.json())
-                .then(data => {
-                    if (typeof showToast === 'function') {
-                        showToast(data.message || 'Added to cart');
+                .then(async response => {
+                    const data = await response.json();
+                    if (response.status === 401) {
+                        showToast('Please login first');
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 1500);
+                        return;
                     }
+                    showToast(data.message || 'Added to cart');
                 })
                 .catch(() => {
-                    if (typeof showToast === 'function') {
-                        showToast('Please login to add items to cart');
-                    }
+                    showToast('Something went wrong');
                 });
         }
 
@@ -232,17 +240,31 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ productId: productId })
             })
-                .then(r => r.json())
-                .then(data => {
-                    el.textContent = data.inWishlist ? '♥' : '♡';
-                    if (typeof showToast === 'function') {
-                        showToast(data.message || (data.inWishlist ? 'Added to wishlist' : 'Removed from wishlist'));
+                .then(async response => {
+                    const data = await response.json();
+
+                    if (response.status === 401) {
+                        showToast('Please login first');
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 1500);
+                        return;
                     }
+
+                    const icon = el.querySelector('i');
+
+                    if (data.inWishlist) {
+                        icon.className = 'fa-solid fa-heart';
+                        el.classList.add('active');
+                    } else {
+                        icon.className = 'fa-regular fa-heart';
+                        el.classList.remove('active');
+                    }
+
+                    showToast(data.message || 'Updated wishlist');
                 })
                 .catch(() => {
-                    if (typeof showToast === 'function') {
-                        showToast('Please login to use wishlist');
-                    }
+                    showToast('Something went wrong');
                 });
         }
 

@@ -3,6 +3,8 @@ package com.ojasvi.ecommerce.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 import com.ojasvi.ecommerce.Enum.OrderStatus;
 import com.ojasvi.ecommerce.Enum.PaymentStatus;
 
@@ -26,15 +28,15 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address shippingAddress;
 
-    private Double subtotal;
-
-    private Double shippingCharge;
-
-    private Double discountAmount;
-
-    private Double taxAmount;
-
-    private Double grandTotal;
+    private BigDecimal subtotal;
+    
+    private BigDecimal shippingCharge;
+    
+    private BigDecimal discountAmount;
+    
+    private BigDecimal taxAmount;
+    
+    private BigDecimal grandTotal;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
