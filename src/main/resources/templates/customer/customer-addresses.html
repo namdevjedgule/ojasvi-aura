@@ -291,6 +291,7 @@
             cursor: pointer;
             position: relative;
             transition: border-color 0.2s;
+            text-decoration: none;
         }
 
         .topbar-icon:hover {
@@ -334,88 +335,6 @@
             padding: 28px 32px;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 14px 14px 0 0;
-        }
-
-        .stat-icon-wrap {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(197, 164, 126, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-
-        .stat-icon-wrap i {
-            font-size: 16px;
-            color: var(--primary-dark);
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .stat-value {
-            font-family: 'Roboto Serif', serif;
-            font-size: 24px;
-            color: var(--text);
-            margin-bottom: 5px;
-        }
-
-        .stat-trend {
-            font-size: 11px;
-            color: var(--success);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .stat-trend.down {
-            color: var(--danger);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 20px;
-        }
-
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -442,6 +361,9 @@
             text-decoration: none;
             cursor: pointer;
             transition: color 0.2s;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
         }
 
         .card-link:hover {
@@ -449,406 +371,55 @@
         }
 
         .card-body {
-            padding: 16px 20px;
-        }
-
-        .order-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .order-table th {
-            font-family: 'Inter', sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 0 12px 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .order-table td {
-            padding: 13px 12px;
-            font-size: 13px;
-            color: var(--text);
-            border-bottom: 1px solid #f5f1eb;
-            vertical-align: middle;
-        }
-
-        .order-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .order-table tr:hover td {
-            background: var(--bg-hover);
-        }
-
-        .order-thumb {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border);
-        }
-
-        .order-thumb i {
-            font-size: 14px;
-            color: var(--primary);
-        }
-
-        .order-name-cell {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .order-prod-name {
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .order-prod-cat {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 1px;
-        }
-
-        .order-id-cell {
-            color: var(--primary-dark);
-            font-weight: 500;
-            font-size: 12px;
-        }
-
-        .badge {
-            font-size: 11px;
-            font-weight: 500;
-            padding: 3px 10px;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-
-        .badge-delivered {
-            background: var(--success-bg);
-            color: var(--success);
-        }
-
-        .badge-shipped {
-            background: var(--warning-bg);
-            color: var(--warning);
-        }
-
-        .badge-processing {
-            background: var(--info-bg);
-            color: var(--info);
-        }
-
-        .badge-cancelled {
-            background: var(--danger-bg);
-            color: var(--danger);
-        }
-
-        .right-col {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .profile-card {
-            background: var(--brown);
-            border-radius: 14px;
-            padding: 24px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: rgba(197, 164, 126, 0.06);
-        }
-
-        .profile-card::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: -20px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(197, 164, 126, 0.04);
-        }
-
-        .profile-avatar-lg {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(197, 164, 126, 0.15);
-            border: 2px solid rgba(197, 164, 126, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--primary);
-            margin: 0 auto 12px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile-name {
-            font-family: 'Roboto Serif', serif;
-            font-size: 16px;
-            color: var(--primary-light);
-            margin-bottom: 3px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile-email {
-            font-size: 12px;
-            color: rgba(197, 164, 126, 0.5);
-            margin-bottom: 18px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile-divider {
-            border: none;
-            border-top: 1px solid rgba(197, 164, 126, 0.15);
-            margin-bottom: 16px;
-        }
-
-        .profile-stats {
-            display: flex;
-            justify-content: space-around;
-            position: relative;
-            z-index: 1;
-        }
-
-        .p-stat-val {
-            font-family: 'Roboto Serif', serif;
-            font-size: 20px;
-            color: var(--primary);
-        }
-
-        .p-stat-lbl {
-            font-size: 10px;
-            color: rgba(197, 164, 126, 0.5);
-            margin-top: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .edit-profile-btn {
-            margin-top: 16px;
-            width: 100%;
-            padding: 9px;
-            background: transparent;
-            border: 1px solid rgba(197, 164, 126, 0.3);
-            color: var(--primary);
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            position: relative;
-            z-index: 1;
-        }
-
-        .edit-profile-btn:hover {
-            background: rgba(197, 164, 126, 0.1);
-        }
-
-        .wish-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .wish-item:last-child {
-            border-bottom: none;
-        }
-
-        .wish-thumb {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .wish-thumb i {
-            font-size: 16px;
-            color: var(--primary);
-        }
-
-        .wish-name {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .wish-cat {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .wish-stock-ok {
-            font-size: 10px;
-            color: var(--success);
-            margin-top: 2px;
-        }
-
-        .wish-stock-low {
-            font-size: 10px;
-            color: var(--warning);
-            margin-top: 2px;
-        }
-
-        .wish-right {
-            margin-left: auto;
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        .wish-price {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--brown);
-        }
-
-        .wish-add {
-            font-size: 11px;
-            color: var(--primary-dark);
-            cursor: pointer;
-            margin-top: 3px;
-            display: block;
-            transition: color 0.2s;
-        }
-
-        .wish-add:hover {
-            color: var(--brown);
-        }
-
-        .loyalty-card {
-            background: linear-gradient(135deg, var(--bg), #f0ece4);
-            border: 1px solid var(--border);
-            border-radius: 14px;
             padding: 20px;
         }
 
-        .loyalty-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .loyalty-title {
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .loyalty-tier {
-            font-size: 10px;
-            background: rgba(197, 164, 126, 0.15);
-            color: var(--primary-dark);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .loyalty-points {
-            font-family: 'Roboto Serif', serif;
-            font-size: 30px;
-            color: var(--brown);
-            margin-bottom: 4px;
-        }
-
-        .loyalty-points span {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .loyalty-bar-bg {
-            height: 6px;
-            background: var(--border);
-            border-radius: 10px;
-            margin: 12px 0 6px;
-            overflow: hidden;
-        }
-
-        .loyalty-bar-fill {
-            height: 100%;
-            width: 60%;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-            border-radius: 10px;
-        }
-
-        .loyalty-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
+        /* ═══════════ ADDRESS GRID/CARDS ═══════════ */
         .address-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 16px;
         }
 
         .address-card {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px 16px;
+            border-radius: 12px;
+            padding: 16px 18px;
             position: relative;
+            transition: border-color .2s;
         }
 
         .address-card.default {
             border-color: var(--primary);
-            background: rgba(197, 164, 126, 0.04);
+            background: rgba(197, 164, 126, 0.05);
         }
 
         .address-default-tag {
             font-size: 9px;
-            background: rgba(197, 164, 126, 0.15);
+            background: rgba(197, 164, 126, 0.18);
             color: var(--primary-dark);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .address-type-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 8px;
-            display: inline-block;
         }
 
         .address-type {
             font-size: 13px;
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -859,20 +430,53 @@
             color: var(--primary);
         }
 
+        .address-type-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 9px;
+            border-radius: 14px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .address-type-badge.home {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .address-type-badge.work {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .address-type-badge.other {
+            background: #f1f1f1;
+            color: #777;
+        }
+
         .address-text {
-            font-size: 12px;
+            font-size: 12.5px;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .address-text strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 2px;
+            font-size: 13px;
         }
 
         .address-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 14px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .addr-btn {
-            font-size: 11px;
+            font-size: 11.5px;
             color: var(--primary-dark);
             cursor: pointer;
             text-decoration: none;
@@ -881,6 +485,9 @@
             border: none;
             font-family: 'Inter', sans-serif;
             transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .addr-btn:hover {
@@ -888,17 +495,36 @@
         }
 
         .addr-btn.del {
-            color: #e57373;
+            color: #c0392b;
         }
 
         .addr-btn.del:hover {
-            color: #c62828;
+            color: #962d22;
         }
 
-        /* =========================
-   ADDRESS MODAL (same base)
-========================= */
+        .addr-btn.set-default {
+            color: var(--success);
+        }
 
+        .addr-btn.set-default:hover {
+            color: #0b7d6e;
+        }
+
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            color: #ddd;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        /* ═══════════ MODAL ═══════════ */
         .modal {
             display: none;
             position: fixed;
@@ -1087,30 +713,12 @@
             transform: translateX(20px);
         }
 
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
             z-index: 90;
-        }
-
-        @media (max-width: 1100px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         @media (max-width: 768px) {
@@ -1146,34 +754,12 @@
                 padding: 20px 16px;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
             .search-wrap {
                 display: none;
             }
 
             .address-grid {
                 grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-
-            .stat-value {
-                font-size: 20px;
-            }
-
-            .offer-banner {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
             }
         }
     </style>
@@ -1237,14 +823,12 @@
             </a>
         </nav>
 
-
         <div class="sidebar-footer">
             <form th:action="@{/logout}" method="post" id="logout-form">
                 <button type="submit" style="display:none;" id="logout-btn"></button>
                 <div class="signout-btn" onclick="document.getElementById('logout-btn').click()">
                     <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                 </div>
-
             </form>
         </div>
     </aside>
@@ -1257,8 +841,11 @@
                     <i class="fa-solid fa-bars"></i>
                 </div>
                 <div class="topbar-left">
-                    <h2 id="page-title">Addresses</h2>
-                    <p id="page-sub">Manage delivery addresses</p>
+                    <h2>Addresses</h2>
+                    <p
+                        th:text="${addresses != null ? #lists.size(addresses) + ' saved address(es)' : 'Manage delivery addresses'}">
+                        Manage delivery addresses
+                    </p>
                 </div>
             </div>
             <div class="topbar-right">
@@ -1270,9 +857,9 @@
                     <i class="fa-regular fa-bell"></i>
                     <div class="notif-dot"></div>
                 </div>
-                <div class="topbar-icon" th:href="@{/customer/profile}">
+                <a th:href="@{/customer/profile}" class="topbar-icon">
                     <i class="fa-regular fa-user"></i>
-                </div>
+                </a>
                 <a th:href="@{/}" class="topbar-icon" style="text-decoration:none;">
                     <i class="fa-solid fa-house"></i>
                 </a>
@@ -1284,76 +871,128 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Saved Addresses</h3>
-                    <a class="card-link" onclick="openAddAddressModel()">+ Add New Address</a>
+                    <button type="button" class="card-link" onclick="openAddAddressModel()">+ Add New Address</button>
                 </div>
-                <div style="padding:40px; text-align:center; color:#999; font-size:13px;">
-                    <i class="fa-solid fa-location-dot"
-                        style="font-size:40px; color:#ddd; display:block; margin-bottom:14px;"></i>
+
+                <!-- ═══════════ ADDRESS LIST — actually renders now ═══════════ -->
+                <div class="card-body" th:if="${addresses != null and !#lists.isEmpty(addresses)}">
+                    <div class="address-grid">
+
+                        <div class="address-card" th:each="addr : ${addresses}"
+                            th:classappend="${addr.defaultAddress} ? 'default' : ''">
+
+                            <div class="address-default-tag" th:if="${addr.defaultAddress}">
+                                <i class="fa-solid fa-check-circle"></i> Default Address
+                            </div>
+
+                            <div class="address-type-row">
+                                <div class="address-type">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span
+                                        th:text="${addr.addressType != null ? addr.addressType : 'Address'}">Home</span>
+                                </div>
+                                <span class="address-type-badge"
+                                    th:classappend="${addr.addressType == 'HOME' ? 'home' : (addr.addressType == 'WORK' ? 'work' : 'other')}"
+                                    th:text="${addr.addressType}">
+                                    HOME
+                                </span>
+                            </div>
+
+                            <div class="address-text">
+                                <span th:text="${addr.addressLine1}">Address Line 1</span><br>
+                                <span th:if="${addr.addressLine2 != null and !addr.addressLine2.isEmpty()}"
+                                    th:text="${addr.addressLine2}">Address Line 2</span>
+                                <span th:if="${addr.addressLine2 != null and !addr.addressLine2.isEmpty()}"><br></span>
+                                <span th:if="${addr.landmark != null and !addr.landmark.isEmpty()}"
+                                    th:text="'Near ' + ${addr.landmark}">Landmark</span>
+                                <span th:if="${addr.landmark != null and !addr.landmark.isEmpty()}"><br></span>
+                                <span th:text="${addr.city + ', ' + addr.state + ' - ' + addr.pincode}">City, State -
+                                    Pincode</span><br>
+                                <span th:text="${addr.country}">Country</span>
+                            </div>
+
+                            <div class="address-actions">
+                                <button type="button" class="addr-btn"
+                                    th:attr="onclick=|openEditFromButton(${addr.id}, '${addr.addressLine1}', '${addr.addressLine2 != null ? addr.addressLine2 : ''}', '${addr.city}', '${addr.state}', '${addr.country}', '${addr.pincode}', '${addr.landmark != null ? addr.landmark : ''}', '${addr.addressType}', ${addr.defaultAddress})|">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </button>
+
+                                <button type="button" class="addr-btn set-default" th:if="${!addr.defaultAddress}"
+                                    th:attr="onclick=|setDefaultAddress(${addr.id})|">
+                                    <i class="fa-solid fa-star"></i> Set Default
+                                </button>
+
+                                <button type="button" class="addr-btn del"
+                                    th:attr="onclick=|deleteAddress(${addr.id})|">
+                                    <i class="fa-solid fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ═══════════ EMPTY STATE ═══════════ -->
+                <div class="empty-state" th:if="${addresses == null or #lists.isEmpty(addresses)}">
+                    <i class="fa-solid fa-location-dot"></i>
                     No saved addresses yet.
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- ═══════════ ADD/EDIT MODAL ═══════════ -->
     <div class="modal" id="addressModal">
-        <div class="modal-box product-modal-box">
+        <div class="modal-box address-modal-box">
 
-            <!-- Header -->
             <div class="modal-header">
-                <h3 class="modal-title" id="addressModalTitle">
-                    Add Address
-                </h3>
+                <h3 class="modal-title" id="addressModalTitle">Add Address</h3>
                 <button type="button" class="modal-close" onclick="closeAddressModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <!-- Form -->
             <form id="addressForm">
 
-                <!-- Hidden ID for Edit -->
                 <input type="hidden" id="addressId" name="id">
 
-
-
-                <!-- Address Line 1 -->
                 <div class="modal-field">
                     <label class="modal-label">Address Line 1 *</label>
                     <input type="text" id="addressLine1" name="addressLine1" class="modal-input" required>
                 </div>
 
-                <!-- Address Line 2 -->
                 <div class="modal-field">
                     <label class="modal-label">Address Line 2</label>
                     <input type="text" id="addressLine2" name="addressLine2" class="modal-input">
                 </div>
 
-                <!-- City + State -->
-                <div class="two-col">
-                    <div class="modal-field">
-                        <label class="modal-label">City *</label>
-                        <input type="text" id="city" name="city" class="modal-input" required>
-                    </div>
-
-                    <div class="modal-field">
-                        <label class="modal-label">State *</label>
-                        <input type="text" id="state" name="state" class="modal-input" required>
-                    </div>
-                </div>
-
-                <!-- Pincode -->
-                <div class="modal-field">
-                    <label class="modal-label">Pincode *</label>
-                    <input type="text" id="pincode" name="pincode" class="modal-input" required maxlength="6">
-                </div>
-
-                <!-- Landmark -->
                 <div class="modal-field">
                     <label class="modal-label">Landmark</label>
                     <input type="text" id="landmark" name="landmark" class="modal-input">
                 </div>
 
-                <!-- Address Type -->
+                <div class="modal-field">
+                    <label class="modal-label">Pincode *</label>
+                    <input type="text" id="pincode" name="pincode" class="modal-input" required maxlength="6"
+                        oninput="if(this.value.length===6) fetchAddressByPincode()">
+                </div>
+
+                <div class="two-col">
+                    <div class="modal-field">
+                        <label class="modal-label">City *</label>
+                        <input type="text" id="city" name="city" class="modal-input" required readonly>
+                    </div>
+                    <div class="modal-field">
+                        <label class="modal-label">State *</label>
+                        <input type="text" id="state" name="state" class="modal-input" required readonly>
+                    </div>
+                </div>
+
+                <div class="modal-field">
+                    <label class="modal-label">Country *</label>
+                    <input type="text" id="country" name="country" class="modal-input" readonly value="India">
+                </div>
+
                 <div class="modal-field">
                     <label class="modal-label">Address Type *</label>
                     <select id="addressType" name="addressType" class="modal-input" required>
@@ -1364,15 +1003,13 @@
                     </select>
                 </div>
 
-                <!-- Default Address -->
                 <div class="toggle-row">
                     <div>
                         <div class="toggle-row-label">Set as Default Address</div>
                         <div class="toggle-row-desc">This address will be used for checkout</div>
                     </div>
-
                     <label class="toggle-switch">
-                        <input type="checkbox" id="isDefault" name="isDefault">
+                        <input type="checkbox" id="defaultAddress" name="defaultAddress">
                         <span class="toggle-slider"></span>
                     </label>
                 </div>
@@ -1383,8 +1020,6 @@
 
             </form>
         </div>
-    </div>
-
     </div>
 
     <div id="toast"
@@ -1406,24 +1041,50 @@
 
         function openAddAddressModel() {
             resetAddressForm();
-
             document.getElementById("addressModalTitle").innerText = "Add Address";
-            document.getElementById("addressModal").style.display = "flex";
+            document.getElementById("addressModal").classList.add("show");
         }
 
         function closeAddressModal() {
-            document.getElementById("addressModal").style.display = "none";
+            document.getElementById("addressModal").classList.remove("show");
+        }
+
+        document.getElementById('addressModal').addEventListener('click', function (e) {
+            if (e.target === this) closeAddressModal();
+        });
+
+        async function fetchAddressByPincode() {
+            const pincode = document.getElementById("pincode").value.trim();
+            if (pincode.length !== 6) return;
+
+            try {
+                const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+                const data = await response.json();
+
+                if (data && data[0] && data[0].Status === "Success" &&
+                    data[0].PostOffice && data[0].PostOffice.length > 0) {
+                    const postOffice = data[0].PostOffice[0];
+                    document.getElementById("city").value = postOffice.District || "";
+                    document.getElementById("state").value = postOffice.State || "";
+                    document.getElementById("country").value = "India";
+                } else {
+                    showToast("Invalid pincode");
+                    document.getElementById("city").value = "";
+                    document.getElementById("state").value = "";
+                }
+            } catch (error) {
+                console.error(error);
+                showToast("Unable to fetch address details");
+            }
         }
 
         function resetAddressForm() {
             document.getElementById("addressForm").reset();
             document.getElementById("addressId").value = "";
-
-            document.getElementById("isDefault").checked = false;
+            document.getElementById("defaultAddress").checked = false;
         }
 
         function editAddress(address) {
-
             resetAddressForm();
 
             document.getElementById("addressModalTitle").innerText = "Edit Address";
@@ -1433,16 +1094,31 @@
             document.getElementById("addressLine2").value = address.addressLine2 || "";
             document.getElementById("city").value = address.city || "";
             document.getElementById("state").value = address.state || "";
+            document.getElementById("country").value = address.country || "India";
             document.getElementById("pincode").value = address.pincode || "";
             document.getElementById("landmark").value = address.landmark || "";
             document.getElementById("addressType").value = address.addressType || "";
-            document.getElementById("isDefault").checked = address.isDefault || false;
+            document.getElementById("defaultAddress").checked = address.defaultAddress || false;
 
-            document.getElementById("addressModal").style.display = "flex";
+            document.getElementById("addressModal").classList.add("show");
+        }
+
+        function openEditFromButton(id, line1, line2, city, state, country, pincode, landmark, type, isDefault) {
+            editAddress({
+                id: id,
+                addressLine1: line1,
+                addressLine2: line2,
+                city: city,
+                state: state,
+                country: country,
+                pincode: pincode,
+                landmark: landmark,
+                addressType: type,
+                defaultAddress: isDefault
+            });
         }
 
         function saveAddress() {
-
             const form = document.getElementById("addressForm");
 
             if (!form.checkValidity()) {
@@ -1456,37 +1132,30 @@
                 addressLine2: document.getElementById("addressLine2").value,
                 city: document.getElementById("city").value,
                 state: document.getElementById("state").value,
+                country: document.getElementById("country").value,
                 pincode: document.getElementById("pincode").value,
                 landmark: document.getElementById("landmark").value,
                 addressType: document.getElementById("addressType").value,
-                isDefault: document.getElementById("isDefault").checked
+                defaultAddress: document.getElementById("defaultAddress").checked
             };
 
             const isEdit = data.id !== "";
-
-            const url = isEdit
-                ? "/customer/addresses/update"
-                : "/customer/addresses/save";
+            const url = isEdit ? "/customer/addresses/update" : "/customer/addresses/save";
 
             fetch(url, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             })
                 .then(res => res.json())
                 .then(response => {
-
                     if (response.success) {
                         showToast(isEdit ? "Address updated successfully" : "Address added successfully");
                         closeAddressModal();
-
                         setTimeout(() => location.reload(), 800);
                     } else {
                         showToast(response.message || "Something went wrong");
                     }
-
                 })
                 .catch(err => {
                     console.error(err);
@@ -1494,21 +1163,46 @@
                 });
         }
 
-        function openEditFromButton(btn) {
+        // NEW — set an address as default without opening the edit modal
+        function setDefaultAddress(addressId) {
+            fetch("/customer/addresses/set-default/" + addressId, {
+                method: "POST"
+            })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        showToast("Default address updated");
+                        setTimeout(() => location.reload(), 800);
+                    } else {
+                        showToast(response.message || "Failed to set default address");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast("Server error");
+                });
+        }
 
-            const address = {
-                id: btn.dataset.id,
-                addressLine1: btn.dataset.line1,
-                addressLine2: btn.dataset.line2,
-                city: btn.dataset.city,
-                state: btn.dataset.state,
-                pincode: btn.dataset.pincode,
-                landmark: btn.dataset.landmark,
-                addressType: btn.dataset.type,
-                isDefault: btn.dataset.default === "true"
-            };
+        // NEW — delete an address
+        function deleteAddress(addressId) {
+            if (!confirm("Remove this address?")) return;
 
-            editAddress(address);
+            fetch("/customer/addresses/delete/" + addressId, {
+                method: "POST"
+            })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        showToast("Address removed");
+                        setTimeout(() => location.reload(), 800);
+                    } else {
+                        showToast(response.message || "Failed to remove address");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast("Server error");
+                });
         }
 
         let toastTimer;

@@ -3,6 +3,9 @@ package com.ojasvi.ecommerce.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
+import com.ojasvi.ecommerce.Enum.PaymentMethod;
 import com.ojasvi.ecommerce.Enum.PaymentStatus;
 
 
@@ -22,11 +25,12 @@ public class Payment extends BaseEntity {
 
     private String transactionId;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private String paymentGateway;
 
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;

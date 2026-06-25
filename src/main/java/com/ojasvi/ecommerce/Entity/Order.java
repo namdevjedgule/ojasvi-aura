@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 import com.ojasvi.ecommerce.Enum.OrderStatus;
+import com.ojasvi.ecommerce.Enum.PaymentMethod;
 import com.ojasvi.ecommerce.Enum.PaymentStatus;
 
 @Entity
@@ -37,6 +38,9 @@ public class Order extends BaseEntity {
     private BigDecimal taxAmount;
     
     private BigDecimal grandTotal;
+    
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

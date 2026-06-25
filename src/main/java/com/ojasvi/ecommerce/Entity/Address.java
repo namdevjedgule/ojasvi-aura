@@ -17,11 +17,11 @@ public class Address extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String fullName;
-
-    private String mobile;
-    
-    private String email;
+//    private String fullName;
+//
+//    private String mobile;
+//    
+//    private String email;
 
     private String addressLine1;
 
@@ -36,6 +36,8 @@ public class Address extends BaseEntity {
     private String country;
 
     private String pincode;
+    
+    private String addressType;
 
     private Boolean defaultAddress = false;
 }

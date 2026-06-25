@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ojasvi.ecommerce.Entity.Address;
 import com.ojasvi.ecommerce.Entity.Cart;
 import com.ojasvi.ecommerce.Entity.CartItem;
 import com.ojasvi.ecommerce.Entity.Order;
@@ -20,99 +21,102 @@ import com.ojasvi.ecommerce.Repository.ProductRepository;
 
 import java.math.BigDecimal;
 import com.ojasvi.ecommerce.Enum.OrderStatus;
+import com.ojasvi.ecommerce.Enum.PaymentMethod;
 import com.ojasvi.ecommerce.Enum.PaymentStatus;
 
 @Service
 public class CheckoutService {
 
-    @Autowired private CartRepository cartRepository;
-    @Autowired private OrderRepository orderRepository;
-    @Autowired private OrderItemRepository orderItemRepository;
-    @Autowired private ProductRepository productRepository;
-    @Autowired private CartItemRepository cartItemRepository;
+	@Autowired
+	private CartRepository cartRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
+	@Autowired
+	private ProductRepository productRepository;
+	@Autowired
+	private CartItemRepository cartItemRepository;
 
-    @Transactional
-    public Order placeOrder(User user) {
+	@Transactional
+	public Order placeOrder(User user, Address shippingAddress, String paymentMethod) {
 
-        Cart cart = cartRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+		Cart cart = cartRepository.findByUserId(user.getId()).orElseThrow(() -> new RuntimeException("Cart not found"));
 
-        List<CartItem> cartItems =
-                cartItemRepository.findByCartId(cart.getId());
+		List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId());
 
-        if (cartItems.isEmpty()) {
-            throw new RuntimeException("Cart is empty");
-        }
+		if (cartItems.isEmpty()) {
+			throw new RuntimeException("Cart is empty");
+		}
 
-        Order order = new Order();
+		Order order = new Order();
 
-        order.setOrderNumber("ORD-" + System.currentTimeMillis());
-        order.setCustomer(user);
+		order.setOrderNumber("ORD-" + System.currentTimeMillis());
+		order.setCustomer(user);
 
-        order.setOrderStatus(OrderStatus.PENDING);
-        order.setPaymentStatus(PaymentStatus.PENDING);
+		order.setShippingAddress(shippingAddress);
 
-        BigDecimal subtotal = BigDecimal.ZERO;
+		order.setPaymentMethod(PaymentMethod.valueOf(paymentMethod));
 
-        order = orderRepository.save(order);
+		order.setOrderStatus(OrderStatus.PENDING);
+		order.setPaymentStatus(PaymentStatus.PENDING);
 
-        for (CartItem item : cartItems) {
+		BigDecimal subtotal = BigDecimal.ZERO;
 
-            Product product = item.getProduct();
+		order = orderRepository.save(order);
 
-            if (product.getStock() < item.getQuantity()) {
-                throw new RuntimeException(
-                        product.getProductName() + " is out of stock");
-            }
+		for (CartItem item : cartItems) {
 
-            BigDecimal price = product.getSellingPrice();
+			Product product = item.getProduct();
 
-            BigDecimal lineTotal =
-                    price.multiply(BigDecimal.valueOf(item.getQuantity()));
+			if (product.getStock() < item.getQuantity()) {
+				throw new RuntimeException(product.getProductName() + " is out of stock");
+			}
 
-            OrderItem orderItem = new OrderItem();
+			BigDecimal price = product.getSellingPrice();
 
-            orderItem.setOrder(order);
-            orderItem.setProduct(product);
-            orderItem.setProductName(product.getProductName());
-            orderItem.setProductPrice(price);
-            orderItem.setQuantity(item.getQuantity());
-            orderItem.setSubtotal(lineTotal);
+			BigDecimal lineTotal = price.multiply(BigDecimal.valueOf(item.getQuantity()));
 
-            orderItemRepository.save(orderItem);
+			OrderItem orderItem = new OrderItem();
 
-            subtotal = subtotal.add(lineTotal);
+			orderItem.setOrder(order);
+			orderItem.setProduct(product);
+			orderItem.setProductName(product.getProductName());
+			orderItem.setProductPrice(price);
+			orderItem.setQuantity(item.getQuantity());
+			orderItem.setSubtotal(lineTotal);
 
-            product.setStock(product.getStock() - item.getQuantity());
+			orderItemRepository.save(orderItem);
 
-            productRepository.save(product);
-        }
+			subtotal = subtotal.add(lineTotal);
 
-        BigDecimal shippingCharge = BigDecimal.ZERO;
-        BigDecimal discountAmount = BigDecimal.ZERO;
-        BigDecimal taxAmount = BigDecimal.ZERO;
+			product.setStock(product.getStock() - item.getQuantity());
 
-        order.setSubtotal(subtotal);
-        order.setShippingCharge(shippingCharge);
-        order.setDiscountAmount(discountAmount);
-        order.setTaxAmount(taxAmount);
+			productRepository.save(product);
+		}
 
-        BigDecimal grandTotal = subtotal
-                .add(shippingCharge)
-                .add(taxAmount)
-                .subtract(discountAmount);
+		BigDecimal shippingCharge = BigDecimal.ZERO;
+		BigDecimal discountAmount = BigDecimal.ZERO;
+		BigDecimal taxAmount = BigDecimal.ZERO;
 
-        order.setGrandTotal(grandTotal);
+		order.setSubtotal(subtotal);
+		order.setShippingCharge(shippingCharge);
+		order.setDiscountAmount(discountAmount);
+		order.setTaxAmount(taxAmount);
 
-        orderRepository.save(order);
+		BigDecimal grandTotal = subtotal.add(shippingCharge).add(taxAmount).subtract(discountAmount);
 
-        cartItemRepository.deleteByCartId(cart.getId());
+		order.setGrandTotal(grandTotal);
 
-        cart.setTotalAmount(BigDecimal.ZERO);
-        cart.setTotalItems(0);
+		orderRepository.save(order);
 
-        cartRepository.save(cart);
+		cartItemRepository.deleteByCartId(cart.getId());
 
-        return order;
-    }
+		cart.setTotalAmount(BigDecimal.ZERO);
+		cart.setTotalItems(0);
+
+		cartRepository.save(cart);
+
+		return order;
+	}
 }

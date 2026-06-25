@@ -9,5 +9,7 @@ import com.ojasvi.ecommerce.Entity.Address;
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
     List<Address> findByUserIdOrderByDefaultAddressDescCreatedAtDesc(Long userId);
+    
+    List<Address> findByUserId(Long userId);
 
 }
