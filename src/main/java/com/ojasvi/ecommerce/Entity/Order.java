@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.ojasvi.ecommerce.Enum.OrderStatus;
 import com.ojasvi.ecommerce.Enum.PaymentMethod;
@@ -49,4 +50,7 @@ public class Order extends BaseEntity {
     private PaymentStatus paymentStatus;
 
     private String remarks;
+    
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
 }

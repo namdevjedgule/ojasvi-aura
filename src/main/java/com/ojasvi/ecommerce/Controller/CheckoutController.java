@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ojasvi.ecommerce.Entity.Address;
 import com.ojasvi.ecommerce.Entity.Cart;
 import com.ojasvi.ecommerce.Entity.Order;
+import com.ojasvi.ecommerce.Entity.OrderItem;
 import com.ojasvi.ecommerce.Entity.User;
 import com.ojasvi.ecommerce.Security.SessionUtil;
 import com.ojasvi.ecommerce.Service.AddressService;
 import com.ojasvi.ecommerce.Service.CartService;
 import com.ojasvi.ecommerce.Service.CheckoutService;
+import com.ojasvi.ecommerce.Service.OrderService;
+import com.ojasvi.ecommerce.Service.OrderItemService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -36,6 +39,12 @@ public class CheckoutController {
 
 	@Autowired
 	private AddressService addressService;
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
+	private OrderItemService orderItemService;
 
 	@Autowired
 	private HttpSession session;
@@ -167,7 +176,17 @@ public class CheckoutController {
 	@GetMapping("/order-success/{orderNumber}")
 	public String orderSuccess(@PathVariable String orderNumber, Model model) {
 
-		model.addAttribute("orderNumber", orderNumber);
+		Order order = orderService.findByOrderNumber(orderNumber);
+		
+		 List<OrderItem> orderItems =
+		            orderItemService.getByOrderId(order.getId());
+
+	    model.addAttribute("order", order);
+	    model.addAttribute("orderNumber", order.getOrderNumber());
+	    model.addAttribute("shippingAddress", order.getShippingAddress());
+	    model.addAttribute("paymentMethod", order.getPaymentMethod().name());
+	    model.addAttribute("grandTotal", order.getGrandTotal());
+	    model.addAttribute("orderItems", orderItems);
 
 		return "order-success";
 	}

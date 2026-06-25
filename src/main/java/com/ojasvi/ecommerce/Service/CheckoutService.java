@@ -82,6 +82,15 @@ public class CheckoutService {
 			orderItem.setOrder(order);
 			orderItem.setProduct(product);
 			orderItem.setProductName(product.getProductName());
+			 if(product.getImages() != null) {
+
+			        product.getImages()
+			               .stream()
+			               .filter(img -> Boolean.TRUE.equals(img.getPrimaryImage()))
+			               .findFirst()
+			               .ifPresent(img ->
+			                   orderItem.setProductImage(img.getImageUrl()));
+			    }
 			orderItem.setProductPrice(price);
 			orderItem.setQuantity(item.getQuantity());
 			orderItem.setSubtotal(lineTotal);

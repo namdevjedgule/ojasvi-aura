@@ -19,11 +19,18 @@ public class OrderService {
 	}
 
 	public List<Order> findRecentOrders() {
-	    return orderRepository.findTop10ByOrderByCreatedAtDesc();
+	    return orderRepository.findTop10RecentOrders();
 	}
 
 	public List<Order> getAllOrders() {
 		return orderRepository.findAll();
+    }
+	
+	public Order findByOrderNumber(String orderNumber) {
+
+        return orderRepository.findByOrderNumber(orderNumber)
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found : " + orderNumber));
     }
 
 }

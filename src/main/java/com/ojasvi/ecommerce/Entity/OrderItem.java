@@ -24,6 +24,8 @@ public class OrderItem extends BaseEntity {
     private Product product;
 
     private String productName;
+    
+    private String productImage;
 
     private BigDecimal productPrice;
 

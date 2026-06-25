@@ -1049,10 +1049,10 @@
                                 <tbody>
                                     <tr th:each="order : ${recentOrders}">
                                         <td class="order-id" th:text="'#' + ${order.id}">#0000</td>
-                                        <td th:text="${order.user.fullName}">Customer</td>
-                                        <td style="font-weight:600;" th:text="'₹' + ${order.totalAmount}">₹0</td>
+                                        <td th:text="${order.customer != null ? order.customer.fullName : 'Guest'}">Customer</td>
+                                        <td style="font-weight:600;" th:text="'₹' + ${order.grandTotal != null ? order.grandTotal : 0}">₹0</td>
                                         <td><span class="badge badge-processing"
-                                                th:text="${order.status}">Processing</span></td>
+                                                th:text="${order.orderStatus != null ? order.orderStatus : 'PENDING'}">Processing</span></td>
                                     </tr>
                                 </tbody>
                             </table>

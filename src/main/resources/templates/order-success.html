@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed — Ojasvi</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        :root {
+            --primary: #C5A47E;
+            --primary-dark: #AE7F4D;
+            --primary-light: #E6C9A8;
+            --brown: #5C3013;
+            --brown-deep: #3a1d0b;
+            --bg-main: #F5F1EB;
+            --bg-light: #FAFAFA;
+            --bg-card: #FFFFFF;
+            --black: #000000;
+            --dark: #0F0F0F;
+            --text: #1A1A1A;
+            --text-muted: #888;
+            --border: #EDE8E0;
+            --success: #0F9D8A;
+            --danger: #A32D2D;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Roboto Serif', serif;
+        }
+
+        .success-page {
+            background: var(--bg-main);
+            padding: 130px 6% 60px;
+            min-height: 85vh;
+        }
+
+        .success-container {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        /* ═══════════ CELEBRATION HEADER ═══════════ */
+        .success-hero {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 50px 40px 40px;
+            text-align: center;
+            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(197, 164, 126, 0.08);
+        }
+
+        .success-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(15, 157, 138, 0.05);
+        }
+
+        .success-icon-wrap {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), #0c7d6e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 26px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 12px 30px rgba(15, 157, 138, 0.3);
+            animation: popIn .5s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon-wrap i {
+            font-size: 38px;
+            color: #fff;
+        }
+
+        .success-hero .tag {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-hero h1 {
+            font-size: 28px;
+            color: var(--text);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-hero p {
+            color: var(--text-muted);
+            font-size: 14.5px;
+            font-family: 'Inter', sans-serif;
+            max-width: 440px;
+            margin: 0 auto;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-number-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(197, 164, 126, 0.1);
+            border: 1px dashed var(--primary);
+            border-radius: 12px;
+            padding: 12px 22px;
+            margin-top: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-number-box .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .order-number-box .value {
+            font-family: 'Roboto Serif', serif;
+            font-size: 17px;
+            color: var(--brown);
+            font-weight: 600;
+        }
+
+        .order-number-box button {
+            background: none;
+            border: none;
+            color: var(--primary-dark);
+            cursor: pointer;
+            font-size: 13px;
+            transition: color .2s;
+        }
+
+        .order-number-box button:hover {
+            color: var(--brown);
+        }
+
+        /* ═══════════ STEP TRACKER (mirrors checkout page) ═══════════ */
+        .order-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 32px 0 0;
+        }
+
+        .order-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .order-step .num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--brown);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .order-step span:last-child {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .order-step-divider {
+            width: 36px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ═══════════ INFO CARDS ═══════════ */
+        .success-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .info-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .info-card-title i {
+            color: var(--primary-dark);
+            font-size: 14px;
+        }
+
+        .info-card-body {
+            font-size: 13.5px;
+            color: var(--text);
+            line-height: 1.8;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .info-card-body strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .delivery-estimate {
+            font-family: 'Roboto Serif', serif;
+            font-size: 18px;
+            color: var(--brown);
+            margin-bottom: 4px;
+        }
+
+        .delivery-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .payment-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(15, 157, 138, 0.1);
+            color: var(--success);
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        .payment-pill.cod {
+            background: var(--bg-main);
+            color: var(--brown);
+        }
+
+        /* ═══════════ ORDER ITEMS (only shown if backend passes them) ═══════════ */
+        .order-items-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 18px;
+        }
+
+        .order-items-card h3 {
+            font-size: 15px;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .order-item-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-img,
+        .order-item-img-placeholder {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .order-item-img-placeholder {
+            background: #f0ece4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-item-img-placeholder i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .order-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .order-item-info h4 {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 3px;
+        }
+
+        .order-item-info span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .order-item-price {
+            font-family: 'Roboto Serif', serif;
+            font-size: 14px;
+            color: var(--brown);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .order-total-row .amount {
+            font-family: 'Roboto Serif', serif;
+            color: var(--brown);
+            font-size: 20px;
+        }
+
+        /* ═══════════ WHAT'S NEXT TIMELINE ═══════════ */
+        .next-steps {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 26px;
+            margin-top: 18px;
+        }
+
+        .next-steps h3 {
+            font-size: 15px;
+            margin-bottom: 18px;
+            color: var(--text);
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 17px;
+            left: 17px;
+            right: 17px;
+            height: 2px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-step .dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .timeline-step.done .dot {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+
+        .timeline-step span {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            max-width: 80px;
+        }
+
+        .timeline-step.done span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ═══════════ ACTIONS ═══════════ */
+        .success-actions {
+            display: flex;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .btn-primary-action {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            color: var(--brown);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 13.5px;
+            letter-spacing: .3px;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .btn-primary-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(197, 164, 126, 0.35);
+        }
+
+        .btn-secondary-action {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13.5px;
+            transition: all .25s;
+        }
+
+        .btn-secondary-action:hover {
+            border-color: var(--brown);
+            background: var(--bg-card);
+        }
+
+        .support-note {
+            text-align: center;
+            margin-top: 26px;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .support-note a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* ═══════════ TOAST ═══════════ */
+        #order-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--brown);
+            color: var(--primary);
+            padding: 11px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all .3s;
+            pointer-events: none;
+            z-index: 9999;
+            white-space: nowrap;
+        }
+
+        #order-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 700px) {
+            .success-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-step span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .success-page {
+                padding: 110px 5% 40px;
+            }
+
+            .success-hero {
+                padding: 36px 22px 30px;
+            }
+
+            .success-hero h1 {
+                font-size: 22px;
+            }
+
+            .order-number-box {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .success-actions {
+                flex-direction: column;
+            }
+
+            .order-steps {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+
+    <section class="success-page">
+        <div class="success-container">
+
+            <div class="success-hero">
+                <div class="success-icon-wrap">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <span class="tag">Order Confirmed</span>
+                <h1>Thank You for Shopping with Ojasvi!</h1>
+                <p>Your order has been placed successfully. We've sent a confirmation to your email and will notify you
+                    as it's on its way.</p>
+
+                <div class="order-number-box">
+                    <span class="label">Order No.</span>
+                    <span class="value" id="order-number-text" th:text="${orderNumber}">OJ-000000</span>
+                    <button type="button" onclick="copyOrderNumber()" title="Copy order number">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="order-steps">
+                    <div class="order-step">
+                        <span class="num"><i class="fa-solid fa-check"></i></span>
+                        <span>Cart</span>
+                    </div>
+                    <div class="order-step-divider"></div>
+                    <div class="order-step">
+                        <span class="num"><i class="fa-solid fa-check"></i></span>
+                        <span>Checkout</span>
+                    </div>
+                    <div class="order-step-divider"></div>
+                    <div class="order-step">
+                        <span class="num"><i class="fa-solid fa-check"></i></span>
+                        <span>Confirmed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-info-grid">
+
+                <div class="info-card">
+                    <div class="info-card-title">
+                        <i class="fa-solid fa-truck-fast"></i> Estimated Delivery
+                    </div>
+                    <div class="info-card-body">
+                        <div class="delivery-estimate" th:if="${estimatedDelivery != null}"
+                            th:text="${estimatedDelivery}">
+                            5–7 Business Days
+                        </div>
+                        <div class="delivery-estimate" th:if="${estimatedDelivery == null}">
+                            5–7 Business Days
+                        </div>
+                        <div class="delivery-sub">We'll send tracking details once shipped</div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-title">
+                        <i class="fa-solid fa-location-dot"></i> Shipping To
+                    </div>
+                    <div class="info-card-body" th:if="${shippingAddress != null}">
+                        <strong th:text="${shippingAddress.addressLine1}">Address Line 1</strong>
+                        <span
+                            th:text="${shippingAddress.city + ', ' + shippingAddress.state + ' - ' + shippingAddress.pincode}">
+                            City, State - Pincode
+                        </span>
+                    </div>
+                    <div class="info-card-body" th:if="${shippingAddress == null}">
+                        Your saved delivery address
+                    </div>
+                    <span class="payment-pill" th:if="${paymentMethod != null and paymentMethod == 'ONLINE'}">
+                        <i class="fa-solid fa-circle-check"></i> Paid Online
+                    </span>
+                    <span class="payment-pill cod" th:if="${paymentMethod == null or paymentMethod == 'COD'}">
+                        <i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="order-items-card" th:if="${orderItems != null and !#lists.isEmpty(orderItems)}">
+                <h3>Order Details</h3>
+
+                <div class="order-item-row" th:each="item : ${orderItems}">
+                    <img class="order-item-img" th:if="${item.productImage != null}" th:src="@{${item.productImage}}"
+                        alt="Product">
+                    <div class="order-item-img-placeholder" th:if="${item.productImage == null}">
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+                    <div class="order-item-info">
+                        <h4 th:text="${item.productName}">Product Name</h4>
+                        <span th:text="'Qty: ' + ${item.quantity}">Qty: 1</span>
+                    </div>
+                    <span class="order-item-price"
+                        th:text="'₹' + ${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}">
+                        ₹0
+                    </span>
+                </div>
+
+                <div class="order-total-row" th:if="${grandTotal != null}">
+                    <span>Total Paid</span>
+                    <span class="amount">₹<span
+                            th:text="${#numbers.formatDecimal(grandTotal, 0, 'COMMA', 0, 'POINT')}">0</span></span>
+                </div>
+            </div>
+
+            <div class="next-steps">
+                <h3>What Happens Next</h3>
+                <div class="timeline">
+                    <div class="timeline-step done">
+                        <div class="dot"><i class="fa-solid fa-check"></i></div>
+                        <span>Order Placed</span>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="dot"><i class="fa-solid fa-box"></i></div>
+                        <span>Packed</span>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="dot"><i class="fa-solid fa-truck"></i></div>
+                        <span>Shipped</span>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="dot"><i class="fa-solid fa-house"></i></div>
+                        <span>Delivered</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-actions">
+                <a th:href="@{/customer/orders}" class="btn-secondary-action">
+                    <i class="fa-solid fa-receipt" style="margin-right:6px;"></i> View My Orders
+                </a>
+                <a th:href="@{/shop}" class="btn-primary-action">
+                    Continue Shopping <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i>
+                </a>
+            </div>
+
+            <p class="support-note">
+                Need help with your order? <a th:href="@{/contact}">Contact our support team</a>
+            </p>
+
+        </div>
+    </section>
+
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+    <div id="order-toast"></div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        function copyOrderNumber() {
+            const text = document.getElementById('order-number-text').textContent.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                showOrderToast('Order number copied!');
+            }).catch(() => {
+                showOrderToast('Could not copy');
+            });
+        }
+
+        let orderToastTimer;
+        function showOrderToast(msg) {
+            const t = document.getElementById('order-toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(orderToastTimer);
+            orderToastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+    </script>
+
+</body>
+
+</html>
