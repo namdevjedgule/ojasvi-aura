@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ojasvi.ecommerce.Entity.Cart;
 import com.ojasvi.ecommerce.Entity.CartItem;
+import com.ojasvi.ecommerce.Entity.Product;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
@@ -29,4 +30,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     Optional<CartItem> findByCartAndProductId(Cart cart, Long productId);
     
     void deleteByCartId(Long cartId);
+    
+    Optional<CartItem> findByCartAndProduct(Cart cart, Product product);
 }

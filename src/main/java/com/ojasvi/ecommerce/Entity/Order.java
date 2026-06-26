@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ojasvi.ecommerce.Enum.OrderStatus;
@@ -50,6 +51,16 @@ public class Order extends BaseEntity {
     private PaymentStatus paymentStatus;
 
     private String remarks;
+    
+    private String trackingNumber;
+
+    private String courierName;
+
+    private LocalDate estimatedDeliveryDate;
+
+    private LocalDate shippedDate;
+
+    private LocalDate deliveredDate;
     
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;

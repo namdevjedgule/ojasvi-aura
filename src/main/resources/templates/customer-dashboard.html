@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>My Account — Ojasvi</title>
+    <title>My Account | Ojasvi Aura</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <link
@@ -1156,19 +1156,19 @@
                     <div class="stat-card">
                         <div class="stat-icon-wrap"><i class="fa-solid fa-bag-shopping"></i></div>
                         <div class="stat-label">Total Orders</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" th:text="${totalOrders}">0</div>
                         <div class="stat-trend">Start shopping!</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon-wrap"><i class="fa-solid fa-indian-rupee-sign"></i></div>
                         <div class="stat-label">Amount Spent</div>
-                        <div class="stat-value">₹0</div>
+                        <div class="stat-value" th:text="'₹' + ${amountSpent}">₹0</div>
                         <div class="stat-trend">No orders yet</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon-wrap"><i class="fa-regular fa-heart"></i></div>
+                        <div class="stat-icon-wrap"><i class="fa-solid fa-heart"></i></div>
                         <div class="stat-label">Wishlist Items</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" th:text="${wishlistCount}">0</div>
                         <div class="stat-trend">Save your favourites</div>
                     </div>
                     <div class="stat-card">

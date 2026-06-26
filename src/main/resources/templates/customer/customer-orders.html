@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>My Account — Ojasvi</title>
+    <title>My Orders | Ojasvi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <link
@@ -291,6 +291,7 @@
             cursor: pointer;
             position: relative;
             transition: border-color 0.2s;
+            text-decoration: none;
         }
 
         .topbar-icon:hover {
@@ -334,86 +335,36 @@
             padding: 28px 32px;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
+        /* FILTER TABS */
+        .order-filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .stat-card {
+        .order-filter-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 500;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 14px 14px 0 0;
-        }
-
-        .stat-icon-wrap {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(197, 164, 126, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-
-        .stat-icon-wrap i {
-            font-size: 16px;
-            color: var(--primary-dark);
-        }
-
-        .stat-label {
-            font-size: 11px;
             color: var(--text-muted);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: 'Inter', sans-serif;
         }
 
-        .stat-value {
-            font-family: 'Roboto Serif', serif;
-            font-size: 24px;
+        .order-filter-tab.active {
+            background: var(--brown);
+            color: var(--primary);
+            border-color: var(--brown);
+        }
+
+        .order-filter-tab:hover:not(.active) {
+            border-color: var(--primary);
             color: var(--text);
-            margin-bottom: 5px;
-        }
-
-        .stat-trend {
-            font-size: 11px;
-            color: var(--success);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .stat-trend.down {
-            color: var(--danger);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 20px;
         }
 
         .card {
@@ -442,6 +393,9 @@
             text-decoration: none;
             cursor: pointer;
             transition: color 0.2s;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
         }
 
         .card-link:hover {
@@ -452,76 +406,52 @@
             padding: 16px 20px;
         }
 
-        .order-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .order-table th {
-            font-family: 'Inter', sans-serif;
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 0 12px 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .order-table td {
-            padding: 13px 12px;
-            font-size: 13px;
-            color: var(--text);
-            border-bottom: 1px solid #f5f1eb;
-            vertical-align: middle;
-        }
-
-        .order-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .order-table tr:hover td {
-            background: var(--bg-hover);
-        }
-
-        .order-thumb {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ═══════════ ORDER CARDS (replaces flat table — easier to scan, more detail) ═══════════ */
+        .order-card {
             border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: box-shadow .2s;
         }
 
-        .order-thumb i {
-            font-size: 14px;
-            color: var(--primary);
+        .order-card:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
         }
 
-        .order-name-cell {
+        .order-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-card-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 14px 18px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
             gap: 10px;
         }
 
-        .order-prod-name {
-            font-size: 13px;
-            font-weight: 500;
+        .order-card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
-        .order-prod-cat {
-            font-size: 11px;
+        .order-meta-item {
+            font-size: 11.5px;
             color: var(--text-muted);
-            margin-top: 1px;
         }
 
-        .order-id-cell {
-            color: var(--primary-dark);
-            font-weight: 500;
-            font-size: 12px;
+        .order-meta-item strong {
+            color: var(--text);
+            font-weight: 600;
+            display: block;
+            font-size: 12.5px;
+            margin-top: 2px;
         }
 
         .badge {
@@ -532,426 +462,309 @@
             white-space: nowrap;
         }
 
-        .badge-delivered {
+        .badge-active {
             background: var(--success-bg);
-            color: var(--success);
+            color: var(--success)
         }
 
-        .badge-shipped {
-            background: var(--warning-bg);
-            color: var(--warning);
+        .badge-inactive {
+            background: #f5f5f5;
+            color: #999
+        }
+
+        .badge-pending {
+            background: #FFF4E5;
+            color: #B26A00;
+        }
+
+        .badge-confirmed {
+            background: #E8F1FF;
+            color: #2F6FDB;
         }
 
         .badge-processing {
-            background: var(--info-bg);
-            color: var(--info);
+            background: #F3E8FF;
+            color: #7C3AED;
+        }
+
+        .badge-packed {
+            background: #EEF5FF;
+            color: #2563EB;
+        }
+
+        .badge-shipped {
+            background: #E6F7FF;
+            color: #0284C7;
+        }
+
+        .badge-out-for-delivery {
+            background: #FFF8E1;
+            color: #E65100;
+        }
+
+        .badge-delivered {
+            background: #E7F7EE;
+            color: #15803D;
         }
 
         .badge-cancelled {
-            background: var(--danger-bg);
-            color: var(--danger);
+            background: #FDECEC;
+            color: #C62828;
         }
 
-        .right-col {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
+        .badge-return-requested {
+            background: #FFF4E5;
+            color: #C26D00;
         }
 
-        .profile-card {
-            background: var(--brown);
-            border-radius: 14px;
-            padding: 24px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        .badge-returned {
+            background: #ECEFF1;
+            color: #455A64;
         }
 
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: rgba(197, 164, 126, 0.06);
+        .badge-refund-pending {
+            background: #FFF3CD;
+            color: #8A5A00;
         }
 
-        .profile-card::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: -20px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(197, 164, 126, 0.04);
+        .badge-refunded {
+            background: #E8FFF4;
+            color: #0F9D58;
         }
 
-        .profile-avatar-lg {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(197, 164, 126, 0.15);
-            border: 2px solid rgba(197, 164, 126, 0.3);
+        .order-card-body {
+            padding: 16px 18px;
+        }
+
+        .order-product-row {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--primary);
-            margin: 0 auto 12px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile-name {
-            font-family: 'Roboto Serif', serif;
-            font-size: 16px;
-            color: var(--primary-light);
-            margin-bottom: 3px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile-email {
-            font-size: 12px;
-            color: rgba(197, 164, 126, 0.5);
-            margin-bottom: 18px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .profile-divider {
-            border: none;
-            border-top: 1px solid rgba(197, 164, 126, 0.15);
-            margin-bottom: 16px;
-        }
-
-        .profile-stats {
-            display: flex;
-            justify-content: space-around;
-            position: relative;
-            z-index: 1;
-        }
-
-        .p-stat-val {
-            font-family: 'Roboto Serif', serif;
-            font-size: 20px;
-            color: var(--primary);
-        }
-
-        .p-stat-lbl {
-            font-size: 10px;
-            color: rgba(197, 164, 126, 0.5);
-            margin-top: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .edit-profile-btn {
-            margin-top: 16px;
-            width: 100%;
-            padding: 9px;
-            background: transparent;
-            border: 1px solid rgba(197, 164, 126, 0.3);
-            color: var(--primary);
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            position: relative;
-            z-index: 1;
-        }
-
-        .edit-profile-btn:hover {
-            background: rgba(197, 164, 126, 0.1);
-        }
-
-        .wish-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 0;
+            gap: 14px;
+            padding: 10px 0;
             border-bottom: 1px solid var(--border);
         }
 
-        .wish-item:last-child {
+        .order-product-row:last-child {
             border-bottom: none;
         }
 
-        .wish-thumb {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            background: var(--bg);
+        .order-thumb,
+        .order-thumb-placeholder {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            object-fit: cover;
             border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             flex-shrink: 0;
         }
 
-        .wish-thumb i {
+        .order-thumb-placeholder {
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-thumb-placeholder i {
             font-size: 16px;
             color: var(--primary);
         }
 
-        .wish-name {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text);
+        .order-product-info {
+            flex: 1;
+            min-width: 0;
         }
 
-        .wish-cat {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .wish-stock-ok {
-            font-size: 10px;
-            color: var(--success);
-            margin-top: 2px;
-        }
-
-        .wish-stock-low {
-            font-size: 10px;
-            color: var(--warning);
-            margin-top: 2px;
-        }
-
-        .wish-right {
-            margin-left: auto;
-            text-align: right;
-            flex-shrink: 0;
-        }
-
-        .wish-price {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--brown);
-        }
-
-        .wish-add {
-            font-size: 11px;
-            color: var(--primary-dark);
-            cursor: pointer;
-            margin-top: 3px;
-            display: block;
-            transition: color 0.2s;
-        }
-
-        .wish-add:hover {
-            color: var(--brown);
-        }
-
-        .loyalty-card {
-            background: linear-gradient(135deg, var(--bg), #f0ece4);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-        }
-
-        .loyalty-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .loyalty-title {
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .loyalty-tier {
-            font-size: 10px;
-            background: rgba(197, 164, 126, 0.15);
-            color: var(--primary-dark);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .loyalty-points {
-            font-family: 'Roboto Serif', serif;
-            font-size: 30px;
-            color: var(--brown);
-            margin-bottom: 4px;
-        }
-
-        .loyalty-points span {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .loyalty-bar-bg {
-            height: 6px;
-            background: var(--border);
-            border-radius: 10px;
-            margin: 12px 0 6px;
-            overflow: hidden;
-        }
-
-        .loyalty-bar-fill {
-            height: 100%;
-            width: 60%;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-            border-radius: 10px;
-        }
-
-        .loyalty-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .address-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .address-card {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px 16px;
-            position: relative;
-        }
-
-        .address-card.default {
-            border-color: var(--primary);
-            background: rgba(197, 164, 126, 0.04);
-        }
-
-        .address-default-tag {
-            font-size: 9px;
-            background: rgba(197, 164, 126, 0.15);
-            color: var(--primary-dark);
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
-
-        .address-type {
-            font-size: 13px;
+        .order-prod-name {
+            font-size: 13.5px;
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .address-type i {
-            font-size: 14px;
-            color: var(--primary);
-        }
-
-        .address-text {
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .address-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .addr-btn {
-            font-size: 11px;
-            color: var(--primary-dark);
-            cursor: pointer;
-            text-decoration: none;
-            padding: 0;
-            background: none;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            transition: color 0.2s;
-        }
-
-        .addr-btn:hover {
-            color: var(--brown);
-        }
-
-        .addr-btn.del {
-            color: #e57373;
-        }
-
-        .addr-btn.del:hover {
-            color: #c62828;
-        }
-
-        .offer-banner {
-            background: var(--brown);
-            border-radius: 14px;
-            padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .offer-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .offer-icon {
-            font-size: 22px;
-            color: var(--primary);
-        }
-
-        .offer-text h4 {
-            font-family: 'Roboto Serif', serif;
-            font-size: 15px;
-            color: var(--primary-light);
             margin-bottom: 3px;
         }
 
-        .offer-text p {
-            font-size: 12px;
-            color: rgba(197, 164, 126, 0.6);
+        .order-prod-qty {
+            font-size: 11.5px;
+            color: var(--text-muted);
         }
 
-        .offer-btn {
-            background: var(--primary);
+        .order-prod-price {
+            font-size: 13.5px;
+            font-weight: 600;
             color: var(--brown);
-            border: none;
-            border-radius: 8px;
-            padding: 9px 18px;
+            flex-shrink: 0;
+            font-family: 'Roboto Serif', serif;
+        }
+
+        .order-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-total-text {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        .order-total-text strong {
+            color: var(--brown);
+            font-size: 16px;
+            font-family: 'Roboto Serif', serif;
+            margin-left: 6px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .order-action-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
+            transition: all .2s;
             font-family: 'Inter', sans-serif;
-            transition: background 0.2s;
-            letter-spacing: 0.3px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .offer-btn:hover {
-            background: var(--primary-light);
+        .order-action-btn.primary {
+            background: var(--brown);
+            color: var(--primary);
+            border: none;
         }
 
-        .page-section {
+        .order-action-btn.primary:hover {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        .order-action-btn.outline {
+            background: transparent;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+
+        .order-action-btn.outline:hover {
+            border-color: var(--brown);
+        }
+
+        .order-action-btn.danger {
+            background: transparent;
+            color: var(--danger);
+            border: 1.5px solid var(--danger-bg);
+        }
+
+        .order-action-btn.danger:hover {
+            background: var(--danger-bg);
+        }
+
+        /* TRACKING TIMELINE */
+        .order-tracking {
+            padding: 16px 18px;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
             display: none;
         }
 
-        .page-section.active {
+        .order-tracking.show {
             display: block;
+        }
+
+        .tracking-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 6px;
+        }
+
+        .tracking-timeline::before {
+            content: '';
+            position: absolute;
+            top: 13px;
+            left: 13px;
+            right: 13px;
+            height: 2px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .tracking-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tracking-step .dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        .tracking-step.done .dot {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+
+        .tracking-step.cancelled .dot {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #fff;
+        }
+
+        .tracking-step span {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tracking-step.done span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .empty-state i {
+            font-size: 44px;
+            color: #ddd;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .empty-state a {
+            color: var(--primary-dark);
+            font-weight: 500;
+            margin-top: 10px;
+            display: inline-block;
         }
 
         .sidebar-overlay {
@@ -960,16 +773,6 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
             z-index: 90;
-        }
-
-        @media (max-width: 1100px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         @media (max-width: 768px) {
@@ -1005,34 +808,18 @@
                 padding: 20px 16px;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
             .search-wrap {
                 display: none;
             }
 
-            .address-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-
-            .stat-value {
-                font-size: 20px;
-            }
-
-            .offer-banner {
+            .order-card-header,
+            .order-card-footer {
                 flex-direction: column;
-                gap: 12px;
-                text-align: center;
+                align-items: flex-start;
+            }
+
+            .tracking-step span {
+                display: none;
             }
         }
     </style>
@@ -1102,7 +889,6 @@
                 <div class="signout-btn" onclick="document.getElementById('logout-btn').click()">
                     <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                 </div>
-
             </form>
         </div>
     </aside>
@@ -1115,22 +901,26 @@
                     <i class="fa-solid fa-bars"></i>
                 </div>
                 <div class="topbar-left">
-                    <h2 id="page-title">My Orders</h2>
-                    <p id="page-sub">View your order history</p>
+                    <h2>My Orders</h2>
+                    <p
+                        th:text="${orders != null ? #lists.size(orders) + ' order(s) placed' : 'View your order history'}">
+                        View your order history
+                    </p>
                 </div>
             </div>
             <div class="topbar-right">
                 <div class="search-wrap">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search orders...">
+                    <input type="text" id="order-search" placeholder="Search by order no. or product..."
+                        oninput="filterOrders()">
                 </div>
                 <div class="topbar-icon">
                     <i class="fa-regular fa-bell"></i>
                     <div class="notif-dot"></div>
                 </div>
-                <div class="topbar-icon" th:href="@{/customer/profile}">
+                <a th:href="@{/customer/profile}" class="topbar-icon">
                     <i class="fa-regular fa-user"></i>
-                </div>
+                </a>
                 <a th:href="@{/}" class="topbar-icon" style="text-decoration:none;">
                     <i class="fa-solid fa-house"></i>
                 </a>
@@ -1139,18 +929,247 @@
 
         <div class="page-content">
 
-            <div class="card">
+            <div class="order-filter-tabs" th:if="${orders != null and !#lists.isEmpty(orders)}">
+                <div class="order-filter-tab active" onclick="setOrderFilter(this,'')">
+                    All Orders
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'PENDING')">
+                    Pending
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'PROCESSING')">
+                    Processing
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'SHIPPED')">
+                    Shipped
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'OUT_FOR_DELIVERY')">
+                    Out For Delivery
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'DELIVERED')">
+                    Delivered
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'RETURN_REQUESTED')">
+                    Return Requested
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'REFUNDED')">
+                    Refunded
+                </div>
+                <div class="order-filter-tab" onclick="setOrderFilter(this,'CANCELLED')">
+                    Cancelled
+                </div>
+            </div>
+
+            <div class="card" th:if="${orders != null and !#lists.isEmpty(orders)}">
+                <div class="card-header">
+                    <h3 class="card-title">My Orders</h3>
+                    <span style="font-size:12px;color:var(--text-muted);" id="showing-count"
+                        th:text="'Showing ' + ${#lists.size(orders)} + ' order(s)'">
+                    </span>
+                </div>
+
+                <div class="card-body" id="orders-container">
+
+                    <div class="order-card" th:each="order : ${orders}" th:with="tracking=${trackingMap[order.id]}"
+                        th:attr="data-status=${order.orderStatus},
+              data-search=${order.orderNumber}">
+
+                        <div class="order-card-header">
+                            <div class="order-card-header-left">
+                                <div class="order-meta-item">
+                                    Order No.
+                                    <strong th:text="${order.orderNumber}">ORD001</strong>
+                                </div>
+                                <div class="order-meta-item">
+                                    Placed On
+                                    <strong th:text="${#temporals.format(order.createdAt,'dd MMM yyyy')}">10 Jun
+                                        2026</strong>
+                                </div>
+                                <div class="order-meta-item">
+                                    Items
+                                    <strong
+                                        th:text="${order.orderItems != null ? #lists.size(order.orderItems) : 0}">0</strong>
+                                </div>
+                            </div>
+
+                            <span class="badge" th:classappend="${order.orderStatus.getCssClass()}"
+                                th:text="${order.orderStatus.getLabel()}">
+                                PENDING
+                            </span>
+                        </div>
+
+                        <div class="order-card-body">
+                            <div class="order-product-row" th:each="item : ${order.orderItems}">
+                                <img class="order-thumb"
+                                    th:if="${item.productImage != null and !item.productImage.isEmpty()}"
+                                    th:src="${item.productImage}" alt="Product">
+                                <div class="order-thumb-placeholder"
+                                    th:if="${item.productImage == null or item.productImage.isEmpty()}">
+                                    <i class="fa-regular fa-image"></i>
+                                </div>
+                                <div class="order-product-info">
+                                    <div class="order-prod-name" th:text="${item.productName}">Product Name</div>
+                                    <div class="order-prod-qty" th:text="'Qty: ' + ${item.quantity}">Qty: 1</div>
+                                </div>
+                                <div class="order-prod-price"
+                                    th:text="'₹' + ${#numbers.formatDecimal(item.subtotal, 0, 'COMMA', 0, 'POINT')}">
+                                    ₹0
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-tracking" th:id="${'tracking-' + order.id}">
+                            <div class="tracking-timeline">
+                                <div class="tracking-step done">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <span>Placed</span>
+                                </div>
+                                <div class="tracking-step"
+                                    th:classappend="${tracking != null && tracking.confirmed} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+                                    <span>Confirmed</span>
+                                </div>
+                                <div class="tracking-step"
+                                    th:classappend="${tracking != null && tracking.processing} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-gears"></i>
+                                    </div>
+                                    <span>Processing</span>
+                                </div>
+                                <div class="tracking-step"
+                                    th:classappend="${tracking != null && tracking.packed} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-box"></i>
+                                    </div>
+                                    <span>Packed</span>
+                                </div>
+                                <div class="tracking-step"
+                                    th:classappend="${tracking != null && tracking.shipped} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-truck"></i>
+                                    </div>
+                                    <span>Shipped</span>
+                                </div>
+                                <div class="tracking-step"
+                                    th:classappend="${tracking != null && tracking.outForDelivery} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <span>Out for Delivery</span>
+                                </div>
+                                <div class="tracking-step"
+                                    th:classappend="${tracking != null && tracking.delivered} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-house"></i>
+                                    </div>
+                                    <span>Delivered</span>
+                                </div>
+                            </div>
+                            <div class="tracking-cancelled" th:if="${tracking != null && tracking.cancelled}">
+                                <i class="fa-solid fa-ban"></i>
+                                Order was cancelled.
+                            </div>
+                            <div class="tracking-return" th:if="${tracking != null && tracking.returnFlow}">
+                                <div class="tracking-step" th:classappend="${tracking.returnRequested} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                                    </div>
+                                    <span>Return Requested</span>
+                                </div>
+                                <div class="tracking-step" th:classappend="${tracking.returned} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-box-open"></i>
+                                    </div>
+                                    <span>Returned</span>
+                                </div>
+                                <div class="tracking-step" th:classappend="${tracking.refundPending} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </div>
+                                    <span>Refund Pending</span>
+                                </div>
+                                <div class="tracking-step" th:classappend="${tracking.refunded} ? 'done' : ''">
+                                    <div class="dot">
+                                        <i class="fa-solid fa-money-bill-wave"></i>
+                                    </div>
+                                    <span>Refunded</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-card-footer">
+                            <div class="order-total-text">
+                                Total Paid:
+                                <strong>₹<span
+                                        th:text="${#numbers.formatDecimal(order.grandTotal, 0, 'COMMA', 0, 'POINT')}">0</span></strong>
+                            </div>
+
+                            <div class="order-actions">
+                                <button type="button" class="order-action-btn outline"
+                                    th:attr="onclick=|toggleTracking(${order.id})|"
+                                    th:if="${order.orderStatus.name() != 'CANCELLED'}">
+                                    <i class="fa-solid fa-truck-fast"></i> Track Order
+                                </button>
+
+                                <a th:href="@{'/customer/orders/' + ${order.id}}" class="order-action-btn outline">
+                                    <i class="fa-solid fa-eye"></i> View Details
+                                </a>
+
+                                <button type="button" class="order-action-btn primary" th:if="${order.orderStatus.name()=='DELIVERED'
+    or order.orderStatus.name()=='CANCELLED'
+    or order.orderStatus.name()=='RETURNED'
+    or order.orderStatus.name()=='REFUNDED'}" th:attr="onclick=|reorder(${order.id})|">
+                                    <i class="fa-solid fa-rotate-right"></i> Reorder
+                                </button>
+
+                                <button type="button" class="order-action-btn danger" th:if="${order.orderStatus.name()=='PENDING'
+    or order.orderStatus.name()=='CONFIRMED'
+    or order.orderStatus.name()=='PROCESSING'}" th:attr="onclick=|cancelOrder(${order.id})|">
+                                    <i class="fa-solid fa-ban"></i> Cancel Order
+                                </button>
+
+                                <button class="order-action-btn outline"
+                                    th:if="${order.orderStatus.name()=='DELIVERED'}"
+                                    th:attr="onclick=|returnOrder(${order.id})|">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    Return
+                                </button>
+
+                                <button class="order-action-btn primary"
+                                    th:if="${order.orderStatus.name()=='DELIVERED'}">
+                                    <i class="fa-solid fa-star"></i>
+                                    Write Review
+                                </button>
+
+                                <a class="order-action-btn outline" th:href="@{'/api/orders/invoice/' + ${order.id}}">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                    Invoice
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card" th:if="${orders == null or #lists.isEmpty(orders)}">
                 <div class="card-header">
                     <h3 class="card-title">My Orders</h3>
                 </div>
-                <div style="padding:40px; text-align:center; color:#999; font-size:13px;">
-                    <i class="fa-solid fa-box-open"
-                        style="font-size:40px; color:#ddd; display:block; margin-bottom:14px;"></i>
+                <div class="empty-state">
+                    <i class="fa-solid fa-box-open"></i>
                     No orders yet.<br>
-                    <a th:href="@{/products/shop}"
-                        style="color:var(--primary-dark); font-weight:500; margin-top:8px; display:inline-block;">Browse
-                        our collections →</a>
+                    <a th:href="@{/shop}">Browse our collections →</a>
                 </div>
+            </div>
+
+            <div class="empty-state" id="no-filter-results" style="display:none;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                No orders match this filter.
             </div>
 
         </div>
@@ -1171,6 +1190,76 @@
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('overlay').classList.remove('show');
+        }
+
+        let activeStatusFilter = '';
+
+        function setOrderFilter(tabEl, status) {
+            activeStatusFilter = status;
+            document.querySelectorAll('.order-filter-tab').forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+            filterOrders();
+        }
+
+        function filterOrders() {
+            const search = document.getElementById('order-search').value.toLowerCase();
+            const cards = document.querySelectorAll('#orders-container .order-card');
+            let visible = 0;
+
+            cards.forEach(card => {
+                const status = card.dataset.status || '';
+                const text = (card.dataset.search || '').toLowerCase();
+
+                const matchStatus = !activeStatusFilter || status === activeStatusFilter;
+                const matchSearch = !search || text.includes(search);
+
+                const show = matchStatus && matchSearch;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            const counter = document.getElementById('showing-count');
+            if (counter) counter.textContent = 'Showing ' + visible + ' order(s)';
+
+            document.getElementById('no-filter-results').style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        /* ═══════════ TRACKING TOGGLE ═══════════ */
+        function toggleTracking(orderId) {
+            const el = document.getElementById('tracking-' + orderId);
+            if (el) el.classList.toggle('show');
+        }
+
+        /* ═══════════ REORDER ═══════════ */
+        function reorder(orderId) {
+            fetch('/api/orders/reorder/' + orderId, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Items added to cart');
+                        setTimeout(() => window.location.href = '/cart', 800);
+                    } else {
+                        showToast(data.message || 'Could not reorder these items');
+                    }
+                })
+                .catch(() => showToast('Server error. Please try again.'));
+        }
+
+        /* ═══════════ CANCEL ORDER ═══════════ */
+        function cancelOrder(orderId) {
+            if (!confirm('Are you sure you want to cancel this order?')) return;
+
+            fetch('/api/orders/cancel/' + orderId, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Order cancelled successfully');
+                        setTimeout(() => location.reload(), 900);
+                    } else {
+                        showToast(data.message || 'Could not cancel this order');
+                    }
+                })
+                .catch(() => showToast('Server error. Please try again.'));
         }
 
         let toastTimer;

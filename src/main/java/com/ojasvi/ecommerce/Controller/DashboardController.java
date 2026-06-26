@@ -50,6 +50,21 @@ public class DashboardController {
 		}
 
 	    model.addAttribute("user", user);
+	    
+	    model.addAttribute("totalOrders",
+	            orderService.countOrdersByCustomer(user.getId()));
+
+	    model.addAttribute("amountSpent",
+	            orderService.getTotalAmountSpentByCustomer(user.getId()));
+
+	    model.addAttribute("wishlistCount",
+	            userService.getWishlistCountByCustomer(user.getId()));
+
+	    model.addAttribute("loyaltyPoints",
+	            userService.getLoyaltyPointsByCustomer(user.getId()));
+	    
+	    model.addAttribute("recentOrders",
+	            orderService.findRecentOrdersByCustomer(user.getId()));
 
 	    return "customer-dashboard";
 	}

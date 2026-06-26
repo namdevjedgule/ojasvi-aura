@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ojasvi.ecommerce.Entity.User;
 import com.ojasvi.ecommerce.Repository.UserRepository;
+import com.ojasvi.ecommerce.Repository.WishlistRepository;
 import com.ojasvi.ecommerce.Util.RoleConstants;
 
 @Service
@@ -22,6 +23,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private WishlistRepository wishlistRepository;
 	
 	private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
@@ -146,5 +150,14 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public long getWishlistCountByCustomer(Long userId) {
+        return wishlistRepository.countByUserId(userId);
+    }
+
+	public Object getLoyaltyPointsByCustomer(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

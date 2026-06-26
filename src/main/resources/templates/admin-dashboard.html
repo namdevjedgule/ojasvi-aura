@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title th:text="'Admin Dashboard — Ojasvi'">Admin Dashboard — Ojasvi</title>
+    <title th:text="'Admin Dashboard — Ojasvi'">Admin Dashboard | Ojasvi Aura</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
     <link
@@ -592,39 +592,86 @@
             white-space: nowrap;
         }
 
-        .badge-delivered {
-            background: var(--success-bg);
-            color: var(--success);
-        }
-
-        .badge-shipped {
-            background: var(--warning-bg);
-            color: var(--warning);
-        }
-
-        .badge-processing {
-            background: var(--info-bg);
-            color: var(--info);
-        }
-
-        .badge-cancelled {
-            background: var(--danger-bg);
-            color: var(--danger);
-        }
-
         .badge-active {
             background: var(--success-bg);
-            color: var(--success);
+            color: var(--success)
         }
 
-        .badge-low {
-            background: var(--danger-bg);
-            color: var(--danger);
-        }
-
-        .badge-out {
+        .badge-inactive {
             background: #f5f5f5;
-            color: #999;
+            color: #999
+        }
+
+        /* NEW: order status specific badges */
+        .badge-pending {
+            background: #FFF4E5;
+            color: #B26A00;
+        }
+
+        /* Order accepted */
+        .badge-confirmed {
+            background: #E8F1FF;
+            color: #2F6FDB;
+        }
+
+        /* Warehouse processing */
+        .badge-processing {
+            background: #F3E8FF;
+            color: #7C3AED;
+        }
+
+        /* Packed */
+        .badge-packed {
+            background: #EEF5FF;
+            color: #2563EB;
+        }
+
+        /* Courier picked up */
+        .badge-shipped {
+            background: #E6F7FF;
+            color: #0284C7;
+        }
+
+        /* Delivery agent assigned */
+        .badge-out-for-delivery {
+            background: #FFF8E1;
+            color: #E65100;
+        }
+
+        /* Successfully delivered */
+        .badge-delivered {
+            background: #E7F7EE;
+            color: #15803D;
+        }
+
+        /* Cancelled */
+        .badge-cancelled {
+            background: #FDECEC;
+            color: #C62828;
+        }
+
+        /* Customer requested return */
+        .badge-return-requested {
+            background: #FFF4E5;
+            color: #C26D00;
+        }
+
+        /* Returned successfully */
+        .badge-returned {
+            background: #ECEFF1;
+            color: #455A64;
+        }
+
+        /* Refund is being processed */
+        .badge-refund-pending {
+            background: #FFF3CD;
+            color: #8A5A00;
+        }
+
+        /* Refund completed */
+        .badge-refunded {
+            background: #E8FFF4;
+            color: #0F9D58;
         }
 
         /* ===== QUICK ACTIONS ===== */
@@ -1049,10 +1096,15 @@
                                 <tbody>
                                     <tr th:each="order : ${recentOrders}">
                                         <td class="order-id" th:text="'#' + ${order.id}">#0000</td>
-                                        <td th:text="${order.customer != null ? order.customer.fullName : 'Guest'}">Customer</td>
-                                        <td style="font-weight:600;" th:text="'₹' + ${order.grandTotal != null ? order.grandTotal : 0}">₹0</td>
-                                        <td><span class="badge badge-processing"
-                                                th:text="${order.orderStatus != null ? order.orderStatus : 'PENDING'}">Processing</span></td>
+                                        <td th:text="${order.customer != null ? order.customer.fullName : 'Guest'}">
+                                            Customer</td>
+                                        <td style="font-weight:600;"
+                                            th:text="'₹' + ${order.grandTotal != null ? order.grandTotal : 0}">₹0</td>
+                                        <td>
+                                            <span class="badge" th:classappend="${' ' + order.orderStatus.cssClass}"
+                                                th:text="${order.orderStatus.label}">
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

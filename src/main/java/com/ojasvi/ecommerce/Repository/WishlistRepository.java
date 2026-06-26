@@ -26,4 +26,6 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
             WHERE w.user.id = :userId
         """)
     List<Wishlist> findByUserIdWithProductDetails(@Param("userId") Long userId);
+    
+    long countByUserId(Long userId);
 }

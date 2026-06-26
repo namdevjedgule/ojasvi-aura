@@ -119,7 +119,7 @@ public class NewsletterService {
 				            letter-spacing: 2px;
 				            text-transform: uppercase;
 				        ">
-				            Bringing Life into your Sanctuary.
+				            Breathe Life into your Sanctuary.
 				        </div>
 
 				    </div>
@@ -212,7 +212,7 @@ public class NewsletterService {
 				                font-size: 14px;
 				                letter-spacing: 0.5px;
 				            ">
-				                Bringing Life into your Sanctuary.
+				                Breathe Life into your Sanctuary.
 				            </span>
 
 				        </p>
