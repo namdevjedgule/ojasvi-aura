@@ -39,4 +39,23 @@ public class WishlistRestController {
                 wishlistService.toggleWishlist(user, productId)
         );
     }
+    
+    @PostMapping("/remove")
+    public ResponseEntity<?> remove(
+            @RequestBody Map<String, Object> payload,
+            HttpSession session) {
+
+        User user = SessionUtil.getLoggedInUser(session);
+
+        if (user == null) {
+            return ResponseEntity.status(401)
+                    .body(Map.of("message", "Please login first"));
+        }
+
+        Long productId = Long.valueOf(payload.get("productId").toString());
+
+        return ResponseEntity.ok(
+                wishlistService.removeFromWishlist(user, productId)
+        );
+    }
 }

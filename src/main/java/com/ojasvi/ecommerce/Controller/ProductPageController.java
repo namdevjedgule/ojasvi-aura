@@ -48,8 +48,7 @@ public class ProductPageController {
         model.addAttribute("categories", categories);
         model.addAttribute("totalProductCount", products.size());
 
-        model.addAttribute("wishlistIds",
-                wishlistHelper.getWishlistIds(user));
+        model.addAttribute("wishlistIds", wishlistHelper.getWishlistIds(user));
 
         return "shop";
     }

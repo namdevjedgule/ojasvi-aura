@@ -323,15 +323,23 @@
             color: var(--text-muted);
         }
 
-        .notif-dot {
+        .notification-count {
             position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
+            top: -6px;
+            right: -6px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 50px;
             background: #e53e3e;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: 2px solid var(--bg-card);
+            line-height: 1;
         }
 
         .hamburger-btn {
@@ -351,7 +359,16 @@
             color: var(--text-muted);
         }
 
-        /* ===== FLASH MESSAGES ===== */
+        .flash {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
         .flash-success {
             background: var(--success-bg);
             border: 1px solid rgba(15, 157, 138, 0.25);
@@ -917,7 +934,6 @@
     <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
 
     <aside class="sidebar" id="sidebar">
-
         <div class="sidebar-brand">
             <a class="brand-logo" th:href="@{/}">OJASVI</a>
             <span class="brand-sub">Admin Panel</span>
@@ -925,7 +941,6 @@
                 <div class="admin-tag-dot"></div>ADMIN PORTAL
             </div>
         </div>
-
         <nav class="sidebar-nav">
             <div class="nav-section-title">Overview</div>
             <a class="nav-link active" onclick="showSection('dashboard')">
@@ -989,11 +1004,9 @@
                 </div>
             </form>
         </div>
-
     </aside>
 
     <div class="main">
-
         <div class="topbar">
             <div style="display:flex; align-items:center; gap:12px;">
                 <div class="hamburger-btn" onclick="openSidebar()"><i class="fa-solid fa-bars"></i></div>
@@ -1010,13 +1023,15 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" placeholder="Search orders, products, customers...">
                 </div>
-                <a th:href="@{/admin/products/add}" class="topbar-icon" title="Add Product">
+                <a th:href="@{/admin/products(openModal='true')}" class="topbar-icon" title="Add Product">
                     <i class="fa-solid fa-plus"></i>
                 </a>
-                <div class="topbar-icon">
+                <a th:href="@{/admin/notifications}" class="topbar-icon">
                     <i class="fa-regular fa-bell"></i>
-                    <div class="notif-dot"></div>
-                </div>
+                    <span class="notification-count" th:if="${notificationCount > 0}"
+                        th:text="${notificationCount > 99 ? '99+' : notificationCount}">
+                    </span>
+                </a>
                 <a th:href="@{/}" class="topbar-icon">
                     <i class="fa-solid fa-house"></i>
                 </a>
@@ -1024,11 +1039,11 @@
         </div>
 
         <div class="page-content">
-            <div class="flash-success" th:if="${success}">
+            <div class="flash flash-success" th:if="${success}">
                 <i class="fa-solid fa-circle-check"></i>
                 <span th:text="${success}"></span>
             </div>
-            <div class="flash-error" th:if="${error}">
+            <div class="flash flash-error" th:if="${error}">
                 <i class="fa-solid fa-circle-exclamation"></i>
                 <span th:text="${error}"></span>
             </div>

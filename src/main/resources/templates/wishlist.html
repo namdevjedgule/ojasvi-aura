@@ -397,7 +397,7 @@
                             View Product
                         </a>
                         <button class="wishlist-cart-btn" th:disabled="${item.stock == null or item.stock == 0}"
-                            th:attr="onclick=|moveToCart(${item.productId})|" title="Add to cart">
+                            th:attr="onclick=|moveToCart(${item.productId}, this)|" title="Add to cart">
                             <i class="fa-solid fa-bag-shopping"></i>
                         </button>
                     </div>
@@ -444,19 +444,56 @@
                         }
                     }, 300);
                     showToast(data.message || 'Removed from wishlist');
+                    updateNavbarCounts();
                 })
                 .catch(() => showToast('Failed to remove item'));
         }
 
-        function moveToCart(productId) {
+        function moveToCart(productId, btn) {
+            const card = btn.closest('.wishlist-card');
             fetch('/api/cart/add', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ productId: productId, quantity: 1 })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: productId,
+                    quantity: 1
+                })
             })
                 .then(r => r.json())
-                .then(data => showToast(data.message || 'Added to cart'))
-                .catch(() => showToast('Please login to add items to cart'));
+                .then(data => {
+                    showToast(data.message || "Added to cart");
+                    updateNavbarCounts();
+                    return fetch('/api/wishlist/remove', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            productId: productId
+                        })
+                    });
+                })
+                .then(() => {
+                    card.style.transition = 'opacity .35s, transform .35s';
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        card.remove();
+                        const remaining = document.querySelectorAll('.wishlist-card').length;
+                        const counter = document.getElementById('showing-count');
+                        if (counter) {
+                            counter.textContent = 'Showing ' + remaining + ' item(s)';
+                        }
+                        if (remaining === 0) {
+                            location.reload();
+                        }
+                    }, 350);
+                })
+                .catch(() => {
+                    showToast("Unable to add to cart");
+                });
         }
 
         let toastTimer;

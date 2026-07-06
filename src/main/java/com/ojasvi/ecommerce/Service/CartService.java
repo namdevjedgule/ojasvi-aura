@@ -29,6 +29,12 @@ public class CartService {
 	@Autowired
 	private ProductRepository productRepository;
 	
+	public int getCartItemCount(User user) {
+
+	    Integer total = cartRepository.getTotalItems(user);
+	    return total == null ? 0 : total;
+	}
+	
 	public Cart getCartByUser(User user) {
 
 	    return cartRepository.findCartWithItems(user.getId())

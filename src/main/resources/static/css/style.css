@@ -69,9 +69,18 @@ h3 {
     color: rgba(174, 127, 77, 0.7);
 }
 
+.navbar .wishlist-count,
 .navbar .cart-count {
-    background: var(--primary-dark);
-    color: var(--black);
+    background: rgba(197, 164, 126, 0.15);
+    border: 1.5px solid rgba(197, 164, 126, 0.3);
+    color: var(--primary);
+}
+
+.navbar .nav-avatar,
+.navbar .nav-avatar-img {
+    background: rgba(197, 164, 126, 0.15);
+    border: 1.5px solid rgba(197, 164, 126, 0.4);
+    color: var(--primary);
 }
 
 .transparent-nav .navbar {
@@ -86,6 +95,14 @@ h3 {
     color: white;
 }
 
+.transparent-nav .navbar .nav-links a::after {
+    background: var(--white);
+}
+
+.transparent-nav .navbar .nav-links a.active::after {
+    background: var(--white);
+}
+
 .transparent-nav .navbar .search-box {
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
@@ -94,9 +111,18 @@ h3 {
     color: var(--white);
 }
 
+.transparent-nav .navbar .wishlist-count,
 .transparent-nav .navbar .cart-count {
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: var(--white);
+}
+
+.transparent-nav .navbar .nav-avatar,
+.transparent-nav .navbar .nav-avatar-img {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: var(--white);
 }
 
 /* HOVER + SCROLL → SAME AS DEFAULT */
@@ -121,6 +147,16 @@ h3 {
     color: var(--primary-dark);
 }
 
+.transparent-nav .navbar:hover .nav-links a::after,
+.transparent-nav .navbar.scrolled .nav-links a::after {
+    background: var(--primary);
+}
+
+.transparent-nav .navbar:hover .nav-links a.active::after,
+.transparent-nav .navbar.scrolled .nav-links a.active::after {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+
 .transparent-nav .navbar:hover .search-box,
 .transparent-nav .navbar.scrolled .search-box {
     border: 1px solid var(--primary-dark);
@@ -131,10 +167,23 @@ h3 {
     color: rgba(174, 127, 77, 0.7);
 }
 
+.transparent-nav .navbar:hover .wishlist-count,
+.transparent-nav .navbar.scrolled .wishlist-count,
 .transparent-nav .navbar:hover .cart-count,
 .transparent-nav .navbar.scrolled .cart-count {
-    background: var(--primary-dark);
-    color: var(--black);
+    background: rgba(197, 164, 126, 0.15);
+    border: 1.5px solid rgba(197, 164, 126, 0.3);
+    color: var(--primary);
+}
+
+.transparent-nav .navbar:hover .nav-avatar,
+.transparent-nav .navbar.scrolled .nav-avatar,
+.transparent-nav .navbar:hover .nav-avatar-img,
+.transparent-nav .navbar.scrolled .nav-avatar-img {
+
+    background: rgba(197, 164, 126, 0.15);
+    border: 1.5px solid rgba(197, 164, 126, 0.4);
+    color: var(--primary);
 }
 
 .logo img {
@@ -241,6 +290,7 @@ h3 {
     font-weight: 600;
     color: var(--primary);
     flex-shrink: 0;
+    transition: all .25s ease;
 }
 
 .nav-avatar-img {
@@ -251,7 +301,7 @@ h3 {
 .navbar-user:hover .nav-avatar,
 .navbar-user:hover .nav-avatar-img {
     transform: scale(1.05);
-    border-color: #c5a47e;
+    transition: all .25s ease;
 }
 
 /* Dropdown */
@@ -313,18 +363,37 @@ h3 {
     background: #f5f1eb;
 }
 
-.cart-icon {
+.cart-icon,
+.wishlist-icon {
     position: relative;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.cart-count {
+.wishlist-icon i,
+.cart-icon i {
+    position: relative;
+    z-index: 2;
+}
+
+.cart-count,
+.wishlist-count {
     position: absolute;
-    top: -8px;
-    right: -10px;
-    background: rgba(0, 0, 0, 0.7);
+    top: -9px;
+    right: -11px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 10px;
-    padding: 3px 6px;
-    border-radius: 50%;
+    font-weight: 600;
+    border-radius: 999px;
+    z-index: 1;
+    transition: all .25s ease;
 }
 
 .right-section {
@@ -389,7 +458,6 @@ h3 {
         position: relative;
 
         color: var(--primary-dark);
-        /* ALWAYS GOLD (consistent) */
 
         opacity: 0;
         transform: translateY(10px);

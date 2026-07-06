@@ -228,6 +228,7 @@
                         return;
                     }
                     showToast(data.message || 'Added to cart');
+                    updateNavbarCounts();
                 })
                 .catch(() => {
                     showToast('Something went wrong');
@@ -262,6 +263,7 @@
                     }
 
                     showToast(data.message || 'Updated wishlist');
+                    updateNavbarCounts();
                 })
                 .catch(() => {
                     showToast('Something went wrong');

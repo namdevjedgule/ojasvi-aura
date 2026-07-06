@@ -557,6 +557,7 @@
                     if (data.success) {
 
                         showToast(data.message || 'Item removed successfully', 'success');
+                        updateNavbarCounts();
 
                         setTimeout(() => {
                             location.reload();

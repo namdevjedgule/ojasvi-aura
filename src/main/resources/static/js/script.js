@@ -147,3 +147,35 @@ function initLoginModal() {
         }
     });
 }
+
+function updateNavbarCounts() {
+
+    fetch("/api/navbar/counts")
+        .then(r => r.json())
+        .then(data => {
+
+            const wishBadge = document.querySelector(".wishlist-count");
+            const wishIcon = document.querySelector(".wishlist-icon i");
+
+            if (wishBadge && wishIcon) {
+                wishBadge.textContent = data.wishlistCount;
+                if (data.wishlistCount > 0) {
+                    wishBadge.style.display = "flex";
+                    wishIcon.className = "fa-solid fa-heart";
+                } else {
+                    wishBadge.style.display = "none";
+                    wishIcon.className = "fa-regular fa-heart";
+                }
+            }
+
+            const cartBadge = document.querySelector(".cart-count");
+            if (cartBadge) {
+                cartBadge.textContent = data.cartCount;
+                if (data.cartCount > 0) {
+                    cartBadge.style.display = "flex";
+                } else {
+                    cartBadge.style.display = "none";
+                }
+            }
+        });
+}

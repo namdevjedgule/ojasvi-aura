@@ -23,11 +23,18 @@
     <div class="right-section">
         <div class="nav-icons">
 
-            <a th:href="@{/wishlist}"><i class="fa-regular fa-heart"></i></a>
+            <a th:href="@{/wishlist}" class="wishlist-icon"><i th:class="${wishlistCount > 0}
+        ? 'fa-solid fa-heart'
+        : 'fa-regular fa-heart'">
+                </i>
+                <span class="wishlist-count" th:text="${wishlistCount}"
+                    th:style="${wishlistCount > 0 ? '' : 'display:none;'}">
+                </span></a>
 
             <a th:href="@{/cart}" class="cart-icon">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span class="cart-count">0</span>
+                <span class="cart-count" th:text="${cartCount}" th:style="${cartCount > 0 ? '' : 'display:none;'}">
+                </span>
             </a>
 
             <a th:if="${user == null}" th:href="@{/login}"><i class="fa-regular fa-user"></i></a>
@@ -43,10 +50,15 @@
                         <span class="user-name" th:text="${user.fullName}"></span>
                         <small class="user-role" th:text="${user.role.roleName}"></small>
                     </div>
-                    <a th:href="@{/customer-dashboard}">
+                    <a th:if="${user.role.id == 1}" th:href="@{/admin-dashboard}">
+                        <i class="fa-regular fa-user"></i>Admin Dashboard
+                    </a>
+
+                    <a th:if="${user.role.id == 2}" th:href="@{/customer-dashboard}">
                         <i class="fa-regular fa-user"></i> Dashboard
                     </a>
-                    <a th:href="@{/customer/orders}">
+
+                    <a th:if="${user.role.id == 2}" th:href="@{/customer/orders}">
                         <i class="fa-solid fa-box"></i> My Orders
                     </a>
                     <form th:action="@{/logout}" method="post">

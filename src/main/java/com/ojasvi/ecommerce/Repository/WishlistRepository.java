@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ojasvi.ecommerce.Entity.User;
 import com.ojasvi.ecommerce.Entity.Wishlist;
 
 @Repository
@@ -28,4 +29,6 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     List<Wishlist> findByUserIdWithProductDetails(@Param("userId") Long userId);
     
     long countByUserId(Long userId);
+
+	int countByUser(User user);
 }

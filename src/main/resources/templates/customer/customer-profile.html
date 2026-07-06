@@ -291,6 +291,7 @@
             cursor: pointer;
             position: relative;
             transition: border-color 0.2s;
+            text-decoration: none;
         }
 
         .topbar-icon:hover {
@@ -302,15 +303,23 @@
             color: var(--text-muted);
         }
 
-        .notif-dot {
+        .notification-count {
             position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
+            top: -6px;
+            right: -6px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 50px;
             background: #e53e3e;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: 2px solid var(--bg-card);
+            line-height: 1;
         }
 
         .hamburger-btn {
@@ -600,13 +609,15 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" placeholder="Search orders...">
                 </div>
-                <div class="topbar-icon">
+                <a th:href="@{/customer/notifications}" class="topbar-icon">
                     <i class="fa-regular fa-bell"></i>
-                    <div class="notif-dot"></div>
-                </div>
-                <div class="topbar-icon" th:href="@{/customer/profile}">
+                    <span class="notification-count" th:if="${notificationCount > 0}"
+                        th:text="${notificationCount > 99 ? '99+' : notificationCount}">
+                    </span>
+                </a>
+                <a th:if="${user != null}" th:href="@{/customer/profile}" class="topbar-icon">
                     <i class="fa-regular fa-user"></i>
-                </div>
+                </a>
                 <a th:href="@{/}" class="topbar-icon" style="text-decoration:none;">
                     <i class="fa-solid fa-house"></i>
                 </a>

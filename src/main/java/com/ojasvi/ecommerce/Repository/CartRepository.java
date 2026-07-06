@@ -25,4 +25,11 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 	Optional<Cart> findCartWithItems(@Param("userId") Long userId);
 
 	Optional<Cart> findByUser(User user);
+
+	@Query("""
+		       SELECT COALESCE(c.totalItems,0)
+		       FROM Cart c
+		       WHERE c.user = :user
+		       """)
+		Integer getTotalItems(User user);
 }

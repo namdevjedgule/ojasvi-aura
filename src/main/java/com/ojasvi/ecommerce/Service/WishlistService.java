@@ -20,11 +20,14 @@ public class WishlistService {
 
     @Autowired private WishlistRepository wishlistRepository;
     @Autowired private ProductRepository productRepository;
+    
+    public int getWishlistCount(User user) {
+        return wishlistRepository.countByUser(user);
+    }
 
     public Map<String, Object> toggleWishlist(User user, Long productId) {
 
-        Optional<Wishlist> existing =
-                wishlistRepository.findByUserIdAndProductId(user.getId(), productId);
+        Optional<Wishlist> existing = wishlistRepository.findByUserIdAndProductId(user.getId(), productId);
 
         if (existing.isPresent()) {
             wishlistRepository.delete(existing.get());
@@ -41,6 +44,25 @@ public class WishlistService {
         wishlistRepository.save(w);
 
         return Map.of("inWishlist", true, "message", "Added to wishlist");
+    }
+    
+    public Map<String, Object> removeFromWishlist(User user, Long productId) {
+
+    	Optional<Wishlist> existing = wishlistRepository.findByUserIdAndProductId(user.getId(), productId);
+
+        if (existing.isEmpty()) {
+            return Map.of(
+                    "success", false,
+                    "message", "Item not found in wishlist"
+            );
+        }
+
+        wishlistRepository.delete(existing.get());
+
+        return Map.of(
+                "success", true,
+                "message", "Removed from wishlist"
+        );
     }
     
     @Transactional(readOnly = true)

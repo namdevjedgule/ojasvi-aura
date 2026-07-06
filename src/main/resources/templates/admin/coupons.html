@@ -252,30 +252,6 @@
             gap: 12px
         }
 
-        .topbar-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            transition: border-color .2s;
-            text-decoration: none
-        }
-
-        .topbar-icon:hover {
-            border-color: var(--primary)
-        }
-
-        .topbar-icon i {
-            font-size: 14px;
-            color: var(--text-muted)
-        }
-
         .search-wrap {
             display: flex;
             align-items: center;
@@ -305,15 +281,47 @@
             font-size: 13px
         }
 
-        .notif-dot {
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 9px;
-            height: 9px;
+        .topbar-icon {
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: border-color .2s;
+            text-decoration: none
+        }
+
+        .topbar-icon:hover {
+            border-color: var(--primary)
+        }
+
+        .topbar-icon i {
+            font-size: 14px;
+            color: var(--text-muted)
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 50px;
             background: #e53e3e;
-            border: 2px solid var(--bg-card)
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-card);
+            line-height: 1;
         }
 
         .hamburger-btn {
@@ -882,6 +890,16 @@
                 </div>
             </div>
             <div class="topbar-right">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search coupons...">
+                </div>
+                <a th:href="@{/admin/notifications}" class="topbar-icon">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-count" th:if="${notificationCount > 0}"
+                        th:text="${notificationCount > 99 ? '99+' : notificationCount}">
+                    </span>
+                </a>
                 <a th:href="@{/}" class="topbar-icon"><i class="fa-solid fa-house"></i></a>
             </div>
         </div>

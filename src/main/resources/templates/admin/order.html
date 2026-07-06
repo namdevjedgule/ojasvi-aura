@@ -320,6 +320,25 @@
             color: var(--text-muted)
         }
 
+        .notification-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 50px;
+            background: #e53e3e;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-card);
+            line-height: 1;
+        }
+
         .hamburger-btn {
             display: none;
             width: 34px;
@@ -1044,6 +1063,12 @@
                     <input type="text" id="search-input" placeholder="Search by order no. or customer..."
                         oninput="filterTable()">
                 </div>
+                <a th:href="@{/admin/notifications}" class="topbar-icon">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-count" th:if="${notificationCount > 0}"
+                        th:text="${notificationCount > 99 ? '99+' : notificationCount}">
+                    </span>
+                </a>
                 <a th:href="@{/}" class="topbar-icon"><i class="fa-solid fa-house"></i></a>
             </div>
         </div>

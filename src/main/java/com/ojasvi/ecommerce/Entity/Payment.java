@@ -20,11 +20,19 @@ public class Payment extends BaseEntity {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    private String transactionId;
+    @Column(unique = true)
+    private String razorpayOrderId;
 
+    @Column(unique = true)
+    private String razorpayPaymentId;
+
+    @Column(length = 500)
+    private String razorpaySignature;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
     private String paymentGateway;
@@ -34,4 +42,10 @@ public class Payment extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
+
+    // Optional: UPI/Card/NetBanking/Wallet
+    private String paymentMode;
+
+    @Column(length = 1000)
+    private String failureReason;
 }

@@ -912,6 +912,7 @@
                         return;
                     }
                     showPdToast(data.message || 'Added to cart');
+                    updateNavbarCounts();
                 })
                 .catch(() => {
                     showPdToast('Something went wrong');
@@ -948,6 +949,7 @@
                         btn.classList.remove('active');
                     }
                     showPdToast(data.message);
+                    updateNavbarCounts();
                 })
                 .catch(() => {
                     showPdToast('Something went wrong');

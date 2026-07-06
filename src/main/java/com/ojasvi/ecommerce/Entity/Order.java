@@ -17,51 +17,51 @@ import com.ojasvi.ecommerce.Enum.PaymentStatus;
 @Setter
 public class Order extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String orderNumber;
+	private String orderNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User customer;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User customer;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address shippingAddress;
+	@ManyToOne
+	@JoinColumn(name = "address_id")
+	private Address shippingAddress;
 
-    private BigDecimal subtotal;
-    
-    private BigDecimal shippingCharge;
-    
-    private BigDecimal discountAmount;
-    
-    private BigDecimal taxAmount;
-    
-    private BigDecimal grandTotal;
-    
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+	private BigDecimal subtotal;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+	private BigDecimal shippingCharge;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+	private BigDecimal discountAmount;
 
-    private String remarks;
-    
-    private String trackingNumber;
+	private BigDecimal taxAmount;
 
-    private String courierName;
+	private BigDecimal grandTotal;
 
-    private LocalDate estimatedDeliveryDate;
+	@Enumerated(EnumType.STRING)
+	private PaymentMethod paymentMethod;
 
-    private LocalDate shippedDate;
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 
-    private LocalDate deliveredDate;
-    
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems;
+	@Enumerated(EnumType.STRING)
+	private PaymentStatus paymentStatus;
+
+	private String remarks;
+
+	private String trackingNumber;
+
+	private String courierName;
+
+	private LocalDate estimatedDeliveryDate;
+
+	private LocalDate shippedDate;
+
+	private LocalDate deliveredDate;
+
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OrderItem> orderItems;
 }
