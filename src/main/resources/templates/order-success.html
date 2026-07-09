@@ -652,14 +652,14 @@
                         <i class="fa-solid fa-truck-fast"></i> Estimated Delivery
                     </div>
                     <div class="info-card-body">
-                        <div class="delivery-estimate" th:if="${estimatedDelivery != null}"
-                            th:text="${estimatedDelivery}">
-                            5–7 Business Days
+                        <div class="delivery-estimate" th:text="${estimatedDelivery}">
                         </div>
-                        <div class="delivery-estimate" th:if="${estimatedDelivery == null}">
-                            5–7 Business Days
+                        <div class="delivery-sub" th:if="${estimatedDeliveryDate != null}"
+                            th:text="'Expected by ' + ${#temporals.format(estimatedDeliveryDate, 'dd MMM yyyy')}">
                         </div>
-                        <div class="delivery-sub">We'll send tracking details once shipped</div>
+                        <div class="delivery-sub">
+                            We'll send tracking details once shipped
+                        </div>
                     </div>
                 </div>
 

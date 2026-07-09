@@ -40,6 +40,10 @@ public class OrderDetailsDto {
     private BigDecimal subtotal;
 
     private BigDecimal shippingCharge;
+    
+    private String shippingMethod;
+    
+    private String shippingZone;
 
     private BigDecimal discountAmount;
 

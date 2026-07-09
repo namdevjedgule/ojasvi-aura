@@ -9,18 +9,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ojasvi.ecommerce.DTO.ProductRequest;
 import com.ojasvi.ecommerce.Entity.Category;
 import com.ojasvi.ecommerce.Entity.Product;
 import com.ojasvi.ecommerce.Entity.ProductImage;
 import com.ojasvi.ecommerce.Entity.SubCategory;
+import com.ojasvi.ecommerce.Entity.User;
+import com.ojasvi.ecommerce.Enum.NotificationEvent;
+import com.ojasvi.ecommerce.Enum.NotificationType;
+import com.ojasvi.ecommerce.Enum.RecipientType;
+import com.ojasvi.ecommerce.Enum.ReferenceType;
 import com.ojasvi.ecommerce.Repository.CategoryRepository;
 import com.ojasvi.ecommerce.Repository.ProductImageRepository;
 import com.ojasvi.ecommerce.Repository.ProductRepository;
 import com.ojasvi.ecommerce.Repository.SubCategoryRepository;
+import com.ojasvi.ecommerce.Repository.UserRepository;
 
 @Service
 public class ProductService {
+	
+	@Autowired
+	private NotificationService notificationService;
+
+	@Autowired
+	private MailService mailService;
+
+	@Autowired
+	private UserRepository userRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -36,6 +54,112 @@ public class ProductService {
 
     @Autowired
     private SubCategoryRepository subCategoryRepository;
+    
+    private static final Logger logger =
+	        LoggerFactory.getLogger(ProductService.class);
+    
+    private void checkStockAlerts(Product product, Integer oldStock) {
+
+        User admin = userRepository.findByRole_RoleName("ADMIN")
+                .orElse(null);
+
+        if (admin == null) {
+            return;
+        }
+
+        Integer newStock  = product.getStock() != null
+                ? product.getStock()
+                : 0;
+        
+        // Product Restocked
+        if (oldStock == 0 && newStock > 0) {
+
+            notificationService.createNotification(
+                    "Product Restocked",
+                    product.getProductName()
+                            + " has been restocked and is available again.",
+                    NotificationType.STOCK,
+                    NotificationEvent.PRODUCT_RESTOCKED,
+                    RecipientType.ADMIN,
+                    admin.getId(),
+                    ReferenceType.INVENTORY,
+                    product.getId()
+            );
+
+            try {
+                mailService.sendAdminProductRestockedEmail(
+                        admin.getEmail(),
+                        product.getProductName(),
+                        newStock
+                );
+            } catch (Exception e) {
+                logger.error(
+                        "Failed to send product restocked email for {}",
+                        product.getProductName(),
+                        e
+                );
+            }
+        }
+
+        // Out of Stock
+        if (newStock == 0) {
+
+            notificationService.createNotification(
+                    "Product Out of Stock",
+                    product.getProductName() + " is out of stock.",
+                    NotificationType.STOCK,
+                    NotificationEvent.OUT_OF_STOCK,
+                    RecipientType.ADMIN,
+                    admin.getId(),
+                    ReferenceType.INVENTORY,
+                    product.getId()
+            );
+
+            try {
+                mailService.sendAdminOutOfStockEmail(
+                        admin.getEmail(),
+                        product.getProductName()
+                );
+            } catch (Exception e) {
+                logger.error(
+                        "Failed to send out of stock email for product {}",
+                        product.getProductName(),
+                        e
+                );
+            }
+        }
+
+        // Low Stock
+        else if (newStock <= 10) {
+
+            notificationService.createNotification(
+                    "Low Stock Alert",
+                    product.getProductName()
+                            + " is running low. Available quantity: "
+                            + newStock,
+                    NotificationType.STOCK,
+                    NotificationEvent.LOW_STOCK,
+                    RecipientType.ADMIN,
+                    admin.getId(),
+                    ReferenceType.INVENTORY,
+                    product.getId()
+            );
+
+            try {
+                mailService.sendAdminLowStockEmail(
+                        admin.getEmail(),
+                        product.getProductName(),
+                        newStock
+                );
+            } catch (Exception e) {
+                logger.error(
+                        "Failed to send low stock email for product {}",
+                        product.getProductName(),
+                        e
+                );
+            }
+        }
+    }
 
     public List<Product> getAllProducts() {
         return productRepository.findAllWithImages();
@@ -376,8 +500,10 @@ public class ProductService {
             throw new IllegalArgumentException("Stock cannot be negative");
         }
 
+        Integer oldStock = product.getStock();
         product.setStock(newStock);
         productRepository.save(product);
+        checkStockAlerts(product, oldStock);
     }
 
     public void adjustStock(Long productId, Integer delta) {
@@ -390,8 +516,10 @@ public class ProductService {
             throw new IllegalArgumentException("Stock cannot go below zero");
         }
 
+        Integer oldStock = product.getStock();
         product.setStock(newStock);
         productRepository.save(product);
+        checkStockAlerts(product, oldStock);
     }
 
     public void toggleActiveStatus(Long productId) {

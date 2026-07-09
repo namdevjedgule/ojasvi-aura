@@ -1,7 +1,9 @@
 package com.ojasvi.ecommerce.Config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -11,18 +13,46 @@ import java.nio.file.Paths;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${app.upload.dir:${user.home}/ojasvi-uploads/products}")
-    private String uploadDirPath;
+	@Autowired
+	private RoleInterceptor roleInterceptor;
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	@Value("${app.upload.dir:${user.home}/ojasvi-uploads/products}")
+	private String uploadDirPath;
 
-        Path uploadPath = Paths.get(uploadDirPath).toAbsolutePath().normalize();
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        String resourceLocation = "file:" + uploadPath.toString() + "/";
+		Path uploadPath = Paths.get(uploadDirPath).toAbsolutePath().normalize();
 
-        registry.addResourceHandler("/uploads/products/**")
-                .addResourceLocations(resourceLocation)
-                .setCachePeriod(60 * 60 * 24);
-    }
+		String resourceLocation = "file:" + uploadPath.toString() + "/";
+
+		registry.addResourceHandler("/uploads/products/**").addResourceLocations(resourceLocation)
+				.setCachePeriod(60 * 60 * 24);
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+
+		registry.addInterceptor(roleInterceptor)
+        .addPathPatterns(
+                "/admin/**",
+                "/customer/**",
+                "/admin-dashboard",
+                "/customer-dashboard",
+                "/cart/**",
+                "/wishlist/**",
+                "/checkout/**",
+                "/order-success/**"
+        )
+        .excludePathPatterns(
+                "/login",
+                "/register",
+                "/forgot-password",
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/uploads/**",
+                "/webjars/**"
+        );
+	}
 }

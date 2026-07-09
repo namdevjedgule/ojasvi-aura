@@ -34,6 +34,10 @@ public class Order extends BaseEntity {
 	private BigDecimal subtotal;
 
 	private BigDecimal shippingCharge;
+	
+	private String shippingMethod;
+
+	private String shippingZone;
 
 	private BigDecimal discountAmount;
 
@@ -64,4 +68,10 @@ public class Order extends BaseEntity {
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderItem> orderItems;
+	
+	@Column(unique = true)
+	private String invoiceNumber;
+	
+	@OneToOne(mappedBy = "order")
+	private Invoice invoice;
 }

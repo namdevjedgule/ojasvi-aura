@@ -96,6 +96,12 @@
 			<artifactId>razorpay-java</artifactId>
 			<version>1.4.8</version>
 		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext7-core</artifactId>
+			<version>9.2.0</version>
+			<type>pom</type>
+		</dependency>
 	</dependencies>
 
 	<build>

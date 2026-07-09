@@ -7,19 +7,30 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ojasvi.ecommerce.Entity.User;
+import com.ojasvi.ecommerce.Enum.NotificationEvent;
+import com.ojasvi.ecommerce.Enum.NotificationType;
+import com.ojasvi.ecommerce.Enum.RecipientType;
+import com.ojasvi.ecommerce.Enum.ReferenceType;
 import com.ojasvi.ecommerce.Repository.UserRepository;
 import com.ojasvi.ecommerce.Repository.WishlistRepository;
 import com.ojasvi.ecommerce.Util.RoleConstants;
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private MailService mailService;
+
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -29,6 +40,9 @@ public class UserService {
 	
 	private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();
+	
+	private static final Logger logger =
+            LoggerFactory.getLogger(UserService.class);
 
     private static final String UPLOAD_DIR =
             "src/main/resources/static/uploads/user/";
@@ -84,6 +98,26 @@ public class UserService {
                 passwordEncoder.encode(newPassword));
 
         userRepository.save(user);
+        
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        notificationService.createNotification(
+                "Password Changed Successfully",
+                "Your account password was changed successfully. If you did not perform this action, please contact support immediately.",
+                NotificationType.USER,
+                NotificationEvent.PASSWORD_CHANGED,
+                RecipientType.CUSTOMER,
+                user.getId(),
+                ReferenceType.USER,
+                user.getId()
+        );
+
+        try {
+            mailService.sendCustomerPasswordChangedEmail(user);
+        } catch (Exception e) {
+            logger.error("Failed to send password change email to {}", user.getEmail(), e);
+        }
     }
 
     public void uploadProfileImage(Long userId,

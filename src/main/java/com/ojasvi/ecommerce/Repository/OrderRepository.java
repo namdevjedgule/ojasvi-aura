@@ -16,13 +16,8 @@ import com.ojasvi.ecommerce.Enum.OrderStatus;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("""
-            SELECT o
-            FROM Order o
-            JOIN FETCH o.customer
-            ORDER BY o.createdAt DESC
-            """)
-    List<Order> findTop10RecentOrders();
+	@EntityGraph(attributePaths = {"customer"})
+    List<Order> findTop10ByOrderByCreatedAtDesc();
 
     Optional<Order> findByOrderNumber(String orderNumber);
 
@@ -67,5 +62,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     		ORDER BY o.createdAt DESC
     		""")
     		List<Order> findOrders(User customer);
+    
+    @Query("""
+            SELECT o
+            FROM Order o
+            LEFT JOIN FETCH o.orderItems oi
+            LEFT JOIN FETCH oi.product
+            WHERE o.id = :id
+            """)
+    Optional<Order> findByIdWithItems(Long id);
 
 }

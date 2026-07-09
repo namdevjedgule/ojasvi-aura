@@ -989,44 +989,7 @@
                 </div>
             </div>
 
-            <!-- COD & FREE SHIPPING SETTINGS -->
-            <div class="two-col">
-
-                <form th:action="@{/admin/shipping/update-cod}" method="post">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Cash on Delivery</h3>
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="codEnabled"
-                                    th:checked="${shippingConfig != null ? shippingConfig.codEnabled : true}"
-                                    onchange="this.form.submit()">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label class="form-label">COD Extra Charge (₹)</label>
-                                <input type="number" name="codCharge" class="form-input" min="0"
-                                    th:value="${shippingConfig != null ? shippingConfig.codCharge : 50}"
-                                    placeholder="50">
-                                <p class="form-hint">Extra fee charged when customer pays via COD. Set 0 for no extra
-                                    charge.</p>
-                            </div>
-                            <div class="form-group" style="margin-bottom:0;">
-                                <label class="form-label">COD Not Available Above (₹)</label>
-                                <input type="number" name="codMaxOrder" class="form-input" min="0"
-                                    th:value="${shippingConfig != null ? shippingConfig.codMaxOrder : 5000}"
-                                    placeholder="5000">
-                                <p class="form-hint">Disable COD for orders above this amount. Leave blank to allow
-                                    always.</p>
-                            </div>
-                            <button type="submit" class="save-btn" style="margin-top:16px;">
-                                <i class="fa-solid fa-floppy-disk"></i> Save COD Settings
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
+            <div class="card" style="margin-bottom:20px;">
                 <form th:action="@{/admin/shipping/update-general}" method="post">
                     <div class="card">
                         <div class="card-header">
@@ -1059,10 +1022,8 @@
                         </div>
                     </div>
                 </form>
-
             </div>
 
-            <!-- SHIPPING ZONES TABLE -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Shipping Zones</h3>
@@ -1112,7 +1073,6 @@
         </div>
     </div>
 
-    <!-- ZONE MODAL -->
     <div class="modal" id="zone-modal">
         <div class="modal-box">
             <div class="modal-header">

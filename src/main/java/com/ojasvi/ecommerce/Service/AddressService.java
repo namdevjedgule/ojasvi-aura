@@ -167,4 +167,12 @@ public class AddressService {
 			}
 		}
 	}
+	
+	public Address getDefaultAddress(User user) {
+
+	    return addressRepository
+	            .findByUserIdAndDefaultAddressTrue(
+	                    user.getId())
+	            .orElse(null);
+	}
 }

@@ -376,7 +376,9 @@
             border-color: var(--primary-light);
         }
 
-        .payment-option.selected {
+        /* Highlight is now driven directly by the radio's checked state,
+           so it can never drift out of sync with the actual selection. */
+        .payment-option:has(input:checked) {
             border-color: var(--primary);
             background: rgba(197, 164, 126, 0.06);
         }
@@ -737,7 +739,8 @@
 
         <div class="checkout-container" th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
 
-            <form class="checkout-form-card" id="checkout-form" th:action="@{/checkout/place-order}" method="post">
+            <form class="checkout-form-card" id="checkout-form" th:action="@{/checkout/create-payment-order}"
+                method="post">
 
                 <div class="checkout-section" th:if="${savedAddresses != null and !#lists.isEmpty(savedAddresses)}">
                     <div class="checkout-section-title">
@@ -881,26 +884,48 @@
 
                 <div class="checkout-section">
                     <div class="checkout-section-title">
+                        <span class="icon-wrap">
+                            <i class="fa-solid fa-truck"></i>
+                        </span>
+                        <span>Delivery Method</span>
+                    </div>
+                    <div class="payment-options">
+                        <label class="payment-option" id="standard-option">
+                            <input type="radio" name="shippingMethod" value="standard" checked>
+                            <div class="payment-option-text">
+                                <strong>Standard Delivery</strong>
+                                <span>5-7 business days</span>
+                            </div>
+                        </label>
+                        <label class="payment-option" id="express-option">
+                            <input type="radio" name="shippingMethod" value="express">
+                            <div class="payment-option-text">
+                                <strong>Express Delivery</strong>
+                                <span>1-2 business days</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkout-section">
+                    <div class="checkout-section-title">
                         <span class="icon-wrap"><i class="fa-solid fa-credit-card"></i></span>
                         <span>Payment Method</span>
                     </div>
 
                     <div class="payment-options">
-                        <label class="payment-option selected" id="opt-cod" th:attr="onclick=|selectPayment('cod')|">
-                            <input type="radio" name="paymentMethod" value="COD" checked>
-                            <span class="icon-wrap"><i class="fa-solid fa-money-bill-wave"></i></span>
-                            <div class="payment-option-text">
-                                <strong>Cash on Delivery</strong>
-                                <span>Pay when your order arrives</span>
-                            </div>
-                        </label>
+                        <label class="payment-option selected">
+                            <input type="radio" name="paymentMethod" value="ONLINE" checked hidden>
 
-                        <label class="payment-option" id="opt-online" th:attr="onclick=|selectPayment('online')|">
-                            <input type="radio" name="paymentMethod" value="ONLINE">
-                            <span class="icon-wrap"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                            <span class="icon-wrap">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </span>
+
                             <div class="payment-option-text">
-                                <strong>UPI / Card Payment</strong>
-                                <span>Pay securely online</span>
+                                <strong>Secure Online Payment</strong>
+                                <span>
+                                    UPI • Credit Card • Debit Card • Net Banking • Wallet
+                                </span>
                             </div>
                         </label>
                     </div>
@@ -936,23 +961,29 @@
                 </div>
                 <div class="checkout-summary-row">
                     <span>Shipping</span>
-                    <span
-                        th:text="${shippingCharge != null and shippingCharge > 0 ? '₹' + shippingCharge : 'Free'}">Free</span>
+                    <span id="shipping-charge-text">
+                        <span
+                            th:text="${shippingCharge != null and shippingCharge > 0 ? '₹' + shippingCharge : 'Free'}">
+                            Free
+                        </span>
+                    </span>
                 </div>
                 <div class="checkout-summary-row discount" th:if="${couponDiscount != null and couponDiscount > 0}">
                     <span>Coupon Discount</span>
                     <span th:text="'-₹' + ${#numbers.formatDecimal(couponDiscount, 0, 'COMMA', 0, 'POINT')}">-₹0</span>
                 </div>
-                <div class="checkout-summary-row" th:if="${codCharge != null and codCharge > 0}">
-                    <span>COD Charges</span>
-                    <span>₹<span th:text="${codCharge}">0</span></span>
-                </div>
 
                 <div class="checkout-summary-row total">
                     <span>Total</span>
-                    <span class="amount">₹<span id="final-total"
-                            th:text="${#numbers.formatDecimal(grandTotal != null ? grandTotal : totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span></span>
+                    <span class="amount">
+                        ₹<span id="final-total"
+                            th:text="${#numbers.formatDecimal(grandTotal != null ? grandTotal : totalAmount,0,'COMMA',0,'POINT')}">
+                            0
+                        </span>
+                    </span>
                 </div>
+
+                <input type="hidden" id="subtotal" th:value="${totalAmount}">
 
                 <button type="button" class="checkout-place-order-btn" id="place-order-btn" onclick="submitOrder()">
                     <i class="fa-solid fa-lock"></i> Place Order
@@ -981,6 +1012,7 @@
 
     <div id="checkout-toast"></div>
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script th:src="@{/js/script.js}"></script>
     <script>
         function selectSavedAddress(chipEl, addressId) {
@@ -990,6 +1022,7 @@
             document.getElementById('selected-address-id').value = addressId;
             document.getElementById('use-new-address').checked = false;
             toggleNewAddressForm();
+            updateShipping();
         }
 
         function toggleNewAddressForm() {
@@ -1021,22 +1054,16 @@
                     document.getElementById("city").value = postOffice.District || "";
                     document.getElementById("state").value = postOffice.State || "";
                     document.getElementById("country").value = "India";
+                    updateShipping();
                 } else {
-                    showToast("Invalid pincode");
+                    showCheckoutToast("Invalid pincode");
                     document.getElementById("city").value = "";
                     document.getElementById("state").value = "";
                 }
             } catch (error) {
                 console.error(error);
-                showToast("Unable to fetch address details");
+                showCheckoutToast("Unable to fetch address details");
             }
-        }
-
-        function selectPayment(method) {
-            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
-            const el = document.getElementById(method === 'cod' ? 'opt-cod' : 'opt-online');
-            el.classList.add('selected');
-            el.querySelector('input[type="radio"]').checked = true;
         }
 
         function validateForm() {
@@ -1070,42 +1097,130 @@
             return valid;
         }
 
-        function submitOrder() {
+        async function submitOrder() {
             if (!validateForm()) {
-                showCheckoutToast('Please fill all required fields correctly');
+                showCheckoutToast("Please fill all required fields correctly");
                 return;
             }
-
-            const btn = document.getElementById('place-order-btn');
+            const btn = document.getElementById("place-order-btn");
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Placing Order...';
-
-            const form = document.getElementById('checkout-form');
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            throw new Error(data.message || 'Failed to place order');
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    showCheckoutToast(data.message || 'Order placed successfully!');
-                    setTimeout(() => {
-                        window.location.href = data.redirectUrl || '/order-confirmation';
-                    }, 1200);
-                })
-                .catch(error => {
-                    showCheckoutToast(error.message || 'Something went wrong. Please try again.');
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fa-solid fa-lock"></i> Place Order';
+            btn.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            try {
+                //----------------------------------------------------
+                // STEP 1 : CREATE RAZORPAY ORDER
+                //----------------------------------------------------
+                const form = document.getElementById("checkout-form");
+                const formData = new FormData(form);
+                const response = await fetch("/checkout/create-payment-order", {
+                    method: "POST",
+                    body: formData
                 });
+                const data = await response.json();
+                if (!data.success) {
+                    showCheckoutToast(data.message);
+                    btn.disabled = false;
+                    btn.innerHTML =
+                        '<i class="fa-solid fa-lock"></i> Place Order';
+                    return;
+                }
+                //----------------------------------------------------
+                // STEP 2 : OPEN RAZORPAY
+                //----------------------------------------------------
+                const options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: data.currency,
+                    name: "OJASVI",
+                    description: "Secure Payment",
+                    order_id: data.orderId,
+                    prefill: {
+                        name: document.getElementById("firstName").value,
+                        email: document.getElementById("email").value,
+                        contact: document.getElementById("phone").value
+                    },
+                    theme: {
+                        color: "#111111"
+                    },
+                    handler: async function (response) {
+                        //------------------------------------------------
+                        // STEP 3 : VERIFY PAYMENT
+                        //------------------------------------------------
+                        try {
+                            const verifyData = new URLSearchParams();
+                            verifyData.append(
+                                "razorpayOrderId",
+                                response.razorpay_order_id
+                            );
+                            verifyData.append(
+                                "razorpayPaymentId",
+                                response.razorpay_payment_id
+                            );
+                            verifyData.append(
+                                "razorpaySignature",
+                                response.razorpay_signature
+                            );
+                            const verifyResponse =
+                                await fetch("/checkout/verify-payment", {
+
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type":
+                                            "application/x-www-form-urlencoded"
+                                    },
+                                    body: verifyData
+                                });
+                            const verify =
+                                await verifyResponse.json();
+                            if (verify.success) {
+                                window.location.href =
+                                    verify.redirectUrl;
+                            } else {
+                                showCheckoutToast(
+                                    verify.message ||
+                                    "Payment verification failed."
+                                );
+                                btn.disabled = false;
+                                btn.innerHTML =
+                                    '<i class="fa-solid fa-lock"></i> Place Order';
+                            }
+                        } catch (e) {
+                            console.error(e);
+                            showCheckoutToast(
+                                "Unable to verify payment."
+                            );
+                            btn.disabled = false;
+                            btn.innerHTML =
+                                '<i class="fa-solid fa-lock"></i> Place Order';
+                        }
+                    },
+                    modal: {
+                        ondismiss: function () {
+                            btn.disabled = false;
+                            btn.innerHTML =
+                                '<i class="fa-solid fa-lock"></i> Place Order';
+                            showCheckoutToast("Payment cancelled.");
+                        }
+                    }
+                };
+                const razorpay = new Razorpay(options);
+                razorpay.on("payment.failed", function (response) {
+                    console.error("Payment Failed:", response.error);
+                    showCheckoutToast(
+                        response.error.description || "Payment failed."
+                    );
+                    btn.disabled = false;
+                    btn.innerHTML =
+                        '<i class="fa-solid fa-lock"></i> Place Order';
+                });
+                razorpay.open();
+            } catch (e) {
+                console.error(e);
+                showCheckoutToast("Something went wrong.");
+                btn.disabled = false;
+                btn.innerHTML =
+                    '<i class="fa-solid fa-lock"></i> Place Order';
+            }
         }
 
         let checkoutToastTimer;
@@ -1124,7 +1239,146 @@
                 document.getElementById('new-address-section')
                     .style.display = 'none';
             }
+            updateShipping();
         });
+
+        document.querySelectorAll(
+            'input[name="shippingMethod"]'
+        ).forEach(radio => {
+
+            radio.addEventListener('change', updateShipping);
+        });
+
+        let shippingRequestId = 0;
+
+        async function updateShipping() {
+
+            const shippingMethod =
+                document.querySelector(
+                    'input[name="shippingMethod"]:checked'
+                ).value;
+
+            const shippingText =
+                document.getElementById(
+                    "shipping-charge-text"
+                );
+
+            const finalTotalEl =
+                document.getElementById(
+                    "final-total"
+                );
+
+            shippingText.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+            const requestId = ++shippingRequestId;
+
+            const formData = new FormData();
+
+            formData.append(
+                "shippingMethod",
+                shippingMethod
+            );
+
+            const addressId =
+                document.getElementById(
+                    "selected-address-id"
+                ).value;
+
+            if (addressId) {
+
+                formData.append(
+                    "addressId",
+                    addressId
+                );
+
+            } else {
+
+                formData.append(
+                    "state",
+                    document.getElementById(
+                        "state"
+                    ).value
+                );
+
+                formData.append(
+                    "country",
+                    document.getElementById(
+                        "country"
+                    ).value
+                );
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/checkout/calculate-shipping",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+                if (response.status === 401) {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                const data =
+                    await response.json();
+
+                if (
+                    requestId !==
+                    shippingRequestId
+                ) {
+                    return;
+                }
+
+                if (!data.success) {
+
+                    shippingText.innerHTML =
+                        "Free";
+
+                    return;
+                }
+
+                const shipping =
+                    Number(data.shippingCharge);
+
+                const grandTotal =
+                    Number(data.grandTotal);
+
+                shippingText.innerHTML =
+                    shipping > 0
+                        ? "₹" +
+                        shipping.toLocaleString(
+                            "en-IN"
+                        )
+                        : "Free";
+
+                finalTotalEl.innerHTML =
+                    grandTotal.toLocaleString(
+                        "en-IN"
+                    );
+
+            } catch (e) {
+
+                console.error(e);
+
+                if (
+                    requestId ===
+                    shippingRequestId
+                ) {
+                    shippingText.innerHTML =
+                        "Free";
+
+                    showCheckoutToast(
+                        "Unable to update shipping charge."
+                    );
+                }
+            }
+        }
     </script>
 
 </body>

@@ -82,36 +82,7 @@ public class AdminShippingController {
 
         return "redirect:/admin/shipping";
     }
-    
-    @PostMapping("/update-cod")
-    public String updateCod(
-            @RequestParam(required = false)
-            String codEnabled,
-            @RequestParam Double codCharge,
-            @RequestParam(required = false) Double codMaxOrder,
-            RedirectAttributes ra) {
-
-        ShippingConfig config =
-                shippingService.getConfig();
-
-        config.setCodEnabled(
-                codEnabled != null);
-
-        config.setCodCharge(
-                codCharge);
-
-        config.setCodMaxOrder(
-                codMaxOrder);
-
-        shippingService.saveConfig(config);
-
-        ra.addFlashAttribute(
-                "success",
-                "COD settings updated.");
-
-        return "redirect:/admin/shipping";
-    }
-    
+        
     @PostMapping("/update-general")
     public String updateGeneral(
 

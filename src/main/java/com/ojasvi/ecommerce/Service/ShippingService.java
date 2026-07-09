@@ -13,51 +13,121 @@ import com.ojasvi.ecommerce.Repository.ShippingZoneRepository;
 @Service
 public class ShippingService {
 
-    @Autowired
-    private ShippingConfigRepository configRepo;
+	@Autowired
+	private ShippingConfigRepository shippingConfigRepository;
 
-    @Autowired
-    private ShippingZoneRepository zoneRepo;
+	@Autowired
+	private ShippingZoneRepository shippingZoneRepository;
 
-    public ShippingConfig getConfig() {
+	public ShippingConfig getConfig() {
 
-        return configRepo.findAll()
-                .stream()
-                .findFirst()
-                .orElseGet(() -> {
+		return shippingConfigRepository.findAll().stream().findFirst().orElseGet(() -> {
 
-                    ShippingConfig config =
-                            new ShippingConfig();
+			ShippingConfig config = new ShippingConfig();
 
-                    return configRepo.save(config);
-                });
-    }
+			return shippingConfigRepository.save(config);
+		});
+	}
 
-    public ShippingConfig saveConfig(
-            ShippingConfig config) {
+	public ShippingConfig saveConfig(ShippingConfig config) {
 
-        return configRepo.save(config);
-    }
+		return shippingConfigRepository.save(config);
+	}
 
-    public List<ShippingZone> getAllZones() {
+	public List<ShippingZone> getAllZones() {
 
-        return zoneRepo.findAll();
-    }
+		return shippingZoneRepository.findAll();
+	}
 
-    public ShippingZone saveZone(
-            ShippingZone zone) {
+	public ShippingZone saveZone(ShippingZone zone) {
 
-        return zoneRepo.save(zone);
-    }
+		return shippingZoneRepository.save(zone);
+	}
 
-    public ShippingZone getZone(Long id) {
+	public ShippingZone getZone(Long id) {
 
-        return zoneRepo.findById(id)
-                .orElse(null);
-    }
+		return shippingZoneRepository.findById(id).orElse(null);
+	}
 
-    public void deleteZone(Long id) {
+	public void deleteZone(Long id) {
 
-        zoneRepo.deleteById(id);
-    }
+		shippingZoneRepository.deleteById(id);
+	}
+
+	public Double calculateShipping(
+	        String city,
+	        String state,
+	        String country,
+	        String shippingMethod,
+	        Double orderAmount) {
+
+	    ShippingConfig config = getConfig();
+
+	    if ("standard".equals(shippingMethod)) {
+
+	        if (!config.getStandardEnabled()) {
+	            return null;
+	        }
+
+	        if (orderAmount >= config.getStandardFreeAbove()) {
+	            return 0.0;
+	        }
+	    }
+
+	    if ("express".equals(shippingMethod)) {
+
+	        if (!config.getExpressEnabled()) {
+	            return null;
+	        }
+
+	        if (orderAmount >= config.getExpressFreeAbove()) {
+	            return 0.0;
+	        }
+	    }
+
+	    ShippingZone zone = null;
+
+	    if (city != null &&
+	        city.equalsIgnoreCase("Pune")) {
+
+	        zone = shippingZoneRepository
+	                .findByZoneNameIgnoreCase("Pune")
+	                .orElse(null);
+	    }
+	    else if (state != null &&
+	             state.equalsIgnoreCase("Maharashtra")) {
+
+	        zone = shippingZoneRepository
+	                .findByZoneNameIgnoreCase("Maharashtra")
+	                .orElse(null);
+	    }
+	    else if (country != null &&
+	             country.equalsIgnoreCase("India")) {
+
+	        zone = shippingZoneRepository
+	                .findByZoneNameIgnoreCase("Rest of India")
+	                .orElse(null);
+	    }
+	    else {
+
+	        zone = shippingZoneRepository
+	                .findByZoneNameIgnoreCase("International")
+	                .orElse(null);
+	    }
+
+	    if (zone == null) {
+
+	        if ("express".equals(shippingMethod)) {
+	            return config.getExpressCharge();
+	        }
+
+	        return config.getStandardCharge();
+	    }
+
+	    if ("express".equals(shippingMethod)) {
+	        return zone.getExpressCharge();
+	    }
+
+	    return zone.getStandardCharge();
+	}
 }

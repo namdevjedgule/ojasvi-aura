@@ -498,7 +498,6 @@
             color: var(--text);
         }
 
-        /* FILTER BAR */
         .filter-bar {
             display: flex;
             align-items: center;
@@ -597,6 +596,16 @@
             bottom: 0;
             width: 3px;
             background: var(--primary);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            flex-shrink: 0;
+            margin-top: 6px;
         }
 
         .notif-icon-wrap {
@@ -611,97 +620,61 @@
             transition: all .25s ease;
         }
 
-        /* ===========================
-   ORDER
-=========================== */
         .notif-icon-wrap.type-order {
             background: rgba(59, 130, 246, .12);
             color: #2563eb;
         }
 
-        /* ===========================
-   PAYMENT
-=========================== */
         .notif-icon-wrap.type-payment {
             background: rgba(34, 197, 94, .12);
             color: #16a34a;
         }
 
-        /* ===========================
-   RETURN
-=========================== */
         .notif-icon-wrap.type-return {
             background: rgba(249, 115, 22, .12);
             color: #ea580c;
         }
 
-        /* ===========================
-   REFUND
-=========================== */
         .notif-icon-wrap.type-refund {
             background: rgba(245, 158, 11, .15);
             color: #d97706;
         }
 
-        /* ===========================
-   PRODUCT
-=========================== */
         .notif-icon-wrap.type-product {
             background: rgba(197, 164, 126, .18);
             color: #8b5e3c;
         }
 
-        /* ===========================
-   STOCK
-=========================== */
         .notif-icon-wrap.type-stock {
             background: rgba(239, 68, 68, .12);
             color: #dc2626;
         }
 
-        /* ===========================
-   COUPON
-=========================== */
         .notif-icon-wrap.type-coupon {
             background: rgba(168, 85, 247, .12);
             color: #7e22ce;
         }
 
-        /* ===========================
-   OFFER
-=========================== */
         .notif-icon-wrap.type-offer {
             background: rgba(236, 72, 153, .12);
             color: #db2777;
         }
 
-        /* ===========================
-   REVIEW
-=========================== */
         .notif-icon-wrap.type-review {
             background: rgba(14, 165, 233, .12);
             color: #0284c7;
         }
 
-        /* ===========================
-   SUPPORT
-=========================== */
         .notif-icon-wrap.type-support {
             background: rgba(6, 182, 212, .12);
             color: #0891b2;
         }
 
-        /* ===========================
-   USER
-=========================== */
         .notif-icon-wrap.type-user {
             background: rgba(34, 197, 94, .12);
             color: #15803d;
         }
 
-        /* ===========================
-   SYSTEM
-=========================== */
         .notif-icon-wrap.type-system {
             background: rgba(107, 114, 128, .12);
             color: #4b5563;
@@ -1246,7 +1219,6 @@
         function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show') }
         function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show') }
 
-        /* ═══════════ FILTERING ═══════════ */
         let activeTypeFilter = '';
 
         function setTypeFilter(type) {

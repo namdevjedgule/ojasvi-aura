@@ -1,12 +1,16 @@
 package com.ojasvi.ecommerce.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,24 +24,40 @@ import com.ojasvi.ecommerce.DTO.TrackingResponse;
 import com.ojasvi.ecommerce.Entity.Address;
 import com.ojasvi.ecommerce.Entity.Cart;
 import com.ojasvi.ecommerce.Entity.CartItem;
+import com.ojasvi.ecommerce.Entity.Invoice;
 import com.ojasvi.ecommerce.Entity.Order;
 import com.ojasvi.ecommerce.Entity.OrderItem;
 import com.ojasvi.ecommerce.Entity.User;
+import com.ojasvi.ecommerce.Enum.NotificationEvent;
+import com.ojasvi.ecommerce.Enum.NotificationType;
+import com.ojasvi.ecommerce.Enum.RecipientType;
+import com.ojasvi.ecommerce.Enum.ReferenceType;
 import com.ojasvi.ecommerce.Enum.OrderStatus;
 import com.ojasvi.ecommerce.Repository.CartItemRepository;
 import com.ojasvi.ecommerce.Repository.CartRepository;
+import com.ojasvi.ecommerce.Repository.InvoiceRepository;
 import com.ojasvi.ecommerce.Repository.OrderItemRepository;
 import com.ojasvi.ecommerce.Repository.OrderRepository;
+import com.ojasvi.ecommerce.Repository.UserRepository;
 
 @Service
 @Transactional
 public class OrderService {
+	
+	@Autowired
+	private NotificationService notificationService;
+
+	@Autowired
+	private MailService mailService;
+
+	@Autowired
+	private UserRepository userRepository;
 
     @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
-    private OrderItemRepository orderItemRepository;
+    private InvoiceRepository invoiceRepository;
 
     @Autowired
     private CartRepository cartRepository;
@@ -48,9 +68,26 @@ public class OrderService {
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd MMM yyyy hh:mm a");
     
+    private static final Logger logger =
+            LoggerFactory.getLogger(OrderService.class);
+    
+    private void sendEmailSafely(Runnable emailTask, String description) {
+        try {
+            emailTask.run();
+        } catch (Exception e) {
+            logger.error("Failed to send email: {}", description, e);
+        }
+    }
+    
     public List<Order> findRecentOrders() {
-	    return orderRepository.findTop10RecentOrders();
+	    return orderRepository.findTop10ByOrderByCreatedAtDesc();
 	}
+    
+    public Order findByIdWithItems(Long id) {
+        return orderRepository.findByIdWithItems(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found"));
+    }
     
     public Order findByOrderNumber(String orderNumber) {
 
@@ -139,6 +176,10 @@ public class OrderService {
         dto.setSubtotal(order.getSubtotal());
 
         dto.setShippingCharge(order.getShippingCharge());
+        
+        dto.setShippingMethod(order.getShippingMethod());
+        
+        dto.setShippingZone(order.getShippingZone());
 
         dto.setDiscountAmount(order.getDiscountAmount());
 
@@ -181,14 +222,298 @@ public class OrderService {
     public void updateOrderStatus(Long id, String status) {
 
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found"));
 
         OrderStatus newStatus = OrderStatus.valueOf(status);
 
+        if (order.getOrderStatus() == newStatus) {
+            return;
+        }
+
         order.setOrderStatus(newStatus);
 
-        orderRepository.save(order);
+        if (newStatus == OrderStatus.DELIVERED
+                && invoiceRepository.findByOrder(order).isEmpty()) {
 
+            String invoiceNumber =
+                    "INV-" + order.getOrderNumber();
+
+            order.setInvoiceNumber(invoiceNumber);
+
+            orderRepository.save(order);
+
+            Invoice invoice = new Invoice();
+            invoice.setInvoiceNumber(invoiceNumber);
+            invoice.setOrder(order);
+            invoice.setInvoiceDate(LocalDate.now());
+
+            invoiceRepository.save(invoice);
+        } else {
+            orderRepository.save(order);
+        }
+
+        User customer = order.getCustomer();
+
+        switch (newStatus) {
+
+            case CONFIRMED:
+
+                notificationService.createNotification(
+                        "Order Confirmed",
+                        "Your order #" + order.getOrderNumber()
+                                + " has been confirmed.",
+                        NotificationType.ORDER,
+                        NotificationEvent.ORDER_CONFIRMED,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOrderConfirmedEmail(
+                                customer,
+                                order.getId()),
+                        "Order Confirmed Email"
+                );
+
+                break;
+
+            case PROCESSING:
+
+                notificationService.createNotification(
+                        "Order Processing",
+                        "Your order #" + order.getOrderNumber()
+                                + " is being prepared.",
+                        NotificationType.ORDER,
+                        NotificationEvent.ORDER_PROCESSING,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOrderProcessingEmail(
+                                customer,
+                                order.getId()),
+                        "Order Processing Email"
+                );
+
+                break;
+
+            case PACKED:
+
+                notificationService.createNotification(
+                        "Order Packed",
+                        "Your order #" + order.getOrderNumber()
+                                + " has been packed.",
+                        NotificationType.ORDER,
+                        NotificationEvent.ORDER_PACKED,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOrderPackedEmail(
+                                customer,
+                                order.getId()),
+                        "Order Packed Email"
+                );
+
+                break;
+
+            case SHIPPED:
+
+                notificationService.createNotification(
+                        "Order Shipped",
+                        "Your order #" + order.getOrderNumber()
+                                + " has been shipped.",
+                        NotificationType.ORDER,
+                        NotificationEvent.ORDER_SHIPPED,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOrderShippedEmail(
+                                customer,
+                                order.getId()),
+                        "Order Shipped Email"
+                );
+
+                break;
+
+            case OUT_FOR_DELIVERY:
+
+                notificationService.createNotification(
+                        "Out For Delivery",
+                        "Your order #" + order.getOrderNumber()
+                                + " is out for delivery.",
+                        NotificationType.ORDER,
+                        NotificationEvent.OUT_FOR_DELIVERY,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOutForDeliveryEmail(
+                                customer,
+                                order.getId()),
+                        "Out For Delivery Email"
+                );
+
+                break;
+
+            case DELIVERED:
+
+                notificationService.createNotification(
+                        "Order Delivered",
+                        "Your order #" + order.getOrderNumber()
+                                + " has been delivered.",
+                        NotificationType.ORDER,
+                        NotificationEvent.DELIVERED,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOrderDeliveredEmail(
+                                customer,
+                                order.getId()),
+                        "Order Delivered Email"
+                );
+
+                break;
+
+            case CANCELLED:
+
+                notificationService.createNotification(
+                        "Order Cancelled",
+                        "Your order #" + order.getOrderNumber()
+                                + " has been cancelled.",
+                        NotificationType.ORDER,
+                        NotificationEvent.ORDER_CANCELLED_BY_ADMIN,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendOrderCancelledEmail(
+                                customer,
+                                order.getId()),
+                        "Order Cancelled Email"
+                );
+
+                break;
+
+            case RETURN_REQUESTED:
+
+                User admin1 = userRepository.findByRole_RoleName("ADMIN")
+                        .orElse(null);
+
+                notificationService.createNotification(
+                        "Return Request Submitted",
+                        "Return request submitted for order #"
+                                + order.getOrderNumber(),
+                        NotificationType.RETURN,
+                        NotificationEvent.RETURN_REQUESTED,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                if (admin1 != null) {
+
+                    notificationService.createNotification(
+                            "New Return Request",
+                            customer.getFullName()
+                                    + " requested return for order #"
+                                    + order.getOrderNumber(),
+                            NotificationType.RETURN,
+                            NotificationEvent.NEW_RETURN_REQUEST,
+                            RecipientType.ADMIN,
+                            admin1.getId(),
+                            ReferenceType.ORDER,
+                            order.getId()
+                    );
+
+                    sendEmailSafely(
+                            () -> mailService.sendAdminReturnRequestEmail(
+                                    admin1.getEmail(),
+                                    order.getOrderNumber(),
+                                    customer.getFullName(),
+                                    "Customer requested return"
+                            ),
+                            "Admin Return Request Email"
+                    );
+                }
+
+                sendEmailSafely(
+                        () -> mailService.sendReturnRequestedEmail(
+                                customer,
+                                order),
+                        "Customer Return Request Email"
+                );
+
+                break;
+
+            case REFUND_PENDING:
+
+                notificationService.createNotification(
+                        "Refund Pending",
+                        "Refund for order #"
+                                + order.getOrderNumber()
+                                + " is under processing.",
+                        NotificationType.REFUND,
+                        NotificationEvent.REFUND_PENDING,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                break;
+
+            case REFUNDED:
+
+                notificationService.createNotification(
+                        "Refund Completed",
+                        "Refund for order #"
+                                + order.getOrderNumber()
+                                + " has been completed.",
+                        NotificationType.REFUND,
+                        NotificationEvent.REFUND_COMPLETED,
+                        RecipientType.CUSTOMER,
+                        customer.getId(),
+                        ReferenceType.ORDER,
+                        order.getId()
+                );
+
+                sendEmailSafely(
+                        () -> mailService.sendRefundCompletedEmail(
+                                customer,
+                                order),
+                        "Refund Completed Email"
+                );
+
+                break;
+
+            default:
+                break;
+        }
     }
     
     public long countOrdersByCustomer(Long customerId) {
@@ -249,6 +574,51 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.CANCELLED);
 
         orderRepository.save(order);
+        
+        User admin = userRepository.findByRole_RoleName("ADMIN")
+                .orElse(null);
+
+        notificationService.createNotification(
+                "Order Cancelled",
+                "Your order #" + order.getOrderNumber()
+                        + " has been cancelled successfully.",
+                NotificationType.ORDER,
+                NotificationEvent.ORDER_CANCELLED_BY_CUSTOMER,
+                RecipientType.CUSTOMER,
+                customer.getId(),
+                ReferenceType.ORDER,
+                order.getId()
+        );
+
+        if (admin != null) {
+
+            notificationService.createNotification(
+                    "Customer Cancelled Order",
+                    customer.getFullName()
+                            + " cancelled order #"
+                            + order.getOrderNumber(),
+                    NotificationType.ORDER,
+                    NotificationEvent.ORDER_CANCELLED_BY_CUSTOMER,
+                    RecipientType.ADMIN,
+                    admin.getId(),
+                    ReferenceType.ORDER,
+                    order.getId()
+            );
+
+            sendEmailSafely(
+                    () -> mailService.sendAdminOrderCancelledEmail(
+                            admin.getEmail(),
+                            order),
+                    "Admin Order Cancelled Email"
+            );
+        }
+
+        sendEmailSafely(
+                () -> mailService.sendOrderCancelledEmail(
+                        customer,
+                        order.getId()),
+                "Customer Order Cancelled Email"
+        );
 
         response.put("success", true);
         response.put("message", "Order cancelled successfully.");

@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications | Ojasvi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon_io/favicon.ico}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,300;400;500;600&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #C5A47E;
+            --primary-dark: #AE7F4D;
+            --primary-light: #E6C9A8;
+            --brown: #5C3013;
+            --brown-deep: #3a1d0b;
+            --bg: #F5F1EB;
+            --bg-card: #FFFFFF;
+            --bg-hover: #FFF8F2;
+            --text: #1A1A1A;
+            --text-muted: #888;
+            --border: #EDE8E0;
+            --success: #0F9D8A;
+            --success-bg: #E1F5EE;
+            --warning: #854F0B;
+            --warning-bg: #FFF3E0;
+            --info: #185FA5;
+            --info-bg: #E6F1FB;
+            --danger: #A32D2D;
+            --danger-bg: #FCEBEB;
+            --sidebar-w: 240px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Roboto Serif', serif;
+            font-weight: 400;
+        }
+
+        /* ═══════════ SIDEBAR — brown (customer style) ═══════════ */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-w);
+            height: 100vh;
+            background: var(--brown);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 28px 24px 22px;
+            border-bottom: 1px solid rgba(197, 164, 126, 0.15);
+        }
+
+        .sidebar-brand a {
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            font-family: 'Roboto Serif', serif;
+            font-size: 20px;
+            letter-spacing: 4px;
+            color: var(--primary);
+            display: block;
+        }
+
+        .brand-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: rgba(197, 164, 126, 0.55);
+            letter-spacing: 1px;
+            margin-top: 3px;
+            display: block;
+        }
+
+        .sidebar-user {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(197, 164, 126, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(197, 164, 126, 0.15);
+            border: 1.5px solid rgba(197, 164, 126, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .user-info-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary-light);
+        }
+
+        .user-info-tag {
+            font-size: 10px;
+            color: rgba(197, 164, 126, 0.5);
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 0;
+            overflow-y: auto;
+        }
+
+        .nav-section-title {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(197, 164, 126, 0.35);
+            padding: 14px 24px 6px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 24px;
+            font-size: 13px;
+            color: rgba(197, 164, 126, 0.6);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-link i {
+            font-size: 15px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(197, 164, 126, 0.07);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: rgba(197, 164, 126, 0.1);
+            border-left-color: var(--primary);
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(197, 164, 126, 0.18);
+            color: var(--primary);
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .nav-badge.red {
+            background: rgba(163, 45, 45, 0.25);
+            color: #e57373;
+        }
+
+        .sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(197, 164, 126, 0.12);
+        }
+
+        .signout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(197, 164, 126, 0.5);
+            cursor: pointer;
+            padding: 8px 0;
+            transition: color 0.2s;
+        }
+
+        .signout-btn:hover {
+            color: #e57373;
+        }
+
+        .signout-btn i {
+            font-size: 15px;
+        }
+
+        /* ═══════════ MAIN ═══════════ */
+        .main {
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            background: var(--bg);
+        }
+
+        .topbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-left h2 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .topbar-left p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 7px 14px;
+        }
+
+        .search-wrap input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 13px;
+            color: var(--text);
+            width: 180px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-wrap input::placeholder {
+            color: #bbb;
+        }
+
+        .search-wrap i {
+            color: #bbb;
+            font-size: 13px;
+        }
+
+        .topbar-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: border-color 0.2s;
+            text-decoration: none;
+        }
+
+        .topbar-icon:hover {
+            border-color: var(--primary);
+        }
+
+        .topbar-icon i {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        .topbar-icon.active {
+            color: var(--brown);
+        }
+
+        .topbar-icon.active i {
+            transform: scale(1.08);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 50px;
+            background: #e53e3e;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-card);
+            line-height: 1;
+        }
+
+        .hamburger-btn {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .hamburger-btn i {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        .flash {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flash-success {
+            background: var(--success-bg);
+            border: 1px solid rgba(15, 157, 138, .25);
+            color: var(--success);
+        }
+
+        .flash-error {
+            background: var(--danger-bg);
+            border: 1px solid rgba(163, 45, 45, .25);
+            color: var(--danger);
+        }
+
+        .page-content {
+            padding: 28px 32px;
+        }
+
+        /* ═══════════ PAGE HEADER ═══════════ */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-title-h {
+            font-size: 20px;
+        }
+
+        .page-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all .2s;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--brown);
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--brown);
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background .2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-card);
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .card-link {
+            font-size: 12px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card-link:hover {
+            color: var(--brown);
+        }
+
+        /* ═══════════ NOTIFICATION LIST ═══════════ */
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notif-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            transition: background .2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notif-row:last-child {
+            border-bottom: none;
+        }
+
+        .notif-row:hover {
+            background: var(--bg-hover);
+        }
+
+        .notif-row.unread {
+            background: rgba(197, 164, 126, .04);
+        }
+
+        .notif-row.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        /* Icon wraps — same color mapping as admin page */
+        .notif-icon-wrap {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .notif-icon-wrap.type-order {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .notif-icon-wrap.type-payment {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .notif-icon-wrap.type-return {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .notif-icon-wrap.type-refund {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .notif-icon-wrap.type-product {
+            background: rgba(197, 164, 126, .15);
+            color: var(--primary-dark);
+        }
+
+        .notif-icon-wrap.type-stock {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .notif-icon-wrap.type-coupon {
+            background: rgba(197, 164, 126, .15);
+            color: var(--primary-dark);
+        }
+
+        .notif-icon-wrap.type-offer {
+            background: rgba(197, 164, 126, .15);
+            color: var(--primary-dark);
+        }
+
+        .notif-icon-wrap.type-review {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .notif-icon-wrap.type-support {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .notif-icon-wrap.type-user {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .notif-icon-wrap.type-system {
+            background: #f1f1f1;
+            color: #777;
+        }
+
+        .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notif-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .notif-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .notif-row.unread .notif-title {
+            color: var(--brown);
+        }
+
+        .notif-message {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .notif-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .notif-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .notif-type-pill {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .notif-type-pill.order {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .notif-type-pill.payment {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .notif-type-pill.return {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .notif-type-pill.refund {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .notif-type-pill.product {
+            background: rgba(197, 164, 126, .15);
+            color: var(--primary-dark);
+        }
+
+        .notif-type-pill.stock {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .notif-type-pill.coupon {
+            background: rgba(197, 164, 126, .15);
+            color: var(--primary-dark);
+        }
+
+        .notif-type-pill.offer {
+            background: rgba(197, 164, 126, .15);
+            color: var(--primary-dark);
+        }
+
+        .notif-type-pill.review {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .notif-type-pill.support {
+            background: var(--info-bg);
+            color: var(--info);
+        }
+
+        .notif-type-pill.user {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .notif-type-pill.system {
+            background: #f1f1f1;
+            color: #777;
+        }
+
+        .notif-action-link {
+            font-size: 12px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 16px;
+            background: rgba(197, 164, 126, .1);
+            border: 1px solid rgba(197, 164, 126, .2);
+            transition: all .2s;
+        }
+
+        .notif-action-link:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .notif-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .notif-action-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transition: all .2s;
+        }
+
+        .notif-action-icon:hover {
+            border-color: var(--primary);
+            color: var(--brown);
+        }
+
+        .notif-action-icon.delete:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* ═══════════ EMPTY STATE ═══════════ */
+        .empty-state {
+            padding: 70px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .empty-state .icon-wrap {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(197, 164, 126, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .empty-state .icon-wrap i {
+            font-size: 30px;
+            color: var(--primary-dark);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: #bbb;
+            margin-bottom: 8px;
+            font-family: 'Roboto Serif', serif;
+            font-weight: 400;
+        }
+
+        /* ═══════════ PAGINATION ═══════════ */
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 20px;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--brown);
+            color: var(--primary);
+            border-color: var(--brown);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 90;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .hamburger-btn {
+                display: flex;
+            }
+
+            .topbar {
+                padding: 12px 16px;
+            }
+
+            .page-content {
+                padding: 20px 16px;
+            }
+
+            .search-wrap {
+                display: none;
+            }
+
+            .notif-top-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <a th:href="@{/}">
+                <span class="brand-logo">OJASVI</span>
+                <span class="brand-sub">Luxury Home Linen</span>
+            </a>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar" th:if="${user.profileImage == null or user.profileImage.isEmpty()}"
+                th:text="${#strings.toUpperCase(#strings.substring(user.fullName,0,1))}">
+            </div>
+            <img class="user-avatar-img" th:if="${user.profileImage != null and !user.profileImage.isEmpty()}"
+                th:src="${user.profileImage}" th:alt="${user.fullName}">
+            <div>
+                <div class="user-info-name" th:text="${user.fullName}">Customer Name</div>
+                <div class="user-info-tag">Member</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Account</div>
+            <a class="nav-link" th:href="@{/customer-dashboard}"><i class="fa-solid fa-chart-pie"></i> Overview</a>
+            <a class="nav-link" th:href="@{/customer/orders}"><i class="fa-solid fa-bag-shopping"></i> My Orders</a>
+            <a class="nav-link" th:href="@{/customer/wishlist}"><i class="fa-regular fa-heart"></i> Wishlist</a>
+            <a class="nav-link" th:href="@{/customer/addresses}"><i class="fa-solid fa-location-dot"></i> Addresses</a>
+            <a class="nav-link" th:href="@{/customer/profile}"><i class="fa-regular fa-user"></i> Profile</a>
+            <a class="nav-link active" th:href="@{/customer/notifications}">
+                <i class="fa-regular fa-bell"></i> Notifications
+                <span class="nav-badge red" th:if="${unreadCount != null and unreadCount > 0}"
+                    th:text="${unreadCount}">0</span>
+            </a>
+
+            <div class="nav-section-title">Rewards</div>
+            <a class="nav-link" th:href="@{/customer/loyalty}"><i class="fa-solid fa-star"></i> Loyalty Points</a>
+            <a class="nav-link" th:href="@{/customer/coupons}"><i class="fa-solid fa-gift"></i> Coupons</a>
+
+            <div class="nav-section-title">Support</div>
+            <a class="nav-link" th:href="@{/faq}"><i class="fa-regular fa-circle-question"></i> Help Center</a>
+            <a class="nav-link" th:href="@{/contact}"><i class="fa-regular fa-envelope"></i> Contact Us</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <form th:action="@{/logout}" method="post" id="logout-form">
+                <button type="submit" style="display:none;" id="logout-btn"></button>
+                <div class="signout-btn" onclick="document.getElementById('logout-btn').click()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </div>
+            </form>
+        </div>
+    </aside>
+
+    <div class="main">
+
+        <div class="topbar">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div class="hamburger-btn" onclick="openSidebar()"><i class="fa-solid fa-bars"></i></div>
+                <div class="topbar-left">
+                    <h2>Notifications</h2>
+                    <p
+                        th:text="${unreadCount != null and unreadCount > 0 ? unreadCount + ' unread notifications' : 'All caught up'}">
+                        All caught up
+                    </p>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Search notifications..."
+                        oninput="filterNotifications()">
+                </div>
+                <a th:href="@{/customer/notifications}" class="topbar-icon"
+                    th:classappend="${activePage == 'notifications'} ? 'active'">
+
+                    <i th:class="${activePage == 'notifications'}
+            ? 'fa-solid fa-bell'
+            : 'fa-regular fa-bell'">
+                    </i>
+                    <span class="notification-count" th:if="${unreadCount != null && unreadCount > 0}"
+                        th:text="${unreadCount > 99 ? '99+' : unreadCount}">
+                    </span>
+
+                </a>
+                <a th:href="@{/}" class="topbar-icon" style="text-decoration:none;"><i
+                        class="fa-solid fa-house"></i></a>
+            </div>
+        </div>
+
+        <div class="page-content">
+
+            <div class="flash flash-success" th:if="${success}">
+                <i class="fa-solid fa-circle-check"></i><span th:text="${success}"></span>
+            </div>
+            <div class="flash flash-error" th:if="${error}">
+                <i class="fa-solid fa-circle-exclamation"></i><span th:text="${error}"></span>
+            </div>
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title-h">My Notifications</h1>
+                    <p class="page-sub"
+                        th:text="${(totalNotifications != null ? totalNotifications : 0) + ' total · ' + (unreadCount != null ? unreadCount : 0) + ' unread'}">
+                        0 total · 0 unread
+                    </p>
+                </div>
+                <div class="header-actions">
+                    <button type="button" class="btn-outline" onclick="markAllRead()">
+                        <i class="fa-solid fa-check-double"></i> Mark All Read
+                    </button>
+                    <button type="button" class="btn-outline" onclick="clearAllNotifications()">
+                        <i class="fa-solid fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-bar">
+                <select class="filter-select" id="filter-type" onchange="filterNotifications()">
+                    <option value="">All Types</option>
+                    <option value="ORDER">Orders</option>
+                    <option value="PAYMENT">Payments</option>
+                    <option value="RETURN">Returns</option>
+                    <option value="COUPON">Coupons</option>
+                    <option value="OFFER">Offers</option>
+                    <option value="SYSTEM">System</option>
+                </select>
+                <select class="filter-select" id="filter-read" onchange="filterNotifications()">
+                    <option value="">All</option>
+                    <option value="unread">Unread Only</option>
+                    <option value="read">Read Only</option>
+                </select>
+            </div>
+
+            <div class="card" th:if="${notifications != null and !#lists.isEmpty(notifications)}">
+                <div class="card-header">
+                    <h3 class="card-title">Activity Feed</h3>
+                    <span style="font-size:12px;color:var(--text-muted);" id="showing-count"
+                        th:text="'Showing ' + ${#lists.size(notifications)} + ' notification(s)'">
+                    </span>
+                </div>
+
+                <div class="notif-list" id="notif-list">
+
+                    <div class="notif-row" th:each="notif : ${notifications}"
+                        th:classappend="${!notif.isRead} ? 'unread' : ''" th:attr="data-type=${notif.notificationType},
+                                  data-read=${notif.isRead},
+                                  data-search=${notif.title + ' ' + notif.message},
+                                  data-id=${notif.id}" onclick="handleNotifClick(this)">
+
+                        <div class="unread-dot" th:if="${!notif.isRead}"></div>
+
+                        <div class="notif-icon-wrap"
+                            th:classappend="${@notificationUIService.getColorClass(notif.notificationType)}">
+
+                            <i th:class="${@notificationUIService.getIcon(notif.notificationEvent)}"></i>
+
+                        </div>
+
+                        <div class="notif-content">
+                            <div class="notif-top-row">
+                                <div>
+                                    <div class="notif-title" th:text="${notif.title}">Notification Title</div>
+                                    <div class="notif-message" th:text="${notif.message}">Notification message.</div>
+                                </div>
+                                <span class="notif-time"
+                                    th:text="${#temporals.format(notif.createdAt,'dd MMM, hh:mm a')}">
+                                    10 Jun, 2:30 PM
+                                </span>
+                            </div>
+
+                            <div class="notif-meta-row">
+                                <span class="notif-type-pill"
+                                    th:class="${'notif-type-pill ' + #strings.toLowerCase(notif.notificationType)}"
+                                    th:text="${notif.notificationType}">
+                                    ORDER
+                                </span>
+
+                                <!-- Smart CTA links per notification type -->
+                                <a class="notif-action-link"
+                                    th:if="${notif.referenceId != null and notif.notificationType.name() == 'ORDER'}"
+                                    th:href="@{'/customer/orders'}">
+                                    <i class="fa-solid fa-arrow-right" style="font-size:9px;"></i> View Order
+                                </a>
+                                <a class="notif-action-link"
+                                    th:if="${notif.referenceId != null and notif.notificationType.name() == 'COUPON'}"
+                                    th:href="@{/customer/coupons}">
+                                    <i class="fa-solid fa-arrow-right" style="font-size:9px;"></i> View Coupons
+                                </a>
+                                <a class="notif-action-link"
+                                    th:if="${notif.notificationType.name() == 'PRODUCT' or notif.notificationType.name() == 'OFFER'}"
+                                    th:href="@{/shop}">
+                                    <i class="fa-solid fa-arrow-right" style="font-size:9px;"></i> Shop Now
+                                </a>
+                                <a class="notif-action-link"
+                                    th:if="${notif.notificationType.name() == 'RETURN' or notif.notificationType.name() == 'REFUND'}"
+                                    th:href="@{/customer/orders}">
+                                    <i class="fa-solid fa-arrow-right" style="font-size:9px;"></i> View Orders
+                                </a>
+                                <a class="notif-action-link" th:if="${notif.notificationType.name() == 'SUPPORT'}"
+                                    th:href="@{/contact}">
+                                    <i class="fa-solid fa-arrow-right" style="font-size:9px;"></i> Contact Us
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="notif-actions">
+                            <button type="button" class="notif-action-icon" title="Mark as read"
+                                th:if="${!notif.isRead}"
+                                th:attr="onclick=|event.stopPropagation(); markAsRead(${notif.id}, this)|">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button type="button" class="notif-action-icon delete" title="Delete"
+                                th:attr="onclick=|event.stopPropagation(); deleteNotification(${notif.id}, this)|">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- PAGINATION -->
+                <div class="pagination" th:if="${totalPages != null and totalPages > 1}">
+                    <a class="page-btn" th:if="${currentPage != null and currentPage > 0}"
+                        th:href="@{/customer/notifications(page=${currentPage - 1})}">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                    <a class="page-btn" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active' : ''"
+                        th:href="@{/customer/notifications(page=${i})}" th:text="${i + 1}">1</a>
+                    <a class="page-btn"
+                        th:if="${currentPage != null and totalPages != null and currentPage < totalPages - 1}"
+                        th:href="@{/customer/notifications(page=${currentPage + 1})}">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div class="card" th:if="${notifications == null or #lists.isEmpty(notifications)}">
+                <div class="card-header">
+                    <h3 class="card-title">Activity Feed</h3>
+                </div>
+                <div class="empty-state">
+                    <div class="icon-wrap"><i class="fa-regular fa-bell-slash"></i></div>
+                    <h3>No notifications yet</h3>
+                    You're all caught up! We'll notify you about your orders, offers, and more.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="toast"
+        style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown);color:var(--primary);padding:10px 22px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap;">
+    </div>
+
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+
+        let activeTypeFilter = '';
+
+        function setTypeFilter(tabEl, type) {
+            activeTypeFilter = type;
+            document.querySelectorAll('.notif-filter-tab').forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+            filterNotifications();
+        }
+
+        function filterNotifications() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const type = document.getElementById('filter-type').value;
+            const read = document.getElementById('filter-read').value;
+            const rows = document.querySelectorAll('#notif-list .notif-row');
+            let visible = 0;
+
+             rows.forEach(row => {
+                const rowType = row.dataset.type || '';
+                const rowRead = row.dataset.read === 'true';
+                const text = (row.dataset.search || '').toLowerCase();
+
+                const matchSearch = !search || text.includes(search);
+                const matchType = !type || rowType === type;
+                const matchRead = !read || (read === 'unread' && !rowRead) || (read === 'read' && rowRead);
+
+                const show = matchSearch && matchType && matchRead;
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+
+            const counter = document.getElementById('showing-count');
+            if (counter) counter.textContent = 'Showing ' + visible + ' notification(s)';
+        }
+
+        /* ═══════════ CLICK TO MARK READ ═══════════ */
+        function handleNotifClick(row) {
+            const id = row.dataset.id;
+            if (row.dataset.read !== 'true') {
+                markAsRead(id, null);
+            }
+        }
+
+        /* ═══════════ MARK AS READ ═══════════ */
+        function markAsRead(id, btn) {
+            fetch('/customer/notifications/mark-read/' + id, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const row = document.querySelector('.notif-row[data-id="' + id + '"]');
+                        if (row) {
+                            row.classList.remove('unread');
+                            row.dataset.read = 'true';
+                            const dot = row.querySelector('.unread-dot');
+                            if (dot) dot.remove();
+                            if (btn) btn.remove();
+                        }
+                    }
+                })
+                .catch(() => showToast('Could not mark as read'));
+        }
+
+        /* ═══════════ DELETE ═══════════ */
+        function deleteNotification(id, btn) {
+            if (!confirm('Delete this notification?')) return;
+
+            fetch('/customer/notifications/delete/' + id, { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        const row = document.querySelector('.notif-row[data-id="' + id + '"]');
+                        if (row) {
+                            row.style.transition = 'opacity .25s, transform .25s';
+                            row.style.opacity = '0';
+                            row.style.transform = 'translateX(10px)';
+                            setTimeout(() => row.remove(), 250);
+                        }
+                        showToast('Notification deleted');
+                    }
+                })
+                .catch(() => showToast('Failed to delete'));
+        }
+
+        /* ═══════════ MARK ALL READ ═══════════ */
+        function markAllRead() {
+            fetch('/customer/notifications/mark-all-read', { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    showToast(data.message || 'All notifications marked as read');
+                    setTimeout(() => location.reload(), 800);
+                })
+                .catch(() => showToast('Failed to update notifications'));
+        }
+
+        function clearAllNotifications() {
+            if (!confirm('Clear all notifications? This cannot be undone.')) return;
+
+            fetch('/customer/notifications/clear-all', { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    showToast(data.message || 'All notifications cleared');
+                    setTimeout(() => location.reload(), 800);
+                })
+                .catch(() => showToast('Failed to clear notifications'));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.flash').forEach(el => {
+                setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 500); }, 4000);
+            });
+        });
+
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.opacity = '1';
+            t.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                t.style.opacity = '0';
+                t.style.transform = 'translateX(-50%) translateY(20px)';
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

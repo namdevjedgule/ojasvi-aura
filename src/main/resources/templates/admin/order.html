@@ -1153,6 +1153,7 @@
                                 <th>Order No</th>
                                 <th>Customer</th>
                                 <th>Items</th>
+                                <th>Shipping</th>
                                 <th>Total</th>
                                 <th>Payment</th>
                                 <th>Status</th>
@@ -1185,30 +1186,39 @@
                                         th:text="${order.orderItems != null ? #lists.size(order.orderItems) : 0}">0</strong>
                                 </td>
 
+                                <td>
+                                    <span
+                                        th:text="${order.shippingMethod != null and #strings.equalsIgnoreCase(order.shippingMethod,'express') ? 'Express' : 'Standard'}">
+                                        Standard
+                                    </span>
+                                    <div style="font-size:11px;color:var(--text-muted);margin-top:2px;" th:text="${order.shippingCharge != null and order.shippingCharge.compareTo(T(java.math.BigDecimal).ZERO) > 0
+                                            ? '₹' + #numbers.formatDecimal(order.shippingCharge, 0, 'COMMA', 0, 'POINT')
+                                            : 'Free'}">
+                                        Free
+                                    </div>
+                                </td>
+
                                 <td style="font-weight:600;">
                                     ₹<span
                                         th:text="${#numbers.formatDecimal(order.grandTotal, 0, 'COMMA', 0, 'POINT')}"></span>
                                 </td>
 
                                 <td>
-
                                     <span class="badge badge-active" th:if="${order.paymentStatus.name() == 'SUCCESS'}">
                                         Paid
                                     </span>
-
-                                    <span class="badge badge-warning"
+                                    <span class="badge badge-pending"
                                         th:if="${order.paymentStatus.name() == 'PENDING'}">
                                         Pending
                                     </span>
-
-                                    <span class="badge badge-danger" th:if="${order.paymentStatus.name() == 'FAILED'}">
+                                    <span class="badge badge-cancelled"
+                                        th:if="${order.paymentStatus.name() == 'FAILED'}">
                                         Failed
                                     </span>
-
-                                    <span class="badge badge-info" th:if="${order.paymentStatus.name() == 'REFUNDED'}">
+                                    <span class="badge badge-refunded"
+                                        th:if="${order.paymentStatus.name() == 'REFUNDED'}">
                                         Refunded
                                     </span>
-
                                 </td>
 
                                 <td>
@@ -1304,6 +1314,10 @@
                 <div class="modal-summary-row">
                     <span>Payment Method</span>
                     <span id="mPaymentMethod">—</span>
+                </div>
+                <div class="modal-summary-row">
+                    <span>Shipping Method</span>
+                    <span id="mShippingMethod">—</span>
                 </div>
                 <div class="modal-summary-row">
                     <span>Payment Status</span>
@@ -1410,6 +1424,14 @@
                 });
         }
 
+        function formatShippingMethodLabel(method) {
+            if (!method) return null;
+            const normalized = String(method).trim().toUpperCase();
+            if (normalized === 'EXPRESS') return 'Express Delivery';
+            if (normalized === 'STANDARD') return 'Standard Delivery';
+            return method; // fall back to whatever the backend sent
+        }
+
         function populateOrderModal(data) {
             document.getElementById('mOrderNo').value = data.orderNumber || '';
             document.getElementById('mDate').value =
@@ -1428,6 +1450,16 @@
                 ].filter(Boolean).join(',');
 
             document.getElementById('mPaymentMethod').textContent = data.paymentMethod || '—';
+
+            const shippingLabel = formatShippingMethodLabel(data.shippingMethod);
+            if (shippingLabel) {
+                const charge = data.shippingCharge != null ? Number(data.shippingCharge) : 0;
+                const chargeText = charge === 0 ? 'Free' : '₹' + charge.toLocaleString('en-IN');
+                document.getElementById('mShippingMethod').textContent = shippingLabel + ' (' + chargeText + ')';
+            } else {
+                document.getElementById('mShippingMethod').textContent = '—';
+            }
+
             document.getElementById('mPaymentStatus').textContent = data.paymentStatus || '—';
             document.getElementById('mTotal').textContent =
                 '₹' + (data.grandTotal != null ? Number(data.grandTotal).toLocaleString('en-IN') : '0');

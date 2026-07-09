@@ -158,6 +158,32 @@ public class AuthService {
 			response.setMessage("This account is not a customer account");
 			return response;
 		}
+		
+		notificationService.createNotification(
+
+		        "Login Successful",
+
+		        "Welcome back " + user.getFullName()
+		                + "! You have successfully signed in to your Ojasvi account.",
+
+		        NotificationType.USER,
+
+		        NotificationEvent.LOGIN_SUCCESS,
+
+		        RecipientType.CUSTOMER,
+
+		        user.getId(),
+
+		        ReferenceType.USER,
+
+		        user.getId()
+
+		);
+		try {
+		    mailService.sendCustomerLoginEmail(user);
+		} catch (Exception e) {
+		    logger.error("Failed to send login email to {}", user.getEmail(), e);
+		}
 
 		response.setStatus(200);
 		response.setMessage("Login successful");
@@ -197,7 +223,20 @@ public class AuthService {
 			return response;
 		}
 
-		String otp = otpService.generateAndSaveOtp(user.getEmail()); // UPDATED method name
+		String otp = otpService.generateAndSaveOtp(user.getEmail());
+
+		try {
+		    otpService.sendOtpEmail(user.getEmail(), otp);
+		} catch (Exception e) {
+
+		    otpService.clearOtp(user.getEmail());
+
+		    response.setStatus(500);
+		    response.setMessage("Unable to send OTP email.");
+
+		    return response;
+		}
+		
 		otpService.sendOtpEmail(user.getEmail(), otp);
 
 		response.setStatus(200);
